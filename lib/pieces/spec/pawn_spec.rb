@@ -59,4 +59,14 @@ end
     end
 end
 
+    describe "#set_color" do 
+    subject(:pawn) {described_class.new}
+    it "Gives pawn the entered color" do 
+    board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
+    board.board[1][0] = pawn
+    board.board[1][0].set_color("black")
+    expect(board.board[1][0].color).to eql("black")
+    end
+end
+
 end
