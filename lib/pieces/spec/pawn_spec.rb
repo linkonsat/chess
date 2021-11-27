@@ -12,11 +12,15 @@ describe Pawn do
         end
 
 
-        it "Enables 2 moves only on the first move" do 
+        it "Enables 2 moves only once" do 
             board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-            board.board[7][0] = pawn
-            board.board[7][0].valid_move?([-2,0])
-            expect(board.board[5][0].moves).to eql([-1,0])
+            board.board[6][0] = pawn
+            board.board[6][0].legal_moves(board.board)
+            pawn.update_position([6,0])
+            board.board[4][0] = board.board[6][0]
+            board.board[4][0].update_position([4,0])
+            board.board[4][0].legal_moves(board.board)
+            expect(board.board[4][0].default_moves).to eql([[-1,0]])
         end
 
 end
@@ -32,6 +36,7 @@ end
     end
 end
 
+    
     describe "#in_board?" do 
     subject(:pawn) {described_class.new}
     it "Only accepts input within the board range" do 
@@ -47,15 +52,17 @@ end
     it "gives pawns that start on the top side of the board positive moves" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
         board.board[1][0] = pawn
-        moves = board.board[1][0].moves
-        expect(moves).to eql([1,0],[2,0])
+        board.board[1][0].legal_moves(board.board)
+        moves = board.board[1][0].default_moves
+        expect(moves).to eql([[1,0],[2,0]])
     end
 
     it "gives pawns that start on the bottom side of the board negative moves" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        board.board[7][0] = pawn
-        moves = board.board[7][0].moves
-        expect(moves).to eql([-1,0],[-2,0])
+        board.board[6][0] = pawn
+        board.board[6][0].legal_moves(board.board)
+        moves = board.board[6][0].default_moves
+        expect(moves).to eql([[-1,0],[-2,0]])
     end
 end
 
