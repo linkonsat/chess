@@ -5,7 +5,7 @@ class Pawn
         @current_position = current_position
         @previous_position = nil
         @color = nil
-        @available_move_values = nil
+        @available_move_values = []
         @default_moves = nil
     end
 
@@ -15,10 +15,18 @@ class Pawn
     end
 
     def valid_move?(board_state,input) 
+        validated_moves = legal_moves(board_state)
+        if (forward_step(validated_moves,input) || backward_step(validated_moves,input))
+            return true
+
+        else
+            return false
+        end
 
     end
 
     def legal_moves(board_state)
+        @available_move_values = []
         if(@previous_position == nil) 
         initial_moves(board_state)  
         else
@@ -38,25 +46,43 @@ class Pawn
         elsif (board_state[6].include?(self))
             @default_moves = [[-1,0],[-2,0]]
         end
+        @available_move_values.push(default_moves[0],default_moves[1])
     end
     
     def two_step_available(board_state)
         if(self.default_moves.include?([-2,0]))
             if (previous_position[0] + -2 == current_position[0])
                 @default_moves = [[-1,0]]
+                @available_move_values.push(@default_moves[0])
             end
         elsif(self.default_moves.include?([2,0]))
             if (previous_position[0] + 2 == current_position[0])
                 @default_moves = [[1,0]]
+                @available_move_values.push(@default_moves[0])
             end
+        else
+            @available_move_values.push(@default_moves[0])
         end
     end
 
-    def negative_step
-
+    def forward_step(validated_moves,input)
+        move_value = current_position[0] - input[0]
+        validated_moves.each do |item|
+            if(item[0] == move_value)
+            
+                return true
+            end
+        end
+        return false
+    end
+    def backward_step(validated_moves,input)
+        move_value = input[0] - current_position[0]
+        validated_moves.each do |item|
+            if(item[0] == move_value)
+                return true
+            end
+        end
+        return false
     end
 
-    def positive_step
-
-    end
 end
