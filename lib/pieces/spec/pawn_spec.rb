@@ -94,11 +94,6 @@ end
     end
 end
 
-    describe "#is_attackable_backward?" do 
-    subject(:pawn) {described_class.new}
-    it "allows pieces to be attacked on pieces going backwards" do 
-    end
-end
 
     describe "#legal_moves" do 
     subject(:pawn) {described_class.new}
