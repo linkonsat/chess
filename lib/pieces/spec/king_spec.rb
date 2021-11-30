@@ -6,18 +6,21 @@ describe King do
 
     describe "#valid_move?" do 
     subject(:king) { described_class.new }
-    it "Allows valid moves in any square around it." do 
-        board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
-        board.board[4][4] = king 
-        board.board[4][4].set_position([4,4])
-        expect(board.board[4][4].valid_move?(board.board,[4,3]))
-    end
+
     it "Does not allow valid moves outside of the board." do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
         board.board[0][0] = king
         board.board[0][0].set_position([0,0])
         board.board[0][0].valid_move?(board.board,[99,99])
     end 
+    
+    it "Allows valid moves in any square around it." do 
+        board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
+        board.board[4][4] = king 
+        board.board[4][4].set_position([4,4])
+        expect(board.board[4][4].valid_move?(board.board,[4,3]))
+    end
+    
 end
 
     describe "#castleing_available?" do 

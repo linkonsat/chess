@@ -26,6 +26,7 @@ class King
 
     def valid_move?(board_state,input) 
         legal_moves = any_moves?(board_state)
+        
         validate_input(legal_moves,input)
     end
 
@@ -39,13 +40,21 @@ class King
         #so a move can be one of three ways. the way we could test this is by checking the vertical sides then the middle side
         found_moves = []
         found_moves_left = left_vertical_moves(board_state)
+        if (!found_moves_left.nil?)
         found_moves_left.each { |item| found_moves.push(item) }
+        end
         found_moves_right = right_vertical_moves(board_state)
+        if (!found_moves_right.nil?)
         found_moves_right.each { |item| found_moves.push(item) }
+        end
         found_moves_top = top_move(board_state)
+        if (!found_moves_top.nil?)
         found_moves_top.each { |item| found_moves.push(item)}
+        end 
         found_moves_bottom = bottom_move(board_state)
+        if (!found_moves_bottom.nil?)
         found_moves_bottom.each { |item| found_moves.push(item) }
+        end
         return found_moves
     end
 
@@ -76,10 +85,12 @@ class King
 
     def validate_input(found_moves,input)
         found_moves.each do |item|
+            if(item.nil?)
+                break 
+            end
             horizontal = 0
             vertical = 1
             if(self.current_position[0] + item[horizontal] == input[0] || self.current_position[0] - item[horizontal] == input[0] && self.current_position[1] + item[vertical] == input[1] || self.current_position[1] - item[1] == input[1])
-            binding.pry
             return true
             end
         return false
