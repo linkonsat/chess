@@ -9,11 +9,13 @@ describe King do
     it "Allows valid moves in any square around it." do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
         board.board[4][4] = king 
-        expect(board[4][4].valid_move?(board.board,[4,3]))
+        board.board[4][4].set_position([4,4])
+        expect(board.board[4][4].valid_move?(board.board,[4,3]))
     end
     it "Does not allow valid moves outside of the board." do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
         board.board[0][0] = king
+        board.board[0][0].set_position([0,0])
         board.board[0][0].valid_move?(board.board,[99,99])
     end 
 end
@@ -44,7 +46,6 @@ end
 
     describe "#in_check?" do 
     subject(:king) { described_class.new }
-    it "Returns true when the king is placed into check" do 
         it "Does not allow king to move itself into check" do 
             board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
             pawn = double("Pawn", :valid_move => [1,0])
@@ -52,9 +53,6 @@ end
             board.board[2][1] = pawn
             expect(board.board[0][0].valid_move?(board.board,[1][0])).to eql(false)
         end
-    end
-    it "Returns true when a piece places the king into check." do 
-        board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
         it "Does not allow king to move itself into check" do 
             board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
             pawn = double("Pawn", :valid_move => [0,0])
@@ -63,6 +61,5 @@ end
             expect(board.board[0][0].in_check?(board.board,[0,0])).to eql(true)
         end
     end
-end
 end
 end
