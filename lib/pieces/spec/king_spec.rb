@@ -8,6 +8,26 @@ describe "#castleing_available?" do
 subject(:king) { described_class.new }
 subject(:second_king) {described_class.new}
 
+  
+describe "#in_check?" do 
+subject(:king) { described_class.new }
+    it "Does not allow king to move itself into check" do 
+        board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
+        pawn = double("Pawn", :valid_move? => true)
+        board.board[0][0] = king
+        board.board[0][0].set_position([0,0])
+        board.board[2][1] = pawn
+        expect(board.board[0][0].in_check?(board.board,[1,0])).to eql(true)
+    end
+    it "Does returns true when king is put into check" do 
+        board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
+        pawn = double("Pawn", :valid_move? => true)
+        board.board[0][0] = king
+        board.board[1][1] = pawn
+        expect(board.board[0][0].in_check?(board.board,[0,0])).to eql(true)
+    end
+end
+
 it "Allows casteling when the king or spaces are not under check." do 
     board = double("Board", :board => Array.new(8) { Array.new(8, "[]" )})
     rook = double("Rook", :color => 'black', :valid_move? => false, :name => "Rook")
@@ -47,7 +67,8 @@ end
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
         board.board[0][0] = king
         board.board[0][0].set_position([0,0])
-        board.board[0][0].valid_move?(board.board,[99,99])
+        p result = board.board[0][0].valid_move?(board.board,[-1,8])
+        expect(result).to eql(false)
     end 
 
     it "Allows valid moves in any square around it." do 
@@ -59,24 +80,7 @@ end
     
 end
 
-  
-    describe "#in_check?" do 
-    subject(:king) { described_class.new }
-        it "Does not allow king to move itself into check" do 
-            board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
-            pawn = double("Pawn", :valid_move => [1,0])
-            board.board[0][0] = king
-            board.board[2][1] = pawn
-            expect(board.board[0][0].valid_move?(board.board,[1][0])).to eql(false)
-        end
-        it "Does not allow king to move itself into check" do 
-            board = double("Board", :board => Array.new(8) { Array.new(8, "[]") })
-            pawn = double("Pawn", :valid_move => [0,0])
-            board.board[0][0] = king
-            board.board[1][1] = pawn
-            expect(board.board[0][0].in_check?(board.board,[0,0])).to eql(true)
-        end
-    end
+
 
 
 end

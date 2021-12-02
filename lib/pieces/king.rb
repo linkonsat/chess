@@ -187,9 +187,9 @@ class King
             #check each board row and see if if the coordinates and if so return true else return als 
             
             board_row.each do |board_cell|
-
+                        
                         if(board_cell.class != String && board_cell.class != King && board_cell.valid_move?(board_state,coordinates))
-                            
+                            p board_cell
                         return true 
 
                         end
