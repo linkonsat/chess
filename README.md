@@ -8,11 +8,15 @@ Chess is the final project for the odin project bringing together concepts intro
   <li>Single Responsibility</li>
   <li>Using interfaces</li>
 </ol>
+
 ### Setup 
 There are two ways you can run this chess game.
+
 ## Using Command Line
 1. Clone the repository by running `git clone git@github.com:linkonsat/chess.git`
-2. Ensure your on the directory location containing
+2. Ensure your on the directory location containing main_game.rb 
+3. enter ruby main_game.rb in the console 
+
 ## Using Replit
 1. Simply copy and paste the link below into your browser 
 2. https://replit.com/@linkonsat/chess-1#.replit
