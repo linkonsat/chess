@@ -1,5 +1,5 @@
 ### Description
-
+Please note this project is currently under construction and will be updated when the project is completed.
 Chess is the final project for the odin project bringing together concepts introduced throughout the ruby section of the course.
 ### Some Conceps
 <ol>
