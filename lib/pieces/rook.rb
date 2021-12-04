@@ -23,8 +23,13 @@ include GenericMoves
     end
 
     def valid_move?(board_state,input)
+        if(verify_input?(board_state,input))
         legal_moves = find_moves(board_state)
-        matches_input?(legal_moves,input)
+        return matches_input?(legal_moves,input)
+        else 
+            puts "Value entered is not within range of the board row"
+            return false
+        end
     end
 
     def find_moves(board_state)
@@ -35,11 +40,21 @@ include GenericMoves
     end
 
     def matches_input?(legal_moves,input)
+     
         legal_moves.each do |board_cell| 
             if(board_cell == input)
                 return true 
             end
         end
         return false 
+    end
+
+    def verify_input?(board_state,input)
+        
+        if((0..board_state[0].length).include?(input[0]) && (0..board_state[0].length).include?(input[1]))
+            return true 
+        else 
+            return false
+        end
     end
 end
