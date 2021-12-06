@@ -1,4 +1,5 @@
 require "pry-byebug"
+require "../queen"
 describe Queen do 
     describe "#valid_move" do 
     subject(:queen) { described_class.new }
@@ -34,7 +35,7 @@ describe Queen do
         expect(board.board[4][4].valid_move?(board.board,[4,0])).to eql(false)
     end
     it "Does not allow a move outside of the board" do 
-        board = ("Board", board => Array.new(8) { Array.new(8, "[]")})
+        board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
         board.board[4][4] = queen
         board.board[4][4].set_position([4,4])
         expect(board.board[4][4].valid_move?(board.board,[99,99])).to eql(false)
