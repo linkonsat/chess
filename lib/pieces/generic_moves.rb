@@ -7,7 +7,7 @@ module GenericMoves
         start_row_up = piece.current_position[0] + 1
         start_row_down = piece.current_position[0] - 1
         start_collumn = piece.current_position[1]
-        until start_row_up > board_state[0].length 
+        until start_row_up > board_state[0].length - 1
             if([start_row_up][start_collumn].methods.include?(:color) && [start_row_up][start_collumn].color == piece.color )
                 break
             end
@@ -48,7 +48,7 @@ module GenericMoves
             end
             start_collumn_left -= 1
         end
-        until start_collumn_right > board_state[start_vertical].length 
+        until start_collumn_right > board_state[start_vertical].length - 1
             if(board_state[start_vertical][start_collumn_right].methods.include?(:color) && board_state[start_vertical][start_collumn_right].color == piece.color )
                 break 
             end
