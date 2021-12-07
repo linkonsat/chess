@@ -16,6 +16,7 @@ class Pawn
 
     def valid_move?(board_state,input) 
         validated_moves = legal_moves(board_state)
+       # binding.pry
         if (forward_step(validated_moves,input) || backward_step(validated_moves,input))
             return true
 
@@ -61,13 +62,13 @@ class Pawn
 
     def passant_forward(board_state) 
         attackable_pieces = []
-        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] + 1)  && board_state[self.current_position[0]][self.current_position[1] + 1] != "[]")
+        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] + 1)  && board_state[self.current_position[0]][self.current_position[1] + 1].class != String )
         attackable_pieces.push(board_state[self.current_position[0]][self.current_position[1] + 1])
 
         end
         #issue is that logic path isnt pushing the piece
         #p board_state[self.current_position[0]][self.current_position[1] - 1] 
-        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] - 1) && board_state[self.current_position[0]][self.current_position[1] - 1] != "[]")
+        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] - 1) && board_state[self.current_position[0]][self.current_position[1] - 1].class != String)
         attackable_pieces.push(board_state[self.current_position[0]][self.current_position[1] - 1])
         end
         verify_passant_forward?(attackable_pieces)
@@ -75,10 +76,10 @@ class Pawn
 
     def passant_backward(board_state)
         attackable_pieces = []
-        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] + 1) && board_state[self.current_position[0]][self.current_position[1] + 1] != "[]")
+        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] + 1) && board_state[self.current_position[0]][self.current_position[1] + 1].class != String)
         attackable_pieces.push(board_state[self.current_position[0]][self.current_position[1] + 1])
         end
-        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] - 1) && board_state[self.current_position[0]][self.current_position[1] - 1] != "[]")
+        if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] - 1) && board_state[self.current_position[0]][self.current_position[1] - 1].class != String)
             attackable_pieces.push(board_state[self.current_position[0]][self.current_position[1] - 1])
         end
         verify_passant_backward?(attackable_pieces)
@@ -89,11 +90,7 @@ class Pawn
         #first we need to "loop through the found pieces since it can be more than one"
         
         found_pieces.each do |item|
-            item.previous_position[0] 
-            item.current_position[0] 
-            #guard agaisnt nil i.e. there is no values
-
-            if (item != nil && item.current_position[0] - 2 == item.previous_position[0])
+            if (item != nil && item.current_position[0] - 2 == item.previous_position[0] && item.color != self.color)
                 @available_moves_values.push([item.previous_position[0] + 1,item.previous_position[1]])
             end
         end
@@ -102,8 +99,7 @@ class Pawn
 
     def verify_passant_backward?(found_pieces)
         found_pieces.each do |item|
-
-            if (item != nil && item.current_position[0] + 2 == item.previous_position[0])
+            if (item != nil && item.current_position[0] + 2 == item.previous_position[0] && item.color != self.color)
                 @available_move_values.push([item.previous_position[0] - 1, item.previous_position[1]])
             end
         end
@@ -131,24 +127,21 @@ class Pawn
         vertical_move_value = current_position[0] + item[0]
         horizontal_move_left = current_position[1] - item[1]
         horizontal_move_right = current_position[1] + item[1]
-            if(input[0] == vertical_move_value)
-            
-                return true
-            elsif(item[0] == vertical_move_value && item[1] == horizontal_move_left || horizontal_move_right)
+           # binding.pry
+        if(input[0] == vertical_move_value && input[1] == horizontal_move_left || input[1] == horizontal_move_right)
+            return true
             end
         end
         return false
     end
     def backward_step(validated_moves,input)
         validated_moves.each do |item|
-
+            #binding.pry
         vertical_move_value = current_position[0] - item[0]
         horizontal_move_left = current_position[1] - item[1]
         horizontal_move_right = current_position[1] + item[1] 
-            if(input[0] == vertical_move_value)
-                return true
-            elsif(item[0] == vertical_move_value && item[1] == horizontal_move_left || horizontal_move_right)
-                return true
+        if(input[0] == vertical_move_value && input[1] == horizontal_move_left || input[1] == horizontal_move_right)
+            return true
             end
         end
         return false
@@ -160,7 +153,7 @@ class Pawn
         position = 0
         i = 1
         new_row_coordinate = current_position[0] + i
-        until board_state[new_row_coordinate][current_position[1]] != "[]" || i - 1 == @default_moves.length
+        until board_state[new_row_coordinate][current_position[1]].class != String || i - 1 == @default_moves.length
             available_moves += 1
             i += 1
             position += 1
@@ -175,7 +168,7 @@ class Pawn
         position = 0
         i = 1
         new_row_coordinate = current_position[0] - i
-        until board_state[new_row_coordinate][current_position[1]] != "[]" || i - 1 == @default_moves.length
+        until board_state[new_row_coordinate][current_position[1]].class != String || i - 1 == @default_moves.length
             available_moves += 1
             i += 1
             position += 1
@@ -191,17 +184,18 @@ class Pawn
                 @available_move_values.delete_if { |item| item == @default_moves[1]}
             end
         end
+
     def is_attackable_forward(board_state)
 
         attackable_positions = []
         left_move = @current_position[1] + 1
         forward_move = @current_position[0] + 1
         right_move = @current_position[1] - 1
-        if (board_state[forward_move][left_move] != "[]")
+        if (board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != self.color)
             attackable_positions.push([forward_move,left_move])
         end
 
-        if (board_state[forward_move][right_move] != "[]")
+        if (board_state[forward_move][right_move].class != String && board_state[forward_move][right_move].color != self.color)
             attackable_positions.push([forward_move,right_move])
         end
         remove_duplicates(attackable_positions)
@@ -212,11 +206,11 @@ class Pawn
         left_move = @current_position[1] + 1
         forward_move = @current_position[0] - 1
         right_move = @current_position[1] - 1
-        if (board_state[forward_move][left_move] != "[]")
+        if (board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != self.color)
             attackable_positions.push([forward_move,left_move])
         end
 
-        if (board_state[forward_move][right_move] != "[]")
+        if (board_state[forward_move][right_move].class != String && board_state[forward_move][right_move] != self.color)
             attackable_positions.push([forward_move,right_move])
         end
         remove_duplicates(attackable_positions)
