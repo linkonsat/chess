@@ -112,10 +112,63 @@ class King
        end
     end
 
+    def clear_top_left?(board_state)
+        
+        board_state[0][1..3].each do |board_cell|
+            if(board_cell.class != String)
+                return false 
+            end 
+            
+        end
+        if(board_state[0][0].class == String)
+            return false 
+        end
+            return true
+    end
+
+    def clear_top_right?(board_state)
+        board_state[0][5..6].each do |board_cell|
+            if(board_cell.class != String)
+                return false
+            end
+        end
+            if(board_state[0][7].class == String)
+                return false 
+            end
+            return true 
+         end
+ 
+    
+        def clear_bottom_left?(board_state)
+            board_state[7][1..3]. each do |board_cell|
+                if(board_cell.class != String)
+                    return false
+                end
+            end
+                if(board_state[7][0].class == String)
+                    return false 
+                end
+                return true 
+        end
+
+        def clear_bottom_right?(board_state)
+            board_state[7][5..6]. each do |board_cell|
+                if(board_cell.class != String)
+                    return false
+                end
+            end
+                if(board_state[7][7].class == String)
+                    return false 
+                end
+                return true 
+        end
+   
+
     def found_moves_casteling(board_state)
         found_moves = []
         #check if a rook exists on either side
-            if(board_state[0][1..3].all?("[]") && board_state[0][0] != "[]" && board_state[0][0].name == 'Rook' && board_state[0][0].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 0 ) 
+        
+            if(clear_top_left?(board_state) && board_state[0][0].name == 'Rook' && board_state[0][0].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 0 ) 
                 left_end = 4 - 2
                 until left_end == 5
                     
@@ -129,7 +182,7 @@ class King
                 end
             end
 
-                if(board_state[0][5..6].all?("[]") && board_state[0][7] != "[]" && board_state[0][7].name == 'Rook' && board_state[0][7].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 0)
+                if(clear_top_right?(board_state) && board_state[0][7].name == 'Rook' && board_state[0][7].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 0)
                     right_end = 4 + 2
                 until right_end == 3
                    
@@ -149,7 +202,7 @@ class King
 
                #check if a rook exists on either side
                
-               if(board_state[7][1..3].all?("[]") && board_state[7][0] != "[]" && board_state[7][0].name == 'Rook' && board_state[7][0].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 7 ) 
+               if(clear_bottom_left?(board_state) && board_state[7][0].name == 'Rook' && board_state[7][0].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 7 ) 
                 left_end = 4 - 2
                 until left_end == 5
                     
@@ -164,7 +217,7 @@ class King
                 end
             end
 
-                if(board_state[7][5..6].all?("[]") && board_state[7][7] != "[]" && board_state[7][7].name == 'Rook' && board_state[7][7].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 7 )
+                if(clear_bottom_right?(board_state) && board_state[7][7].name == 'Rook' && board_state[7][7].color != "Black" && self.current_position[1] == 4 && self.current_position[0] == 7 )
                     right_end = 4 + 2
                 until right_end == 3
                     

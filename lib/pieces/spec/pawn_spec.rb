@@ -2,37 +2,62 @@ require "pry-byebug"
 require_relative "../pawn"
 describe Pawn do 
 
+   
 
     describe "#passant?" do 
     subject(:pawn) {described_class.new}
-    it "Allows passant on pawn moves previous moving being two squares forward" do 
-        board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        pawn_1 = pawn 
-        pawn_2 = pawn 
-        board.board[1][0] = pawn_1
-        board.board[1][0].default_moves = [[1,0],[2,0]]
-        board.board[1][0].update_position([1,0])
-        board.board[3][1] = pawn_2 
-        board.board[3][1].update_position([3,1])
-        board.board[1][1] = board.board[3][1]
-        board.board[1][1].update_position([1,1])
-        expect(board.board[1][0].valid_move?(board.board,[2,1])).to eql(true)
-    end
+    
 
 
-    it "Allows passant on pawn moves previous moving being two squares backward" do 
+    it "does not allow passant on friendly pawn." do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        pawn_1 = pawn 
-        pawn_2 = pawn 
-        board.board[3][0] = pawn_1
+        pawn_ally = double("PawnAlly", :color => "black", :current_position => [1,1], :previous_position => [3,1])
+        board.board[3][0] = pawn
+        board.board[3][0].set_color("black")
         board.board[3][0].default_moves = [[1,0],[2,0]]
         board.board[3][0].update_position([3,0])
-        board.board[1][1] = pawn_2 
-        board.board[1][1].update_position([1,1])
+        board.board[1][1] = pawn_ally
         board.board[3][1] = board.board[1][1]
-        board.board[3][1].update_position([3,1])
-        expect(board.board[3][1].valid_move?(board.board,[2,1])).to eql(true)
+        expect(board.board[3][0].valid_move?(board.board,[2,1])).to eql(false)
     end
+
+    it "Allows passant on pawn moves previous moving being two squares forward" do 
+        board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
+        pawn_ally = double("PawnAlly", :color => "purple", :current_position => [1,1], :previous_position => [3,1])
+        board.board[3][0] = pawn
+        board.board[3][0].set_color("black")
+        board.board[3][0].default_moves = [[1,0],[2,0]]
+        board.board[3][0].update_position([3,0])
+        board.board[1][1] = pawn_ally
+        board.board[3][1] = board.board[1][1]
+        expect(board.board[3][0].valid_move?(board.board,[2,1])).to eql(true)
+    end
+end
+
+describe "#is_attackable_forward?" do 
+subject(:pawn) {described_class.new}
+
+it "Does not include ally piece within attack range as valid moves" do 
+    board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
+    ally_pawn = double("PawnAlly", :color => "black")
+    board.board[1][0] = pawn 
+    board.board[1][0].set_color("black")
+    board.board[2][1] = ally_pawn
+    board.board[1][0].update_position([1,0])
+    valid_move = board.board[1][0].valid_move?(board.board,[2,1])
+    expect(valid_move).to eql(false)
+end
+
+it "Includes enemy piece within attack range as valid moves" do 
+    board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
+    enemy_pawn = double("PawnEnemy", :color => "purple")
+    board.board[1][0] = pawn 
+    board.board[1][0].set_color("black")
+    board.board[2][1] = enemy_pawn
+    board.board[1][0].update_position([1,0])
+    valid_move = board.board[1][0].valid_move?(board.board,[2,1])
+    expect(valid_move).to eql(true)
+end
 
 
 end
@@ -80,18 +105,6 @@ end
             expect(valid_move).to eql(true)
         end
 
-end
-
-    describe "#is_attackable_forward?" do 
-    subject(:pawn) {described_class.new}
-    it "Includes pieces within attack range as valid moves" do 
-        board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        board.board[1][0] = pawn 
-        board.board[2][1] = pawn
-        board.board[1][0].update_position([1,0])
-        valid_move = board.board[1][0].valid_move?(board.board,[2,1])
-        expect(valid_move).to eql(true)
-    end
 end
 
 
