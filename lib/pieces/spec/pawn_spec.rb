@@ -84,13 +84,24 @@ end
 
     describe "#is_attackable_forward?" do 
     subject(:pawn) {described_class.new}
-    it "Includes pieces within attack range as valid moves" do 
+    it "Includes enemy piece within attack range as valid moves" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
+        enemy_pawn = double("PawnEnemy", :color => "purple")
         board.board[1][0] = pawn 
-        board.board[2][1] = pawn
+        board.board[2][1] = enemy_pawn
         board.board[1][0].update_position([1,0])
         valid_move = board.board[1][0].valid_move?(board.board,[2,1])
         expect(valid_move).to eql(true)
+    end
+
+    it "Does not include ally piece within attack range as valid moves" do 
+        board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
+        ally_pawn = double("PawnAlly", :color => "black")
+        board.board[1][0] = pawn 
+        board.board[2][1] = ally_pawn
+        board.board[1][0].update_position([1,0])
+        valid_move = board.board[1][0].valid_move?(board.board,[2,1])
+        expect(valid_move).to eql(false)
     end
 end
 
