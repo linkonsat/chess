@@ -10,7 +10,7 @@ describe Board do
         expect(board.board.length).to eql(8)
     end
 end
-    describe "#place_set" do 
+    describe "#place_sets" do 
     subject(:board) { described_class.new }
     it "Sets pieces in the same row as the piece set" do 
         set_one = Array.new(2) { Array.new(8, 1)}
@@ -28,7 +28,7 @@ end
         pawn = double("Pawn")
         board.board[0][0] = pawn
         new_coordinates = [5,5]
-        board.update_piece(new_coordinates)
+        board.update_board(pawn,new_coordinates)
         expect(board.board[5][5]).to eql(pawn)
     end
 end
