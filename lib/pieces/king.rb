@@ -38,7 +38,7 @@ class King
     def legal_moves(board_state)
         @available_move_values = []
         #so now we want to get the current board position as a reference to our moves
-        @available_move_values.push(any_moves?(board_state))
+        @available_move_values = any_moves?(board_state)
     end
 
     def any_moves?(board_state)
