@@ -1,0 +1,2 @@
+class EndConditions
+end
