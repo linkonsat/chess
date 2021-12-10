@@ -28,15 +28,15 @@ describe EndConditions do
     end
 
 end
-    describe "#resignation" do 
+    describe "#resignation?" do 
     subject(:end_conditions) { described_class.new}
     it "Returns true if a player enters resign" do 
         resignation = "resign"
-        expect(end_conditions.resign?(resignation)).to eql(true)
+        expect(end_conditions.resignation?(resignation)).to eql(true)
     end
     it "Returns false if a player enters anything other than resign" do
     no_resignation = "no resignation"
-    expect(end_conditions.resign?(no_resignation)).to eql(false)
+    expect(end_conditions.resignation?(no_resignation)).to eql(false)
 end
 end
 

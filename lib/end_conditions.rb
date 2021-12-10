@@ -32,4 +32,12 @@ class EndConditions
             return false
         end
     end
+
+    def resignation?(player_input)
+        if(player_input == "resign")
+            return true 
+        else
+            return false 
+        end
+    end
 end
