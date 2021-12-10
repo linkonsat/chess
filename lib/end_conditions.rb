@@ -40,4 +40,51 @@ class EndConditions
             return false 
         end
     end
+
+    def stalemate?(board_state)
+        #go through the test and need to gather the appropriate pieces
+        result = check_board_pieces(board_state)
+        #binding.pry
+        return stalemate_check?(result)
+      
+    end
+
+    def check_board_pieces(board_state)
+        first_set = []
+        second_set = []
+
+        board_state.each do |row|
+            row.each do |board_cell|
+                #if its nil just push it to the first set
+
+                if(board_cell.class != String)
+                    if(first_set[0].nil? || board_cell.color == first_set[0].color)
+                    first_set.push(board_cell)
+                    end
+                end
+                if(board_cell.class != String)
+                    if(second_set[0].nil? || board_cell.color == second_set[0].color)
+                    second_set.push(board_cell)
+                    end
+                end
+            end
+        end
+        return [first_set,second_set]
+    end
+
+    def stalemate_check?(found_pieces)
+        found_pieces[0] = found_pieces[0].map {|piece| piece.class.to_s}
+        found_pieces[1] = found_pieces[1].map { |piece| piece.class.to_s}
+        if(found_pieces[0].length == 1 && found_pieces[1].length == 1)
+        if(found_pieces[0][0] == "King" && found_pieces[1][0] == "King")
+            return true
+        end
+        elsif(found_pieces[0].length == 2 && found_pieces[1].length == 2)
+            combos = [["King","Knight"],["King","Bishop"],["Knight","King"],["Bishop","King"]]
+            if(combos.any?(found_pieces[0]) && combos.any?(found_pieces[1]))
+                return true 
+            end
+        end
+        return false
+    end
 end

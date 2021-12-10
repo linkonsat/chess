@@ -40,26 +40,28 @@ end
 end
 end
 
-    describe "#stalemate" do 
+    describe "#stalemate?" do 
     subject(:end_conditions) { described_class.new }
     it "Returns true when only kings are left on the board" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        king = double("King", :color => "black")
-        second_king = double("king", :color => "purple")
+        king = double("King", :color => "black", :class => 'King')
+        second_king = double("king", :color => "purple", :class => 'King')
         board.board[4][4] = king
         board.board[0][0] = second_king
-        expect(end_conditions(end_conditions.stalemate?(board.board))).to eql(true)
+        expect(end_conditions.stalemate?(board.board)).to eql(true)
     end 
 
     it "Returns true when only a king and bishop or knight are left" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        king = double("King", :color => "black")
-        knight = double("Knight", :color => "purple")
-        second_king = double("king", :color => "purple")
+        king = double("King", :color => "black", :class => "King")
+        knight = double("Knight", :color => "purple", :class => "Knight")
+        second_king = double("King", :color => "purple", :class => 'King')
+        bishop = double("Bishop", :color => "black", :class => 'Bishop')
         board.board[4][4] = king 
         board.board[0][0] = knight 
+        board.board[0][7] = bishop
         board.board[7][5] = second_king
-        expect(end_conditions(end_conditions.stalemate?(board.board))).to eql(true)
+        expect(end_conditions.stalemate?(board.board)).to eql(true)
     end
     it "Returns false when conditions are not met" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
