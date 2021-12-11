@@ -87,4 +87,12 @@ class EndConditions
         end
         return false
     end
+
+    def fifty_moves?(no_capture_moves)
+        if(no_capture_moves == 50)
+            return true 
+        else
+            return false 
+        end
+    end
 end

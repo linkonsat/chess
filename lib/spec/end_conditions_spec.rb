@@ -82,28 +82,27 @@ end
     it "Returns true when move count reaches 50" do 
     board = double("Board", :board => Array.new(8) {Array.new(8, "[]")})
     rook = double("Rook", :legal_moves => [[0,0],[1,1]])
-    main_game = double("MainGame", :moves => 50)
-    p main_game.moves
-    expect(end_conditions.fifty_moves?(main_game.moves)).to eql(true)
+    main_game = double("MainGame", :no_capture_count => 50)
+    expect(end_conditions.fifty_moves?(main_game.no_capture_count)).to eql(true)
     end
     it "Returns false when move count is not 50." do 
         board = double("Board", :board => Array.new(8) {Array.new(8, "[]")})
     rook = double("Rook", :legal_moves => [[0,0],[1,1]])
-    main_game = double("MainGame", :moves => 25)
-    expect(end_conditions.fifty_moves?(main_game.moves)).to eql(false)
+    main_game = double("MainGame", :no_capture_count => 25)
+    expect(end_conditions.fifty_moves?(main_game.no_capture_count)).to eql(false)
     end
 end
 
     describe "#repetition?" do 
     subject(:end_conditions) {described_class.new}
-    it "Returns true when piece ends up repeating it's move three times" do 
+    it "Returns true when board state is repeated three times" do 
         board = double("Board", :board => Array.new(8) {Array.new(8, "[]")})
         rook = double("Rook", :color => "black")
         captured_piece = double("Pawn", :color => "white")
         main_game = double("MainGame", :move_history => [[rook,[0,0],board.board],[rook,[1,1],board.board],[rook,[0,0],board.board],[rook,[1,1],board.board],[rook,[0,0],board.board]])        
         expect(end_conditions.repetition?(main_game.move_history)).to eql(true)
     end
-    it "Returns false when the piece ends up repeating it's move three times but the board condition changes" do
+    it "Returns false when the board state is not repeated three times" do
         board = double("Board", :board => Array.new(8) {Array.new(8, "[]")})
         changed_board = double("BoardNew", :board => Array.new(8) {Array.new(8, "[]")})
         enemy_piece = double("EnemyPiece", :legal_moves => [1,2])
