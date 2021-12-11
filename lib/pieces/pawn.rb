@@ -1,3 +1,4 @@
+require "pry-byebug"
 class Pawn
     attr_accessor :current_position, :previous_position, :color,:available_move_values, :default_moves
 
@@ -30,9 +31,9 @@ class Pawn
         @available_move_values = []
         if(@previous_position == nil) 
         initial_moves(board_state)  
-        else
-            two_step_available(board_state)
         end
+            #binding.pry
+            two_step_available(board_state)
         if(@default_moves[0][0] < 0)
             is_blocked_backward(board_state)
             is_attackable_backward(board_state)
@@ -107,14 +108,15 @@ class Pawn
 
     def two_step_available(board_state)
         if(self.default_moves.include?([-2,0]))
-            if (previous_position[0] + -2 == current_position[0])
+            if (!@previous_position.nil?)
                 @default_moves = [[-1,0]]
                 @available_move_values.push(@default_moves[0])
             end
         elsif(self.default_moves.include?([2,0]))
-            if (previous_position[0] + 2 == current_position[0])
+            if (!@previous_position.nil?)
                 @default_moves = [[1,0]]
                 @available_move_values.push(@default_moves[0])
+                #binding.pry
             end
         else
             @available_move_values.push(@default_moves[0])
