@@ -23,16 +23,18 @@ describe Pawn do
 
     it "Allows passant on pawn moves previous moving being two squares forward" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        pawn_ally = double("PawnAlly", :color => "purple", :current_position => [1,1], :previous_position => [3,1])
+        pawn_ally = double("PawnEnemy", :color => "purple", :current_position => [1,1], :previous_position => [3,1])
         board.board[3][0] = pawn
         board.board[3][0].set_color("black")
         board.board[3][0].default_moves = [[1,0],[2,0]]
         board.board[3][0].update_position([3,0])
         board.board[1][1] = pawn_ally
         board.board[3][1] = board.board[1][1]
+       # binding.pry
         expect(board.board[3][0].valid_move?(board.board,[2,1])).to eql(true)
     end
 end
+
 
 describe "#is_attackable_forward?" do 
 subject(:pawn) {described_class.new}
@@ -79,14 +81,13 @@ end
     subject(:pawn) {described_class.new}
     it "Enables 2 moves only once" do 
         board = double("Board", :board => Array.new(8) { Array.new(8, "[]")})
-        board.board[6][0] = pawn
-        pawn.initial_moves(board.board)
-        pawn.update_position([6,0])
-        board.board[6][0].valid_move?(board.board,[4,0])
-        board.board[4][0] = board.board[6][0]
-        board.board[4][0].update_position([4,0])
-        valid_move = board.board[4][0].valid_move?(board.board,[0,0])
-        expect(board.board[4][0].default_moves).to eql([[-1,0]])
+        board.board[1][0] = pawn
+        board.board[1][0].initial_moves(board.board)
+        board.board[1][0].update_position([1,0])
+        board.board[1][0].update_position([3,0])
+        board.board[1][0].valid_move?(board.board,[3,0])
+        binding.pry
+        expect(board.board[1][0].default_moves).to eql([[1,0]])
     end
 
         it "Returns true on forward move." do 
