@@ -64,5 +64,15 @@ end
         expect(retrieved_history.all?(game_board)).to eql(true)
     end
 
+    it "Does not throw an error when requested history goes beyond list length" do 
+        game_board = double("GameBoard", :board => Array.new(8) {Array.new(8, "[]")})
+        5.times do 
+            game_history.insert(game_board.board)
+        end
+        retrieved_history = game_history.return_history(10)
+        expect(retrieved_history.length).to eql(5)
+        expect(retrieved_history.all?(game_board)).to eql(true)
+    end
+
 end
 end
