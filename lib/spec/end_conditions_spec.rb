@@ -99,7 +99,7 @@ end
         board = double("Board", :board => Array.new(8) {Array.new(8, "[]")})
         rook = double("Rook", :color => "black")
         captured_piece = double("Pawn", :color => "white")
-        main_game = double("MainGame", :move_history => [[rook,[0,0],board.board],[rook,[1,1],board.board],[rook,[0,0],board.board],[rook,[1,1],board.board],[rook,[0,0],board.board]])        
+        main_game = double("MainGame", :move_history => [[board.board],[board.board],[board.board],[board.board],[board.board]])        
         expect(end_conditions.repetition?(main_game.move_history)).to eql(true)
     end
     it "Returns false when the board state is not repeated three times" do
@@ -109,7 +109,7 @@ end
         changed_board.board[5][5] = enemy_piece
         rook = double("Rook", :color => "black")
         captured_piece = double("Pawn", :color => "white")
-        main_game = double("MainGame", :move_history => [[rook,[0,0],board.board],[rook,[1,1],board.board],[rook,[0,0],changed_board.board],[rook,[1,1],board.board],[rook,[0,0],board.board]])        
+        main_game = double("MainGame", :move_history => [[changed_board.board],[changed_board.board],[board.board],[board.board]])        
         expect(end_conditions.repetition?(main_game.move_history)).to eql(false)
     end
 
