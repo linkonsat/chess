@@ -95,4 +95,13 @@ class EndConditions
             return false 
         end
     end
+
+    def repetition?(move_history)
+        move_history.each do |board_state|
+            if(move_history.count(board_state) >= 3)
+                return true 
+            end
+        end
+        return false
+    end
 end
