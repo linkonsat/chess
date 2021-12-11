@@ -29,7 +29,6 @@ class King
     def valid_move?(board_state,input) 
         legal_moves = any_moves?(board_state)
         move_validity = validate_input(legal_moves,input)
-        p legal_moves
         if(move_validity == true)
         self.set_position(input)
         end
@@ -39,7 +38,7 @@ class King
     def legal_moves(board_state)
         @available_move_values = []
         #so now we want to get the current board position as a reference to our moves
-        @available_move_values.push(any_moves?(board_state))
+        @available_move_values = any_moves?(board_state)
     end
 
     def any_moves?(board_state)
@@ -238,11 +237,10 @@ class King
     def in_check?(board_state,coordinates)
         board_state.each do |board_row|
             #check each board row and see if if the coordinates and if so return true else return als 
-            
+            #binding.pry
             board_row.each do |board_cell|
-                        
-                        if(board_cell.class != String && board_cell.class != King && board_cell.valid_move?(board_state,coordinates))
-                            p board_cell
+
+                        if(board_cell.class != String && board_cell.color != self.color && board_cell.valid_move?(board_state,coordinates))
                         return true 
 
                         end
