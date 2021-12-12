@@ -55,7 +55,7 @@ end
         game_board_old = double("GameBoard", :board => Array.new(8) {Array.new(8, ":D")})
         game_history.insert(game_board.board)
         game_history.insert(game_board_old.board)
-        expect(game_history.return_history).to eql(game_board_old.board)
+        expect(game_history.return_history[0]).to eql(game_board_old.board)
     end
     it "Returns node up to or less than the amount of requested nodes entered" do 
         game_board = double("GameBoard", :board => Array.new(8) {Array.new(8, "[]")})
@@ -64,7 +64,7 @@ end
         end
         retrieved_history = game_history.return_history(10)
         expect(retrieved_history.length).to eql(10)
-        expect(retrieved_history.all?(game_board)).to eql(true)
+        expect(retrieved_history.all?(game_board.board)).to eql(true)
     end
 
     it "Does not throw an error when requested history goes beyond list length" do 
@@ -74,7 +74,8 @@ end
         end
         retrieved_history = game_history.return_history(10)
         expect(retrieved_history.length).to eql(5)
-        expect(retrieved_history.all?(game_board)).to eql(true)
+        expect(retrieved_history.all?(game_board.board)).to eql(true)
+        expect(retrieved_history.count(game_board.board)).to eql(5)
     end
 
 end

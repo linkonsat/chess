@@ -11,15 +11,11 @@ class GameHistory
             @head = Node.new(data)
         else
             node = @head
-            last_node = @head
             until node.next_node.nil?
-                node = node.next_node 
-                if(!node.nil?)
-                    last_node = node.next_node
-                end
+                node = node.next_node
             end
             node.next_node = Node.new(data)
-            node.next_node.previous_node = last_node
+            node.next_node.previous_node = node
             @tail = node.next_node
         end
     end
@@ -38,4 +34,15 @@ class GameHistory
     end
     end
 
+    def return_history(requested_history = 1)
+        node = @tail
+        found_history = []
+        counter = 0
+        until counter == requested_history || node.nil?
+            found_history.push(node.data)
+            counter += 1
+            node = node.previous_node 
+        end
+        return found_history
+    end
 end
