@@ -9,7 +9,7 @@ describe GameHistory do
         game_board_new = double("GameBoard", :board => Array.new(8) {Array.new(8, ":D")})
         game_history.insert(game_board.board)
         game_history.insert(game_board_new.board)
-        expect(game_history.tail).to eql(game_board_new.board)
+        expect(game_history.tail.data).to eql(game_board_new.board)
     end
 end
 describe "#head" do 
@@ -19,7 +19,7 @@ describe "#head" do
         game_board_new = double("GameBoard", :board => Array.new(8) {Array.new(8, ":D")})
         game_history.insert(game_board.board)
         game_history.insert(game_board_new.board)
-        expect(game_history.head).to eql(game_board.board)
+        expect(game_history.head.data).to eql(game_board.board)
     end
 end
     describe "#insert_node" do 
@@ -29,30 +29,33 @@ end
         game_board_new = double("GameBoard", :board => Array.new(8) {Array.new(8, ":D")})
         game_history.insert(game_board.board)
         game_history.insert(game_board_new.board)
-        expect(game_history.tail).to eql(game_board_new.board)
-        expect(game_history.head).to eql(game_board.board)
+        expect(game_history.tail.data).to eql(game_board_new.board)
+        expect(game_history.head.data).to eql(game_board.board)
     end 
-
+end
+    describe "#rewind" do 
+    subject(:game_history) {described_class.new}
     it "Inserts a new game data and gets rid of of old history when rewinded" do 
         game_board = double("GameBoard", :board => Array.new(8) {Array.new(8, "[]")})
         game_board_old = double("GameBoard", :board => Array.new(8) {Array.new(8, "old")})
         game_board_new = double("GameBoard", :board => Array.new(8) {Array.new(8, "new_tail")})
         game_history.insert(game_board.board)
         game_history.insert(game_board_old.board)
-        expect(game_history.tail).to eql(game_board_old.board)
-        game_history.insert(game_board_new)
-        expect(game_history.tail).to eql(game_board_new.board)
+        expect(game_history.tail.data).to eql(game_board_old.board)
+        game_history.rewind
+        game_history.insert(game_board_new.board)
+        expect(game_history.tail.data).to eql(game_board_new.board)
     end 
 
 end
     describe "#return_history" do 
     subject(:game_history) {described_class.new}
-    it "allows returns previous node when rewind is entered" do 
+    it "By default returns the last history of the move before the current one" do 
         game_board = double("GameBoard", :board => Array.new(8) {Array.new(8, "[]")})
         game_board_old = double("GameBoard", :board => Array.new(8) {Array.new(8, ":D")})
         game_history.insert(game_board.board)
         game_history.insert(game_board_old.board)
-        expect(game_history.rewind).to eql(game_board.board)
+        expect(game_history.return_history).to eql(game_board_old.board)
     end
     it "Returns node up to or less than the amount of requested nodes entered" do 
         game_board = double("GameBoard", :board => Array.new(8) {Array.new(8, "[]")})
