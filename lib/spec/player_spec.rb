@@ -15,7 +15,7 @@ describe Player do
 end
     describe "#select_piece" do 
     subject(:player) {described_class.new} 
-    it "Returns the piece if selected input does not equal a string." do 
+    it "Returns the piece if selected input is valid." do 
         board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
         pawn = double("Pawn")
         board.board[0][0] = pawn
@@ -23,21 +23,21 @@ end
         selected_piece = player.select_piece(board.board)
         expect(selected_piece).to eql(pawn)
     end
-    it "Returns error message if piece is not selected on the board" do 
+    it "Returns the chess piece only if selected input is within the board." do 
         board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
         pawn = double("Pawn")
         board.board[0][0] = pawn
-        allow(player).to receive(:player_input).and_return("990","00")
-        allow(player).to receive(:board_state).with(board.board,board.board)
-        expect(subject).to receive(:game_messages).with("Error! Selected a non-existent board spot.").once
+        allow(player).to receive(:gets).and_return("990","99","00")
+        found_piece = player.select_piece(board.board)
+        expect(found_piece).to eql(pawn)
     end
-    it "Returns error message if piece is not a chess piece." do 
+    it "Returns the chess piece until proper input is entered after a invalid board cell is selected." do 
         board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
         pawn = double("Pawn")
         board.board[0][0] = pawn
-        allow(player).to receive(:player_input).and_return("05","00")
-        allow(player).to receive(:board_state).with(board.board,board.board)
-        expect(subject).to receive(:game_messages).with("Error! Selected a board cell that does not contain a piece.").once 
+        allow(player).to receive(:gets).and_return("05","00")
+        found_piece = player.select_piece(board.board)
+        expect(found_piece).to eql(pawn)   
     end
 end
 end
