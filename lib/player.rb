@@ -16,7 +16,7 @@ include GameMessages
     def select_piece(board_state)
         self.select_piece_valid
         selected_position = gets.chomp
-        until (0..board_state.length).include?(selected_position[0].to_i) && (0..board_state[selected_position[0].to_i].length).include?(selected_position[1].to_i) && board_state[selected_position[0].to_i][selected_position[1].to_i].class != String
+        until (0..board_state.length).include?(selected_position[0].to_i) && (0..board_state[selected_position[0].to_i].length).include?(selected_position[1].to_i) && board_state[selected_position[0].to_i][selected_position[1].to_i].class != String && board_state[selected_position[0].to_i][selected_position[1].to_i].color == self.color
             if(selected_position.length != 2)
                 self.outside_board
             elsif(board_state[selected_position[0].to_i].nil?)
