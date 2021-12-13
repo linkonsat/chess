@@ -7,8 +7,8 @@ class Board
     def set_pieces_standard(set_one,set_two)
         @board[0] = set_one[0]
         @board[1] = set_one[1]
-        @board[6] = set_two[0]
-        @board[7] = set_two[1]
+        @board[6] = set_two[1]
+        @board[7] = set_two[0]
     end
 
     def update_board(piece,new_coordinates)
