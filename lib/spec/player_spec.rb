@@ -8,17 +8,19 @@ describe Player do
     piece = double("Pawn", :color => "Black")
     piece_two = double("Rook", :color => "White")
     sets = [[piece],[piece_two]]
-    allow(player).to receive(:gets).and_return(1)
+    allow(player).to receive(:gets).and_return("1")
     player.set_color(sets)
     expect(player.color).to eql("White")
     end
+end
     describe "#select_piece" do 
     subject(:player) {described_class.new} 
     it "Returns the piece if selected input does not equal a string." do 
         board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
         pawn = double("Pawn")
         board.board[0][0] = pawn
-        selected_piece = player.select_piece("00",board.board)
+        allow(player).to receive(:gets).and_return("00")
+        selected_piece = player.select_piece(board.board)
         expect(selected_piece).to eql(pawn)
     end
     it "Returns error message if piece is not selected on the board" do 
