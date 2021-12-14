@@ -24,15 +24,15 @@ include GenericMoves
 
     def valid_move?(board_state,input)
         if(verify_input?(board_state,input))
-        legal_moves = find_moves(board_state)
-        return matches_input?(legal_moves,input)
+        found_moves = legal_moves(board_state)
+        return matches_input?(found_moves,input)
         else 
             puts "Value entered is not within range of the board row"
             return false
         end
     end
 
-    def find_moves(board_state)
+    def legal_moves(board_state)
         found_moves = []
         found_moves.concat(self.vertical_moves(board_state,self))
         found_moves.concat(self.horizontal_moves(board_state,self))

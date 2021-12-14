@@ -22,8 +22,8 @@ include GenericMoves
     end
     def valid_move?(board_state,input)
         if(valid_input?(board_state,input))
-            legal_moves = any_moves(board_state)
-            return valid_move(legal_moves,input)
+            any_moves = legal_moves(board_state)
+            return valid_move(any_moves,input)
         else
             return false
         end
@@ -37,12 +37,13 @@ include GenericMoves
         end
     end
 
-    def any_moves(board_state)
+    def legal_moves(board_state)
         valid_moves = []
         valid_moves.concat(self.vertical_moves(board_state,self))
         valid_moves.concat(self.horizontal_moves(board_state,self))
         valid_moves.concat(self.diagonal_moves_left(board_state,self))
         valid_moves.concat(self.diagonal_moves_right(board_state,self))
+        return valid_moves
     end
 
     def valid_move(legal_moves,input)
