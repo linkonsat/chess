@@ -7,10 +7,12 @@ describe AI do
     describe "#piece_moves" do 
     subject(:ai) {described_class.new}
     it "Selects a pieces legal moves on the board." do 
-        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
         pawn = double("PawnSecond", :color => "black", :legal_moves => [1,1])
-        board.board[0][0] = pawn
-        expect(ai.piece_moves(board.board)).to eql([1,1])
+        expect(ai.piece_moves([pawn])).to eql([[1,1]])
+    end
+    it "Selects multiple pieces legal moves on the board." do 
+        pawn = double("PawnSecond", :color => "black", :legal_moves => [1,1])
+        expect(ai.piece_moves([pawn,pawn])).to eql([[1,1],[1,1]])
     end
 end
 #move choice calls all the pieces it owns on the board. after calling it. it goes one at a time and if a piece has legal moves and returns a valid move

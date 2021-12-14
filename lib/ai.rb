@@ -23,4 +23,10 @@ class AI
         end
         return found_colors
     end
+
+    def piece_moves(pieces)
+        possible_moves = []
+        pieces.each {|piece| possible_moves.push(piece.legal_moves)}
+        return possible_moves
+    end
 end
