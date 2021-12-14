@@ -4,6 +4,42 @@
 require_relative "../ai"
 describe AI do 
 
+    describe "#move_choice" do 
+    subject(:ai) {described_class.new}
+    it "Finds the matching pieces on the board and returns the valid move and moves to another piece if there are no legal moves." do 
+        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
+        pawn = double("Pawn", :color => "black", :legal_moves => [], :valid_move? => false)
+        pawn_second = double("PawnSecond", :color => "black", :legal_moves => [[1,1]], :valid_move? => true)
+        board.board[0][0] = pawn
+        board.board[0][1] = pawn_second
+        ai.color = "black"
+        expect(ai.move_choice(board.board)).to eql([pawn_second,[1,1]])
+    end
+    it "Returns false if no moves are available." do 
+        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
+        pawn = double("Pawn", :color => "black", :legal_moves => [], :valid_move? => false)
+        board.board[0][0] = pawn
+        ai.color = "black"
+        expect(ai.move_choice(board.board)).to eql (false)
+    end
+  
+    it "Calls valid method on the selected piece until true is returned and returns that value" do 
+        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
+        pawn = double("Pawn", :color => "black", :legal_moves => [[1,1]], :valid_move? => true)
+        board.board[0][0] = pawn
+        ai.color = "black"
+        expect(ai.move_choice(board.board)).to eql([pawn,[1,1]])
+    end
+
+    it "Returns false if none of the legal moves are valid." do 
+        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
+        pawn = double("Pawn", :color => "black", :legal_moves => [[1,1]], :valid_move? => false)
+        board.board[0][0] = pawn
+        ai.color = "black"
+        expect(ai.move_choice(board.board)).to eql (false)
+    end
+end
+
     describe "#piece_moves" do 
     subject(:ai) {described_class.new}
     it "Selects a pieces legal moves on the board." do 
@@ -16,35 +52,6 @@ describe AI do
     end
 end
 #move choice calls all the pieces it owns on the board. after calling it. it goes one at a time and if a piece has legal moves and returns a valid move
-    describe "#move_choice" do 
-    subject(:ai) {described_class.new}
-    it "Finds the matching pieces on the board and returns false and moves to another piece if there are no legal moves." do 
-        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
-        pawn = double("Pawn", :color => "black", :legal_moves => [])
-        pawn_second = double("PawnSecond", :color => "black", :legal_moves => [1,1], :valid_move? => true)
-        board.board[0][0] = pawn
-        board.board[0][1] = pawn_second
-        expect(ai.move_choice(board.board)).to eql(true)
-    end
-    it "Calls valid method on the selected piece until true is returned and returns that value" do 
-        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
-        pawn = double("Pawn", :color => "black", :valid_move? => true)
-        board.board[0][0] = pawn
-        expect(ai.move_choice(board.board)).to eql(true)
-    end
-    it "Returns false if no moves are available." do 
-        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
-        pawn = double("Pawn", :color => "black", :legal_moves => [])
-        board.board[0][0] = pawn
-        expect(ai.move_choice(board.board)).to eql (false)
-    end
-    it "Returns false if none of the moves are valid." do 
-        board = double("Board", :board => Array.new(8) {Array.new(8,"[]")})
-        pawn = double("Pawn", :color => "black", :valid_move? => false)
-        board.board[0][0] = pawn
-        expect(ai.move_choice(board.board)).to eql (false)
-    end
-end
 
     describe "#select_color" do 
     subject(:ai) {described_class.new}
