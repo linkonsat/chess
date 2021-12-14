@@ -86,7 +86,6 @@ end
         board.board[1][0].update_position([1,0])
         board.board[1][0].update_position([3,0])
         board.board[1][0].valid_move?(board.board,[3,0])
-        binding.pry
         expect(board.board[1][0].default_moves).to eql([[1,0]])
     end
 
