@@ -1,5 +1,6 @@
 #tests should test if a board spot can be changed
 #a set containing board pieces is properly laid according to the format in the set
+require "pry-byebug"
 require_relative "../board"
 describe Board do 
     describe "#initial_board" do 
@@ -25,11 +26,29 @@ end
     describe "#update_board" do 
     subject(:board) { described_class.new }
     it "Updates the board when given new coordinates." do 
-        pawn = double("Pawn")
-        board.board[0][0] = pawn
+        pawn = double("Pawn", :current_position => [5,5])
+        board.board[5][5] = pawn
         new_coordinates = [5,5]
         board.update_board(pawn,new_coordinates)
         expect(board.board[5][5]).to eql(pawn)
+    end
+
+    it "Updates the board when a passant move from pawn is entered" do 
+    pawn = double("Pawn", :current_position => [1,1])
+    pawn_enemy = double("Pawn")
+    board.board[1][0] = pawn_enemy
+    board.update_board(pawn,[0,0])
+    expect(board.board[0][0]).to eql(pawn)
+    expect(board.board[1][0]).not_to eql(pawn_enemy)
+    end
+    it "Updates the board when king does a castling move." do 
+    castle = double("Castle")
+    king = double("King", :current_position => [0,4])
+    board.board[0][0] = castle
+    board.board[0][4] = king
+    board.update_board(king,[0,2])
+    expect(board.board[0][2]).to  eql(king)
+    expect(board.board[0][3]).to eql(castle)
     end
 end
 

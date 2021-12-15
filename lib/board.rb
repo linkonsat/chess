@@ -13,9 +13,33 @@ class Board
     end
 
     def update_board(piece,new_coordinates)
+        if(piece.class.to_s == "Pawn" && new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1)
+            passant_update = passant_update(piece,new_coordinates)
+        @board[passant_update[0]][passant_update[1]] = "|___|"
         @board[new_coordinates[0]][new_coordinates[1]] = piece 
+        elsif(piece.class.to_s == "King" && new_coordinates[1] == piece.current_position[1] + 2 || new_coordinates[1] == piece.current_position[1] - 2)
+            new_castle_coordinates = castle_coordinates(piece,new_coordinates)
+            if(new_coordinates[1] < piece.current_position[1])
+            @board[new_coordinates[0]][new_castle_coordinates] = @board[new_coordinates[0]][0]
+            @board[new_coordinates[0]][0] = "|___|"
+            elsif(new_coordinates[1] > piece.current_coordinates[1])
+                @board[new_coordinates[0]][new_castle_coordinates] = @board[new_coordinates[0]][7]
+                @board[new_coordinates[0]][7] = "|___|"
+            end
+            @board[new_coordinates[0]][new_coordinates[1]] = piece 
+        else
+        @board[new_coordinates[0]][new_coordinates[1]] = piece 
+        end
+            
     end
 
+    def castle_coordinates(piece,new_coordinates)
+        if(new_coordinates[1] < piece.current_position[1] )
+            return new_coordinates[1] + 1 
+        elsif(new_coordinates[1] > piece.current_position[1])
+            return new_coordinates[1] - 1
+        end
+    end
     def generate_colored_board(board)
         new_board = []
         board.each_with_index do |row,row_index|
@@ -39,7 +63,6 @@ class Board
         board.each do |row|
             current_row = []
             row.each_with_index do |board_cell,index|
-                #binding.pry
                 if(board_cell.methods.include?(:piece_symbol))                   
                     current_row.push("\033[48;5;57m#{board_cell.generate_symbol}\033[0m")
                 else 
@@ -62,5 +85,12 @@ class Board
 #{new_board[7][0]}#{new_board[7][1]}#{new_board[7][2]}#{new_board[7][3]}#{new_board[7][4]}#{new_board[7][5]}#{new_board[7][6]}#{new_board[7][7]}\n"
     end
 
+    def passant_update(piece,new_input)
+        if(new_input[0] < piece.current_position[0])
+                return [new_input[0] + 1,new_input[1]]
+        else
+            return [new_input[0] - 1,new_input[1]]
+        end
+    end
 end
 
