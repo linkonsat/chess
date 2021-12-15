@@ -17,6 +17,14 @@ class King
         @color = color
     end
 
+    def generate_symbol
+        if(self.color == "black")
+            return " ♚ "
+        elsif(self.color == "white")
+            return " ♔ "
+        end
+    end
+
     def set_position(position) 
         if(@current_position == nil)
             @current_position = position

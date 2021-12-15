@@ -41,7 +41,7 @@ class Board
             row.each_with_index do |board_cell,index|
                 #binding.pry
                 if(board_cell.methods.include?(:piece_symbol))                   
-                    current_row.push("\033[48;5;57m#{board_cell.piece_symbol}\033[0m")
+                    current_row.push("\033[48;5;57m#{board_cell.generate_symbol}\033[0m")
                 else 
                     current_row.push(board_cell)
                 end

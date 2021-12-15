@@ -39,6 +39,16 @@ include GenericMoves
         return found_moves
     end
 
+
+    def generate_symbol
+        if(self.color == "black")
+            return " ♜ "
+        elsif(self.color == "white")
+            return " ♖ "
+        end
+    end
+
+
     def matches_input?(legal_moves,input)
      
         legal_moves.each do |board_cell| 
