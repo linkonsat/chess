@@ -11,6 +11,14 @@ class Knight
         @color = color 
     end
 
+    def generate_symbol
+        if(self.color == "black")
+            return " ♞ "
+        elsif(self.color == "white")
+            return " ♘ "
+        end
+    end
+
     def set_position(position)
         @previous_postion = @current_position
         @current_position = position 

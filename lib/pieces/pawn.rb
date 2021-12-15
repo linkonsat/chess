@@ -11,9 +11,19 @@ class Pawn
     end
 
     
+    def generate_symbol
+        if(self.color == "black")
+            return " ♟ "
+        elsif(self.color == "white")
+            return " ♙ "
+        end
+    end
+
     def set_color(color) 
         @color = color 
     end
+
+    
 
     def valid_move?(board_state,input) 
         validated_moves = legal_moves(board_state)
