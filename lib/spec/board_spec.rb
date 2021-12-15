@@ -31,6 +31,20 @@ end
         board.update_board(pawn,new_coordinates)
         expect(board.board[5][5]).to eql(pawn)
     end
+
+    it "Updates the board when a passant move from pawn is entered" do 
+    pawn = double("Pawn", :current_position => [1,1])
+    pawn_enemy = double("Pawn")
+    board.board[1][0] = pawn_enemy
+    board.update_board(pawn,[0,0])
+    end
+    it "Updates the board when king does a castling move." do 
+    castle = double("Pawn")
+    king = double("Pawn")
+    board.board[0][0] = castle
+    board.board[0][4] = king
+    board.update_board(king,[0,2])
+    end
 end
 
 end

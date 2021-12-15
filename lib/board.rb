@@ -13,7 +13,7 @@ class Board
     end
 
     def update_board(piece,new_coordinates)
-        @board[new_coordinates[0]][new_coordinates[1]] = piece 
+
     end
 
     def generate_colored_board(board)
