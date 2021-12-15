@@ -15,21 +15,7 @@ module GameMessages
     def invalid_board_cell
         puts "You chose an empty board cell. Select a occupied square."
     end
-
-    def generate_colored_board(board)
-        new_board = []
-        board.each do |row|
-            current_row = []
-            row.each_with_index do |board_cell,index|
-                if(index.even?)
-                    current_row.push("\033[48;5;57m#{board_cell}\033[0m")
-                else 
-                    current_row.push(board_cell)
-                end
-            end
-        end
+    def choose_a_color
+        puts "Go ahead and enter in 0 for black or 1 for white. The other player will get the oppossite color."
     end
-
 end
-
-new_color = a.each {|item| puts "\033[48;5;57m#{item}\033[0m" }

@@ -8,7 +8,7 @@ describe Game do
     it "Sets up the accurate game instance variables" do 
         allow(game).to receive(:player_set_choice?).and_return(1)
         game.setup 
-        expect(game.players).to eql(2)
+        expect(game.player_list.length).to eql(2)
         expect(game.board[0].all?(String)).to eql(false)
         expect(game.board[1].all?(String)).to eql(false)
         expect(game.board[6].all?(String)).to eql(false)

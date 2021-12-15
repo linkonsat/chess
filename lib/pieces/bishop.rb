@@ -11,9 +11,9 @@ include GenericMoves
 
     def generate_symbol
         if(self.color == "black")
-            return " ♝ "
+            return "♝"
         elsif(self.color == "white")
-            return " ♗ "
+            return "♗"
         end
     end
     def set_color(color)
