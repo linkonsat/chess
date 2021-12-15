@@ -2,7 +2,7 @@ require_relative "../game"
 
 #tests should cover round,conclusion,setup,
 
-describe "#game" do 
+describe Game do 
     describe "#setup" do 
     subject(:game) {described_class.new}
     it "Sets up the accurate game instance variables" do 
@@ -20,7 +20,7 @@ end
     describe "#round" do 
     subject(:game) {described_class.new}
     it "Runs a game round sucessfully and" do 
-        pawn => double("pawn")
+        pawn = double("pawn")
         allow(game).to receive(:player_set_choice?).and_return(1)
         game.setup
         allow(game).to receive(:player_turn).and_return(game.player_list[0])
@@ -30,22 +30,25 @@ end
         expect(game.fifty_move_rule_counter).to eql(1)
     end
 end
+
     describe "#player_turn" do 
-    it "Selects the correct player after the previous player has had their turn."
+    subject(:game) {described_class.new}
+    it "Selects the correct player after the previous player has had their turn." do
     allow(game).to receive(:player_set_choice?).and_return(1)
     expect(game.player_turn).to eql(game.player_list[0])
 end
+end
     describe "#conclusion" do 
-    it "Starts a new game when Y is entered on the conclusion screen"
     subject(:game) {described_class.new}
+    it "Starts a new game when Y is entered on the conclusion screen" do
     allow(game).to receive(:gets).and_return("Y")
     game.conclusion
     expect(game).to receive(:game)
 end
-it "Starts a new game when Y is entered on the conclusion screen"
-    subject(:game) {described_class.new}
+it "Starts a new game when Y is entered on the conclusion screen" do
     allow(game).to receive(:gets).and_return("N")
     game.conclusion
     expect(game).not_to receive(:game)
+end
 end
 end
