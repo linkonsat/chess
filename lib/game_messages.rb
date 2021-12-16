@@ -15,4 +15,7 @@ module GameMessages
     def invalid_board_cell
         puts "You chose an empty board cell. Select a occupied square."
     end
+    def new_game? 
+        puts "Enter Y to play a new game else enter any other value to quit. Thanks for playing!"
+    end
 end

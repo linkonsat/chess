@@ -40,21 +40,22 @@ end
     describe "#player_turn" do 
     subject(:game) {described_class.new}
     it "Selects the correct player after the previous player has had their turn." do
-    allow(game).to receive(:player_set_choice?).and_return(1)
-    expect(game.player_turn).to eql(game.player_list[0])
+    game.setup
+    expect(game.turn).to eql(0)
 end
 end
     describe "#conclusion" do 
     subject(:game) {described_class.new}
     it "Starts a new game when Y is entered on the conclusion screen" do
-    allow(game).to receive(:gets).and_return("Y")
+    allow(game).to receive(:gets).and_return("N")
+    expect(game).not_to receive(:game_run)
     game.conclusion
-    expect(game).to receive(:game)
 end
 it "Starts a new game when Y is entered on the conclusion screen" do
-    allow(game).to receive(:gets).and_return("N")
+    allow(game).to receive(:gets).and_return("Y","N")
+    allow(game.winning_conditions).to receive(:fifty_moves?).and_return(true,true)
+    expect(game).to receive(:game_run).once
     game.conclusion
-    expect(game).not_to receive(:game)
 end
 end
 end

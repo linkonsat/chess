@@ -88,7 +88,6 @@ include GameMessages
             #after the board is updated we should restart the loop and display the board again
         end
 
-        self.conclusion
     end
     end
 
@@ -109,5 +108,10 @@ include GameMessages
     end
 
     def conclusion 
+        self.new_game?
+        choice = gets.chomp
+        if(choice == "Y")
+            self.game_run 
+        end
     end
 end
