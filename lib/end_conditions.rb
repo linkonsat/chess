@@ -19,6 +19,7 @@ class EndConditions
             available_moves = piece.legal_moves(board_state)
             available_moves.push(piece.current_position)
             available_moves.each do |move| 
+
             if(piece.in_check?(board_state,move) || available_moves.nil?)
             in_check_moves.push(true)
             else
@@ -27,6 +28,7 @@ class EndConditions
         end
         end
         if(in_check_moves.all?(true))
+         
         return true
         else 
             return false

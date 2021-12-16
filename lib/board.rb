@@ -6,10 +6,20 @@ class Board
     end
 
     def set_pieces_standard(set_one,set_two)
-        @board[0] = set_one[0]
-        @board[1] = set_one[1]
-        @board[6] = set_two[1]
-        @board[7] = set_two[0]
+        @board[0] = assign_position(0,set_one[0])
+        @board[1] = assign_position(1,set_one[1])
+        @board[6] = assign_position(6,set_two[1])
+        @board[7] = assign_position(7,set_two[0])
+    end
+
+    def assign_position(row,set)
+        new_set = []
+        set.each_with_index do |item,index|
+            item.set_position([row,index])
+            new_set.push(item)
+
+        end
+        return new_set
     end
 
     def update_board(piece,new_coordinates)
@@ -28,6 +38,7 @@ class Board
             end
             @board[new_coordinates[0]][new_coordinates[1]] = piece 
         else
+        @board[piece.current_position[0]][piece.current_position[1]] = "|_|"
         @board[new_coordinates[0]][new_coordinates[1]] = piece 
         end
             

@@ -63,6 +63,7 @@ class King
         end
         found_moves_top = top_move(board_state)
         if (!found_moves_top.nil?)
+            
         found_moves_top.each { |item| found_moves.push(item)}
         end 
         found_moves_bottom = bottom_move(board_state)
@@ -73,18 +74,17 @@ class King
         if (!found_moves_casteling.nil?)
             found_moves_casteling.each { |item| found_moves.push(item)}
         end
- 
         return found_moves
     end
 
     def left_vertical_moves(board_state)
-
-        if((0..board_state[current_position[0]].length).include?(current_position[1] - 1))   
+        #binding.pry
+        if((0..board_state[self.current_position[0]].length).include?(self.current_position[1] - 1))   
             valid_verticals_left = []
             #we loop through the code and if a position isn't higher the conditional above we include it
-            possible_moves = [[current_position[0] - 1,current_position[1] - 1], [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
+            possible_moves = [[self.current_position[0] - 1,self.current_position[1] - 1], [self.current_position[0], current_position[1] - 1], [self.current_position[0] + 1, current_position[1] - 1]]
             possible_moves.each do |position|
-                if ((0..board_state[current_position[0]].length - 1).include?(position[0]))
+                if ((0..board_state[self.current_position[0]].length - 1).include?(position[0]))
                     valid_verticals_left.push(position)
                 end
             end
@@ -97,7 +97,7 @@ class King
             valid_verticals_right = []
             possible_moves = [[current_position[0],current_position[1] + 1], [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
             possible_moves.each do |position|
-                if ((0..board_state[current_position[0]].length - 1).include?(position[0]))
+                if ((0..board_state[current_position[0]].length - 1).include?(position[0])) 
                     valid_verticals_right.push(position)
                 end
             end
@@ -108,14 +108,17 @@ class King
     def top_move(board_state) 
        
             if (!board_state[current_position[0] + 1].nil? && (0..board_state[current_position[0] + 1].length).include?(current_position[1] + 1))
-
+                if ((0..board_state[current_position[0]].length - 1).include?(self.current_position[0] + 1))
                 return [[current_position[0] + 1,current_position[1]]]
+                end
             end
     end
 
     def bottom_move(board_state)
        if (!board_state[current_position[0] - 1].nil? && (0..board_state[current_position[0] - 1].length).include?(current_position[0] - 1))
+        if ((0..board_state[current_position[0]].length - 1).include?(self.current_position[0] - 1))
             return [[current_position[0] - 1, current_position[1]]]
+        end
        end
     end
 
@@ -247,8 +250,8 @@ class King
             #check each board row and see if if the coordinates and if so return true else return als 
             #binding.pry
             board_row.each do |board_cell|
-
                         if(board_cell.class != String && board_cell.color != self.color && board_cell.valid_move?(board_state,coordinates))
+
                         return true 
 
                         end

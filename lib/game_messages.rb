@@ -15,7 +15,4 @@ module GameMessages
     def invalid_board_cell
         puts "You chose an empty board cell. Select a occupied square."
     end
-    def choose_a_color
-        puts "Go ahead and enter in 0 for black or 1 for white. The other player will get the oppossite color."
-    end
 end

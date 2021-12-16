@@ -32,7 +32,6 @@ include GenericMoves
     def valid_move?(board_state,input)
         if(valid_input(board_state,input))
         legal_moves = available_moves(board_state)
-        #binding.pry
         return valid_move(input,legal_moves)
         else 
             return false 
@@ -43,10 +42,14 @@ include GenericMoves
         legal_moves = []
         legal_moves.concat(self.diagonal_moves_left(board_state,self))
         legal_moves.concat(self.diagonal_moves_right(board_state,self))
+
         return legal_moves 
     end
 
     def valid_input(board_state,input)
+        if(board_state.nil? || board_state[input[0]].nil?)
+            binding.pry
+        end
         if((0..board_state.length).include?(input[0]) && (0..board_state[input[0]].length).include?(input[1]))
             return true
         else 

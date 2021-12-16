@@ -27,7 +27,6 @@ class Pawn
 
     def valid_move?(board_state,input) 
         validated_moves = legal_moves(board_state)
-       # binding.pry
         if (forward_step(validated_moves,input) || backward_step(validated_moves,input))
             return true
 
@@ -56,7 +55,7 @@ class Pawn
         return @available_move_values
     end
 
-    def update_position(new_coordinates)
+    def set_position(new_coordinates)
         @previous_position = @current_position 
         @current_position = new_coordinates
     end
@@ -74,8 +73,7 @@ class Pawn
     def passant_forward(board_state) 
         attackable_pieces = []
         if ((0..board_state[self.current_position[0]].length).include?(self.current_position[1] + 1)  && board_state[self.current_position[0]][self.current_position[1] + 1].class != String )
-        attackable_pieces.push(board_state[self.current_position[0]][self.current_position[1] + 1])
-
+            attackable_pieces.push(board_state[self.current_position[0]][self.current_position[1] + 1])
         end
         #issue is that logic path isnt pushing the piece
         #p board_state[self.current_position[0]][self.current_position[1] - 1] 
@@ -101,7 +99,8 @@ class Pawn
         #first we need to "loop through the found pieces since it can be more than one"
         
         found_pieces.each do |item|
-            if (item != nil && item.current_position[0] - 2 == item.previous_position[0] && item.color != self.color)
+            #binding.pry
+            if (item != [] && item.previous_position != nil && item.current_position[0] - 2 == item.previous_position[0] && item.color != self.color)
                 @available_moves_values.push([item.previous_position[0] + 1,item.previous_position[1]])
             end
         end
@@ -110,7 +109,7 @@ class Pawn
 
     def verify_passant_backward?(found_pieces)
         found_pieces.each do |item|
-            if (item != nil && item.current_position[0] + 2 == item.previous_position[0] && item.color != self.color)
+            if (item != [] && item.previous_position != nil && item.current_position[0] + 2 == item.previous_position[0] && item.color != self.color)
                 @available_move_values.push([item.previous_position[0] - 1, item.previous_position[1]])
             end
         end
@@ -139,8 +138,8 @@ class Pawn
         vertical_move_value = current_position[0] + item[0]
         horizontal_move_left = current_position[1] - item[1]
         horizontal_move_right = current_position[1] + item[1]
-           # binding.pry
-        if(input[0] == vertical_move_value && input[1] == horizontal_move_left || input[1] == horizontal_move_right)
+        if(input[0] == vertical_move_value && (input[1] == horizontal_move_left || input[1] == horizontal_move_right))
+            
             return true
             end
         end
@@ -152,7 +151,7 @@ class Pawn
         vertical_move_value = current_position[0] - item[0]
         horizontal_move_left = current_position[1] - item[1]
         horizontal_move_right = current_position[1] + item[1] 
-        if(input[0] == vertical_move_value && input[1] == horizontal_move_left || input[1] == horizontal_move_right)
+        if(input[0] == vertical_move_value && input[1] == (horizontal_move_left || input[1] == horizontal_move_right))
             return true
             end
         end
