@@ -74,7 +74,6 @@ include GameMessages
         chosen_piece = @player_list[0].move_choice(@board.board)
         self.ai_round(chosen_piece)
         else
-            binding.pry
         until winning_conditions.checkmate?(@board.board) || winning_conditions.resignation?(player_input) ||winning_conditions.stalemate?(@board.board) || winning_conditions.repetition?(@game_history) || winning_conditions.fifty_moves?(@fifty_move_rule_counter)
             #first display the board so players can choose
             current_turn = turn#first we need to determine whos turn it is 

@@ -99,8 +99,8 @@ class Pawn
         #first we need to "loop through the found pieces since it can be more than one"
         
         found_pieces.each do |item|
-            #binding.pry
-            if (item != [] && item.previous_position != nil && item.current_position[0] - 2 == item.previous_position[0] && item.color != self.color)
+            if(item.nil? || item.previous_position.nil?)
+            elsif(item != [] && item.current_position[0] - 2 == item.previous_position[0] && item.color != self.color)
                 @available_moves_values.push([item.previous_position[0] + 1,item.previous_position[1]])
             end
         end
@@ -109,7 +109,8 @@ class Pawn
 
     def verify_passant_backward?(found_pieces)
         found_pieces.each do |item|
-            if (item != [] && item.previous_position != nil && item.current_position[0] + 2 == item.previous_position[0] && item.color != self.color)
+            if(item.nil? || item.previous_position.nil?)
+            elsif (item != [] && item.previous_position != nil && item.current_position[0] + 2 == item.previous_position[0] && item.color != self.color)
                 @available_move_values.push([item.previous_position[0] - 1, item.previous_position[1]])
             end
         end
@@ -217,11 +218,13 @@ class Pawn
         left_move = @current_position[1] + 1
         forward_move = @current_position[0] - 1
         right_move = @current_position[1] - 1
-        if (board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != self.color)
+        if(board_state[forward_move][left_move].nil?)
+            
+        elsif(board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != self.color)
             attackable_positions.push([forward_move,left_move])
         end
-
-        if (board_state[forward_move][right_move].class != String && board_state[forward_move][right_move] != self.color)
+        if(board_state[forward_move][right_move].nil?)
+        elsif(board_state[forward_move][right_move].class != String && board_state[forward_move][right_move] != self.color)
             attackable_positions.push([forward_move,right_move])
         end
         remove_duplicates(attackable_positions)
