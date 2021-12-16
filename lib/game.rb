@@ -9,7 +9,7 @@ require_relative "./game_data/linked_list"
 require "pry-byebug"
 class Game 
     attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history
-    attr_reader :player_list
+    attr_reader :player_list, :winning_conditions
 include GameMessages
     def initialize
         @fifty_move_rule_counter = 0
@@ -18,6 +18,7 @@ include GameMessages
         @player_list = []
         @sets = ChessSet.new
         @game_history = GameHistory.new
+        @winning_conditions = EndConditions.new
     end
 
     def game_run
@@ -37,6 +38,7 @@ include GameMessages
         elsif(game_type = "AI vs AI")
         create_ai(@board.board)
         end
+        @game_history.insert(@board.board)
     end
 
     def create_ai(board_state)
@@ -68,20 +70,21 @@ include GameMessages
     def round
         #so round first starts off by selecting the player round which is kept track by a counter
         #create a winning condition object to place as needed
-        winning_conditions = EndConditions.new
         #now we put those conditions in and we know we can start from the first player
         if(@player_list.all?(AI))
         chosen_piece = @player_list[0].move_choice(@board.board)
         self.ai_round(chosen_piece)
         else
             player_input = "No resignation yet"
-        until winning_conditions.checkmate?(@board.board) || winning_conditions.resignation?(player_input) ||winning_conditions.stalemate?(@board.board) || winning_conditions.repetition?(@game_history) || winning_conditions.fifty_moves?(@fifty_move_rule_counter)
-            #first display the board so players can choose
+            @game_history.insert([@board,@total_turns,@fifty_move_rule_counter])
+        until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter)
+       
+            @game_history.insert([@board,@total_turns,@fifty_move_rule_counter])
             current_turn = turn#first we need to determine whos turn it is 
-            player_input = @player_list[current_turn].select_piece(@board.board)
-            chosen_coordinates = @player_list[current_turn].select_move
-            once we have piece and coordinates we can update the board
-            @board.update_board(chosen_piece,chosen_coordinates)
+            selected_piece = @player_list[current_turn].select_piece(@board.board)
+            chosen_coordinates = @player_list[current_turn].select_move(@board.board)
+            @board.update_board(selected_piece,chosen_coordinates)
+            @total_turns += 1
             #after the board is updated we should restart the loop and display the board again
         end
 

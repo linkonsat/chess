@@ -53,6 +53,6 @@ include GameMessages
     input = gets.chomp 
     until in_board?(input,board_state) && input.length == 2 && right_piece?(input,board_state)
     end
-        return input
+        return [input[0].to_i,input[1].to_i]
 end
 end

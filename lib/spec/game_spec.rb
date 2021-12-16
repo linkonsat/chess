@@ -26,15 +26,14 @@ end
     describe "#round" do 
     subject(:game) {described_class.new}
     it "Runs a game round sucessfully and" do 
-        pawn = double("pawn")
-        
+        rook = double("Rook", :class => "Rook", :current_position => [0,0], :color => "black", :valid_move? => true)
         game.setup
-        allow(game).to receive(:player_turn).and_return(game.player_list[0])
-        allow(game.player_list[0]).to receive(:select_piece).and_return(pawn)
-        allow(game.player_list[0]).to receive(:selected_player_move).and_return([5,5])
+        allow(game.winning_conditions).to receive(:fifty_moves?).and_return(false,true)
+        allow(game.player_list[0]).to receive(:select_move).and_return([5,5],[5,5])
+        allow(game.player_list[0]).to receive(:select_piece).and_return(rook,rook)
         game.round
-        expect(game.board.board[5][5]).to eql(pawn)
-        expect(game.fifty_move_rule_counter).to eql(1)
+        expect(game.board.board[5][5]).to eql(rook)
+        expect(game.fifty_move_rule_counter).to eql(0)
     end
 end
 
