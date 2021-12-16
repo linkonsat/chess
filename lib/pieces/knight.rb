@@ -38,10 +38,10 @@ class Knight
         legal_moves.each do |potential_move|
             new_row = potential_move[0] + current_position[0]
             new_collumn = potential_move[1] + current_position[1]
-            if(board_state[new_row][new_collumn].class == String)
+            if(!board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].class == String)
                 verified_legal_moves.push([new_row,new_collumn])
             end
-            if(board_state[new_row][new_collumn].methods.include?(:color) && board_state[new_row][new_collumn].color != self.color)
+            if(!board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].methods.include?(:color) && board_state[new_row][new_collumn].color != self.color)
                 verified_legal_moves.push([new_row,new_collumn])
             end
         end

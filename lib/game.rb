@@ -74,10 +74,11 @@ include GameMessages
         chosen_piece = @player_list[0].move_choice(@board.board)
         self.ai_round(chosen_piece)
         else
+            player_input = "No resignation yet"
         until winning_conditions.checkmate?(@board.board) || winning_conditions.resignation?(player_input) ||winning_conditions.stalemate?(@board.board) || winning_conditions.repetition?(@game_history) || winning_conditions.fifty_moves?(@fifty_move_rule_counter)
             #first display the board so players can choose
             current_turn = turn#first we need to determine whos turn it is 
-            chosen_piece = @player_list[current_turn].select_piece(@board.board)
+            player_input = @player_list[current_turn].select_piece(@board.board)
             chosen_coordinates = @player_list[current_turn].select_move
             once we have piece and coordinates we can update the board
             @board.update_board(chosen_piece,chosen_coordinates)

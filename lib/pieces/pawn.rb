@@ -203,11 +203,11 @@ class Pawn
         left_move = @current_position[1] + 1
         forward_move = @current_position[0] + 1
         right_move = @current_position[1] - 1
-        if (board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != self.color)
+        if (!board_state[forward_move][left_move].nil? && board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != self.color)
             attackable_positions.push([forward_move,left_move])
         end
 
-        if (board_state[forward_move][right_move].class != String && board_state[forward_move][right_move].color != self.color)
+        if (!board_state[forward_move][right_move].nil? && board_state[forward_move][right_move].class != String && board_state[forward_move][right_move].color != self.color)
             attackable_positions.push([forward_move,right_move])
         end
         remove_duplicates(attackable_positions)
