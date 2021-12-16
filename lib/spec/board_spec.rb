@@ -1,57 +1,56 @@
-#tests should test if a board spot can be changed
-#a set containing board pieces is properly laid according to the format in the set
-require "pry-byebug"
-require_relative "../board"
-describe Board do 
-    describe "#initial_board" do 
+# frozen_string_literal: true
+
+# tests should test if a board spot can be changed
+# a set containing board pieces is properly laid according to the format in the set
+require 'pry-byebug'
+require_relative '../board'
+describe Board do
+  describe '#initial_board' do
     subject(:board) { described_class.new }
-    it "It creates a blank new board initially" do 
-        checked_length = []
-        board.board.each { |row| checked_length.push(row.length)}
-        expect(board.board.length).to eql(8)
+    it 'It creates a blank new board initially' do
+      checked_length = []
+      board.board.each { |row| checked_length.push(row.length) }
+      expect(board.board.length).to eql(8)
     end
-end
-    describe "#place_sets" do 
+  end
+  describe '#place_sets' do
     subject(:board) { described_class.new }
-    it "Sets pieces in the same row as the piece set" do 
-        set_one = Array.new(2) { Array.new(8, 1)}
-        set_two = Array.new(2) {Array.new(8, 2)}
-        subject.set_pieces_standard(set_one,set_two)
-        expect(board.board[0].all?(1)).to eql(true)
-        expect(board.board[1].all?(1)).to eql(true)
-        expect(board.board[7].all?(2)).to eql(true)
-        expect(board.board[6].all?(2)).to eql(true)
+    it 'Sets pieces in the same row as the piece set' do
+      set_one = Array.new(2) { Array.new(8, 1) }
+      set_two = Array.new(2) { Array.new(8, 2) }
+      subject.set_pieces_standard(set_one, set_two)
+      expect(board.board[0].all?(1)).to eql(true)
+      expect(board.board[1].all?(1)).to eql(true)
+      expect(board.board[7].all?(2)).to eql(true)
+      expect(board.board[6].all?(2)).to eql(true)
     end
-end
-    describe "#update_board" do 
+  end
+  describe '#update_board' do
     subject(:board) { described_class.new }
-    it "Updates the board when given new coordinates." do 
-        pawn = double("Pawn", :current_position => [5,5])
-        board.board[5][5] = pawn
-        new_coordinates = [5,5]
-        board.update_board(pawn,new_coordinates)
-        expect(board.board[5][5]).to eql(pawn)
+    it 'Updates the board when given new coordinates.' do
+      pawn = double('Pawn', current_position: [5, 5])
+      board.board[5][5] = pawn
+      new_coordinates = [5, 5]
+      board.update_board(pawn, new_coordinates)
+      expect(board.board[5][5]).to eql(pawn)
     end
 
-    it "Updates the board when a passant move from pawn is entered" do 
-    pawn = double("Pawn", :current_position => [1,1])
-    pawn_enemy = double("Pawn")
-    board.board[1][0] = pawn_enemy
-    board.update_board(pawn,[0,0])
-    expect(board.board[0][0]).to eql(pawn)
-    expect(board.board[1][0]).not_to eql(pawn_enemy)
+    it 'Updates the board when a passant move from pawn is entered' do
+      pawn = double('Pawn', current_position: [1, 1])
+      pawn_enemy = double('Pawn')
+      board.board[1][0] = pawn_enemy
+      board.update_board(pawn, [0, 0])
+      expect(board.board[0][0]).to eql(pawn)
+      expect(board.board[1][0]).not_to eql(pawn_enemy)
     end
-    it "Updates the board when king does a castling move." do 
-    castle = double("Castle")
-    king = double("King", :current_position => [0,4])
-    board.board[0][0] = castle
-    board.board[0][4] = king
-    board.update_board(king,[0,2])
-    expect(board.board[0][2]).to  eql(king)
-    expect(board.board[0][3]).to eql(castle)
+    it 'Updates the board when king does a castling move.' do
+      castle = double('Castle')
+      king = double('King', current_position: [0, 4])
+      board.board[0][0] = castle
+      board.board[0][4] = king
+      board.update_board(king, [0, 2])
+      expect(board.board[0][2]).to eql(king)
+      expect(board.board[0][3]).to eql(castle)
     end
+  end
 end
-
-end
-
-
