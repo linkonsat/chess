@@ -1,26 +1,34 @@
 require_relative "../main_game"
 require_relative "../game"
+require "pry-byebug"
 describe MainGame do 
     describe "#main_interface" do 
     subject(:main_interface) {described_class.new}
     before do 
         allow(Dir).to receive(:exist?).and_return(true)
+        allow(File).to receive(:exist?).and_return(true)
         allow(File).to receive(:open)
     end
     it "Tells the game object to load a saved game if requested" do 
+        p main_interface.game
         allow(main_interface).to receive(:gets).and_return("load")
-        expect(File).to receive(:open).once
+        allow(main_interface.game).to receive(:load).and_return(true)
+        expect(game).to receive(:load_saved_game).once
+        main_interface.main_menu
     end
     it "Sends a message to game to start a new game if requested" do 
-        game = instance_double("Game")
         allow(main_interface).to receive(:gets).and_return("new")
+        allow(main_interface.game).to receive(:game_run).and_return(true)
         expect(game).to receive(:game_run).once
+        main_interface.main_menu
     end
-    it "Throws a error if input does not match any of the options" do 
+    it "Calls itself again if wrong input is entered" do 
         game = instance_double("Game")
-        allow(main_interface).to receive(:gets).and_return("Random")
+        allow(main_interface).to receive(:gets).and_return("Random","Exit")
         expect(File).not_to receive(:open)
         expect(game).not_to receive(:game_run)
+        main_interface.main_menu
     end
+
 end
 end
