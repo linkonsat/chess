@@ -60,4 +60,19 @@ describe Game do
       game.conclusion
     end
   end
+
+  describe "#game_type" do 
+  subject(:game) {described_class.new}
+  it "Loops until AI vs AI is entered." do 
+    allow(game).to receive(:gets).and_return("fun","AI vs AI")
+    game_type = game.game_type
+    expect(game_type).to eql("AI vs AI")
+  end
+  it "Loops until player vs player is entered." do 
+    allow(game).to receive(:gets).and_return("fun","player vs player")
+    game_type = game.game_type 
+    expect(game_type).to eql("player vs player")
+  end
+
+end
 end
