@@ -27,7 +27,7 @@ describe Game do
   end
   describe '#round' do
     subject(:game) { described_class.new }
-    it 'Runs a game round sucessfully and' do
+    it 'Runs a game round sucessfully' do
       rook = double('Rook', class: 'Rook', current_position: [0, 0], color: 'black', valid_move?: true)
       game.setup
       allow(game.winning_conditions).to receive(:fifty_moves?).and_return(false, true)
@@ -37,6 +37,11 @@ describe Game do
       expect(game.board.board[5][5]).to eql(rook)
       expect(game.fifty_move_rule_counter).to eql(0)
     end
+    it "Runs a ai game round successfully"
+    allow(game).to receive(:game_type).and_return("ai vs ai")
+    allow(game).to receive(:gets).and_return("N")
+    game.game_run
+    expect(game).to receive(:conclusion).once
   end
 
   describe '#player_turn' do
@@ -73,6 +78,5 @@ describe Game do
     game_type = game.game_type 
     expect(game_type).to eql("player vs player")
   end
-
 end
 end
