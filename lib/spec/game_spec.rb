@@ -37,12 +37,13 @@ describe Game do
       expect(game.board.board[5][5]).to eql(rook)
       expect(game.fifty_move_rule_counter).to eql(0)
     end
-    it "Runs a ai game round successfully"
-    allow(game).to receive(:game_type).and_return("ai vs ai")
+    it "Runs a ai game round successfully" do
+    allow(game).to receive(:game_type).and_return("AI vs AI")
     allow(game).to receive(:gets).and_return("N")
     game.game_run
     expect(game).to receive(:conclusion).once
   end
+end
 
   describe '#player_turn' do
     subject(:game) { described_class.new }

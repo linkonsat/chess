@@ -34,14 +34,14 @@ class Bishop
 
   def valid_move?(board_state, input)
     if valid_input(board_state, input)
-      legal_moves = available_moves(board_state)
-      valid_move(input, legal_moves)
+      available_moves = legal_moves(board_state)
+      valid_move(input, available_moves)
     else
       false
     end
   end
 
-  def available_moves(board_state)
+  def legal_moves(board_state)
     legal_moves = []
     legal_moves.concat(diagonal_moves_left(board_state, self))
     legal_moves.concat(diagonal_moves_right(board_state, self))
@@ -50,7 +50,7 @@ class Bishop
   end
 
   def valid_input(board_state, input)
-    binding.pry if board_state.nil? || board_state[input[0]].nil?
+  
     if (0..board_state.length).include?(input[0]) && (0..board_state[input[0]].length).include?(input[1])
       true
     else
