@@ -28,7 +28,8 @@ class AI
   def move_choice(board_state)
     found_pieces = gather_pieces(board_state)
     piece_moves = piece_moves(found_pieces)
-    generate_move_choice(found_pieces, piece_moves, board_state)
+    choice = generate_move_choice(found_pieces, piece_moves, board_state)
+    binding.pry
   end
 
   def gather_pieces(board_state)

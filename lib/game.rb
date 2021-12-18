@@ -29,16 +29,16 @@ class Game
     conclusion
   end
 
-  def setup(_game_type = 'player vs player')
+  def setup(game_type = 'player vs player')
     # first we create the players
     black_set = @sets.create_black_set
     white_set = @sets.create_white_set
     @board.set_pieces_standard(white_set, black_set)
     puts @board.display_used_board
-    if (game_type = 'player vs player')
+    if (game_type == 'player vs player')
       chess_sets = [white_set, black_set]
       create_players(chess_sets)
-    elsif (game_type = 'AI vs AI')
+    elsif (game_type == 'AI vs AI')
       create_ai(@board.board)
     end
     @game_history.insert(@board.board)
@@ -75,8 +75,7 @@ class Game
     # create a winning condition object to place as needed
     # now we put those conditions in and we know we can start from the first player
     if @player_list.all?(AI)
-      chosen_piece = @player_list[0].move_choice(@board.board)
-      ai_round(chosen_piece)
+      ai_round
     else
       player_input = 'No resignation yet'
       @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
@@ -94,7 +93,7 @@ class Game
 end
   end
 
-  def ai_round(chosen_piece)
+  def ai_round
     until winning_conditions.checkmate?(@board.board) || winning_conditions.resignation?(player_input) || winning_conditions.stalemate?(@board.board) || winning_conditions.repetition?(@game_history) || winning_conditions.fifty_moves?(@fifty_move_rule_counter)
       @board.display_used_board
       current_turn = turn
@@ -115,5 +114,10 @@ end
     new_game?
     choice = gets.chomp
     game_run if choice == 'Y'
+  end
+
+  def load_saved_game 
+  end
+  def save_game(data)
   end
 end
