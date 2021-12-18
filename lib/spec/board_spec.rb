@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require_relative '../pieces/pawn'
 # tests should test if a board spot can be changed
 # a set containing board pieces is properly laid according to the format in the set
 require 'pry-byebug'
@@ -16,13 +16,14 @@ describe Board do
   describe '#place_sets' do
     subject(:board) { described_class.new }
     it 'Sets pieces in the same row as the piece set' do
-      set_one = Array.new(2) { Array.new(8, 1) }
-      set_two = Array.new(2) { Array.new(8, 2) }
+      pawn = Pawn.new
+      set_one = Array.new(2) { Array.new(8, pawn) }
+      set_two = Array.new(2) { Array.new(8, pawn) }
       subject.set_pieces_standard(set_one, set_two)
-      expect(board.board[0].all?(1)).to eql(true)
-      expect(board.board[1].all?(1)).to eql(true)
-      expect(board.board[7].all?(2)).to eql(true)
-      expect(board.board[6].all?(2)).to eql(true)
+      expect(board.board[0].all?(pawn)).to eql(true)
+      expect(board.board[1].all?(pawn)).to eql(true)
+      expect(board.board[7].all?(pawn)).to eql(true)
+      expect(board.board[6].all?(pawn)).to eql(true)
     end
   end
   describe '#update_board' do
@@ -45,18 +46,19 @@ describe Board do
     end
     it 'Updates the board when king does a castling move.' do
       castle = double('Castle')
-      king = double('King', current_position: => [0, 4])
+      king = double('King', :current_position => [0, 4])
       board.board[0][0] = castle
       board.board[0][4] = king
       board.update_board(king, [0, 2])
       expect(board.board[0][2]).to eql(king)
       expect(board.board[0][3]).to eql(castle)
     end
-    it "Replaces the old piece spot with a blank spot."
+    it "Replaces the old piece spot with a blank spot." do
     castle = double('Castle', :current_position => [0,3])
     board.board[0][3] = castle
     board.update_board(castle,[0,0])
     expect(board.board[0][3]).not_to eql(castle)
     expect(board.board[0][0]).to eql(castle)
   end
+end
 end
