@@ -96,10 +96,13 @@ end
 
   def ai_round  
     until winning_conditions.checkmate?(@board.board) || winning_conditions.stalemate?(@board.board) || winning_conditions.repetition?(@game_history) || winning_conditions.fifty_moves?(@fifty_move_rule_counter)
+      
       @board.display_used_board
       current_turn = turn
+      p current_turn
       move_decision = @player_list[current_turn].move_choice(@board.board)
       @board.update_board(move_decision[0], move_decision[1])
+      #@total_turns += 1
     end
   end
 

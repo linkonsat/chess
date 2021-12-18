@@ -45,12 +45,18 @@ describe Board do
     end
     it 'Updates the board when king does a castling move.' do
       castle = double('Castle')
-      king = double('King', current_position: [0, 4])
+      king = double('King', current_position: => [0, 4])
       board.board[0][0] = castle
       board.board[0][4] = king
       board.update_board(king, [0, 2])
       expect(board.board[0][2]).to eql(king)
       expect(board.board[0][3]).to eql(castle)
     end
+    it "Replaces the old piece spot with a blank spot."
+    castle = double('Castle', :current_position => [0,3])
+    board.board[0][3] = castle
+    board.update_board(castle,[0,0])
+    expect(board.board[0][3]).not_to eql(castle)
+    expect(board.board[0][0]).to eql(castle)
   end
 end

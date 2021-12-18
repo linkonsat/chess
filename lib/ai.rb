@@ -29,7 +29,7 @@ class AI
     found_pieces = gather_pieces(board_state)
     piece_moves = piece_moves(found_pieces,board_state)
     choice = generate_move_choice(found_pieces, piece_moves, board_state)
-    binding.pry
+    return choice
   end
 
   def gather_pieces(board_state)
@@ -53,14 +53,14 @@ class AI
   end
 end
 
-def generate_move_choice(found_pieces, piece_moves, _board_state)
+def generate_move_choice(found_pieces, piece_moves, board_state)
   checked_moves = []
   return false if found_pieces[0].nil? || piece_moves[0].nil?
 
   total_moves = piece_moves.flatten.length
   random_piece = rand(found_pieces.length)
   random_move = rand(piece_moves[random_piece].length)
-  until found_pieces[random_piece].valid_move?(piece_moves[random_piece][random_move])
+  until found_pieces[random_piece].valid_move?(board_state,piece_moves[random_piece][random_move])
     unless piece_moves[random_piece][random_move].nil?
       checked_moves.push(piece_moves[random_piece][random_move])
      end

@@ -148,7 +148,7 @@ class King
     found_moves = []
     # check if a rook exists on either side
 
-    if clear_top_left?(board_state) && board_state[0][0].name == 'Rook' && board_state[0][0].color != 'Black' && current_position[1] == 4 && current_position[0] == 0
+    if clear_top_left?(board_state) && board_state[0][0].class.to_s == 'Rook' && board_state[0][0].color != 'Black' && current_position[1] == 4 && current_position[0] == 0
       left_end = 4 - 2
       until left_end == 5
 
@@ -159,7 +159,7 @@ class King
       end
       end
 
-    if clear_top_right?(board_state) && board_state[0][7].name == 'Rook' && board_state[0][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 0
+    if clear_top_right?(board_state) && board_state[0][7].class.to_s == 'Rook' && board_state[0][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 0
       right_end = 4 + 2
       until right_end == 3
 

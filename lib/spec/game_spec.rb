@@ -5,6 +5,26 @@ require_relative '../game'
 # tests should cover round,conclusion,setup,
 
 describe Game do
+  describe '#round' do
+    subject(:game) { described_class.new }
+    it "Runs a ai game round successfully" do
+      allow(game).to receive(:game_type).and_return("AI vs AI")
+      allow(game).to receive(:gets).and_return("N")
+      game.game_run
+      expect(game).to receive(:conclusion).once
+    end
+    it 'Runs a game round sucessfully' do
+      rook = double('Rook', class: 'Rook', current_position: [0, 0], color: 'black', valid_move?: true)
+      game.setup
+      allow(game.winning_conditions).to receive(:fifty_moves?).and_return(false, true)
+      allow(game.player_list[0]).to receive(:select_move).and_return([5, 5], [5, 5])
+      allow(game.player_list[0]).to receive(:select_piece).and_return(rook, rook)
+      game.round
+      expect(game.board.board[5][5]).to eql(rook)
+      expect(game.fifty_move_rule_counter).to eql(0)
+    end
+  
+end
   describe '#setup' do
     subject(:game) { described_class.new }
     it 'Sets up the accurate game instance variables' do
@@ -25,25 +45,7 @@ describe Game do
       expect(game.player_list[0].color).to eql('white')
     end
   end
-  describe '#round' do
-    subject(:game) { described_class.new }
-    it 'Runs a game round sucessfully' do
-      rook = double('Rook', class: 'Rook', current_position: [0, 0], color: 'black', valid_move?: true)
-      game.setup
-      allow(game.winning_conditions).to receive(:fifty_moves?).and_return(false, true)
-      allow(game.player_list[0]).to receive(:select_move).and_return([5, 5], [5, 5])
-      allow(game.player_list[0]).to receive(:select_piece).and_return(rook, rook)
-      game.round
-      expect(game.board.board[5][5]).to eql(rook)
-      expect(game.fifty_move_rule_counter).to eql(0)
-    end
-    it "Runs a ai game round successfully" do
-    allow(game).to receive(:game_type).and_return("AI vs AI")
-    allow(game).to receive(:gets).and_return("N")
-    game.game_run
-    expect(game).to receive(:conclusion).once
-  end
-end
+  
 
   describe '#player_turn' do
     subject(:game) { described_class.new }

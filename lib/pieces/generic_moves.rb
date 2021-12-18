@@ -93,6 +93,9 @@ module GenericMoves
 
     end
     until start_row_down > board_state[0].length - 1
+      if(board_state[start_row_down][start_collumn_down].nil?)
+        binding.pry
+      end
       if board_state[start_row_down][start_collumn_down].methods.include?(:color) && board_state[start_row_down][start_collumn_down].color == piece.color
         break
       end
@@ -115,7 +118,6 @@ module GenericMoves
     start_collumn_up = piece.current_position[1] - 1
     start_collumn_down = piece.current_position[1] - 1
     until start_row_up < 0 || start_collumn_up > 7
-      p start_row_up
       if board_state[start_row_up][start_collumn_up].methods.include?(:color) && board_state[start_row_up][start_collumn_up].color == piece.color
         break
       end
