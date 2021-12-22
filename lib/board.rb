@@ -24,6 +24,7 @@ class Board
   end
 
   def update_board(piece, new_coordinates)
+    p [piece,new_coordinates]
     if (piece.class.to_s == 'Pawn' && (new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1))
       passant_update = passant_update(piece, new_coordinates)
       @board[passant_update[0]][passant_update[1]] = '|_|'
@@ -33,7 +34,7 @@ class Board
       if new_coordinates[1] < piece.current_position[1]
         @board[new_coordinates[0]][new_castle_coordinates] = @board[new_coordinates[0]][0]
         @board[new_coordinates[0]][0] = '|_|'
-      elsif new_coordinates[1] > piece.current_coordinates[1]
+      elsif new_coordinates[1] > piece.current_position[1]
         @board[new_coordinates[0]][new_castle_coordinates] = @board[new_coordinates[0]][7]
         @board[new_coordinates[0]][7] = '|_|'
       end
@@ -97,7 +98,6 @@ class Board
 
   def display_used_board
     new_board = generate_used_board(@board)
-    p new_board[0]
     puts "#{new_board[0][0]}#{new_board[0][1]}#{new_board[0][2]}#{new_board[0][3]}#{new_board[0][4]}#{new_board[0][5]}#{new_board[0][6]}#{new_board[0][7]}
 #{new_board[1][0]}#{new_board[1][1]}#{new_board[1][2]}#{new_board[1][3]}#{new_board[1][4]}#{new_board[1][5]}#{new_board[1][6]}#{new_board[1][7]}
 #{new_board[2][0]}#{new_board[2][1]}#{new_board[2][2]}#{new_board[2][3]}#{new_board[2][4]}#{new_board[2][5]}#{new_board[2][6]}#{new_board[2][7]}

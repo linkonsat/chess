@@ -145,11 +145,10 @@ class Pawn
 
   def backward_step(validated_moves, input)
     validated_moves.each do |item|
-      # binding.pry
-      vertical_move_value = current_position[0] - item[0]
-      horizontal_move_left = current_position[1] - item[1]
+      vertical_move_value = current_position[0] + item[0]
+      horizontal_move_left = current_position[1] + item[1]
       horizontal_move_right = current_position[1] + item[1]
-      if input[0] == vertical_move_value && input[1] == (horizontal_move_left || input[1] == horizontal_move_right)
+      if (input[0] == vertical_move_value && input[1] == (horizontal_move_left || input[1] == horizontal_move_right))
         return true
           end
     end

@@ -37,7 +37,6 @@ class King
   def valid_move?(board_state, input)
     legal_moves = any_moves?(board_state)
     move_validity = validate_input(legal_moves, input)
-    set_position(input) if move_validity == true
     move_validity
   end
 
@@ -69,7 +68,6 @@ class King
       possible_moves = [[current_position[0] - 1, current_position[1] - 1], [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
       possible_moves.each do |position|
         if (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color)
-        else 
           if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_left.push(position)
           end
@@ -85,7 +83,6 @@ class King
       possible_moves = [[current_position[0], current_position[1] + 1], [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
       possible_moves.each do |position|
         if (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color)
-        else 
           if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_right.push(position)
           end
@@ -97,8 +94,7 @@ class King
   end
 
   def top_move(board_state)
-    if (!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]] != self.color)
-    else
+    if (!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]].color != self.color)
       if((0..7).include?(self.current_position[0] + 1))
       return [[current_position[0] + 1, current_position[1]]]
       end
@@ -106,8 +102,7 @@ class King
   end
 
   def bottom_move(board_state)
-    if (!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]] != self.color)
-    else
+    if (!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]].color != self.color)
       if((0..7).include?(self.current_position[0] - 1))
      return [[current_position[0] - 1, current_position[1]]]
       end
@@ -178,7 +173,7 @@ class King
 
     # check if a rook exists on either side
 
-    if clear_bottom_left?(board_state) && board_state[7][0].name == 'Rook' && board_state[7][0].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
+    if clear_bottom_left?(board_state) && board_state[7][0].class.to_s == 'Rook' && board_state[7][0].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
       left_end = 4 - 2
       until left_end == 5
 
@@ -189,7 +184,7 @@ class King
       end
    end
 
-    if clear_bottom_right?(board_state) && board_state[7][7].name == 'Rook' && board_state[7][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
+    if clear_bottom_right?(board_state) && board_state[7][7].class.to_s == 'Rook' && board_state[7][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
       right_end = 4 + 2
       until right_end == 3
 
