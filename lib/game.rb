@@ -101,7 +101,7 @@ end
       move_decision = @player_list[current_turn].move_choice(@board.board)
       @board.update_board(move_decision[0], move_decision[1])
       @total_turns += 1
-      if(@total_turns == 250)
+      if(@total_turns == 500)
         binding.pry 
       end
     end
