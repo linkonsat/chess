@@ -24,7 +24,6 @@ class Board
   end
 
   def update_board(piece, new_coordinates)
-    p [piece,new_coordinates]
     if (piece.class.to_s == 'Pawn' && (new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1))
       passant_update = passant_update(piece, new_coordinates)
       @board[passant_update[0]][passant_update[1]] = '|_|'

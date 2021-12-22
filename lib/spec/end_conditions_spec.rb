@@ -87,8 +87,8 @@ describe EndConditions do
       expect(end_conditions.fifty_moves?(main_game.no_capture_count)).to eql(true)
     end
     it 'Returns false when move count is not 50.' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      rook = double('Rook', legal_moves: [[0, 0], [1, 1]])
+      board = double('Board', :board => Array.new(8) { Array.new(8, '[]') })
+      rook = double('Rook', :legal_moves => [[0, 0], [1, 1]])
       main_game = double('MainGame', no_capture_count: 25)
       expect(end_conditions.fifty_moves?(main_game.no_capture_count)).to eql(false)
     end
@@ -96,22 +96,22 @@ describe EndConditions do
 
   describe '#repetition?' do
     subject(:end_conditions) { described_class.new }
-    it 'Returns true when board state is repeated three times' do
+    it 'Returns true when board state is repeated five times' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
       rook = double('Rook', color: 'black')
-      captured_piece = double('Pawn', color: 'white')
-      main_game = double('MainGame', move_history: [[board.board], [board.board], [board.board], [board.board], [board.board]])
-      expect(end_conditions.repetition?(main_game.move_history)).to eql(true)
+      captured_piece = double('Pawn', :color => 'white')
+      main_game = double('MainGame', :return_history => [[board.board], [board.board], [board.board], [board.board], [board.board]])
+      expect(end_conditions.repetition?(main_game)).to eql(true)
     end
-    it 'Returns false when the board state is not repeated three times' do
+    it 'Returns false when the board state is not repeated five times' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      changed_board = double('BoardNew', board: Array.new(8) { Array.new(8, '[]') })
-      enemy_piece = double('EnemyPiece', legal_moves: [1, 2])
+      changed_board = double('BoardNew', :board => Array.new(8) { Array.new(8, '[]') })
+      enemy_piece = double('EnemyPiece', :legal_moves => [1, 2])
       changed_board.board[5][5] = enemy_piece
       rook = double('Rook', color: 'black')
-      captured_piece = double('Pawn', color: 'white')
-      main_game = double('MainGame', move_history: [[changed_board.board], [changed_board.board], [board.board], [board.board]])
-      expect(end_conditions.repetition?(main_game.move_history)).to eql(false)
+      captured_piece = double('Pawn', :color => 'white')
+      main_game = double('MainGame', :return_history => [[changed_board.board], [changed_board.board], [board.board], [board.board]])
+      expect(end_conditions.repetition?(main_game)).to eql(false)
     end
   end
 end

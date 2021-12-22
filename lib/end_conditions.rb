@@ -92,10 +92,12 @@ class EndConditions
   def repetition?(move_history)
     move_history_data = move_history.return_history
     board_states = []
-    move_history_data.each { |item| board_states.unshift(item[0].board) }
+    move_history_data.each { |item| board_states.unshift(item) }
 
     board_states.each do |board_state|
-      return true if board_states.count(board_state) >= 6
+      if (board_states.count(board_state) >= 5)
+        return true 
+      end
     end
     false
   end
