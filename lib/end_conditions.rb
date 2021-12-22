@@ -21,17 +21,19 @@ class EndConditions
       available_moves = piece.legal_moves(board_state)
       available_moves.push(piece.current_position)
       available_moves.each do |move|
-        if piece.in_check?(board_state, move) || available_moves.nil?
+        if (piece.in_check?(board_state, move))
           in_check_moves.push(true)
         else
           in_check_moves.push(false)
         end
       end
     end
+    
     if in_check_moves.all?(true)
 
       true
     else
+
       false
       end
   end

@@ -7,6 +7,22 @@ require 'pry-byebug'
 describe EndConditions do
   describe '#checkmate' do
     subject(:end_conditions) { described_class.new }
+    it 'Returns true on king being stuck in checkmate' do
+      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      king = King.new 
+      king.color = 'black'
+      king.set_position([0,7])
+      enemy_piece = Rook.new
+      enemy_piece.color = 'white'
+      enemy_piece.set_position([7,7])
+      enemy_piece_two = Rook.new 
+      enemy_piece_two.color = 'white'
+      enemy_piece_two.set_position([7,6])
+      board.board[0][7] = king
+      board.board[7][7] = enemy_piece
+      board.board[7][6] = enemy_piece_two
+      expect(end_conditions.checkmate?(board.board)).to eql(true)
+    end
 
     it 'Returns false when king can move out of checkmate.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
@@ -35,22 +51,7 @@ describe EndConditions do
       expect(end_conditions.checkmate?(board.board)).to eql(false)
     end
     
-    it 'Returns true on king being stuck in checkmate' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      king = King.new 
-      king.color = 'black'
-      king.set_position([0,7])
-      enemy_piece = Rook.new
-      enemy_piece.color = 'white'
-      enemy_piece.set_position([7,0])
-      enemy_piece_two = Rook.new 
-      enemy_piece_two.color = 'white'
-      enemy_piece_two.set_position([7,6])
-      board.board[0][7] = king
-      board.board[7][0] = enemy_piece
-      board.board[7][6] = enemy_piece_two
-      expect(end_conditions.checkmate?(board.board)).to eql(true)
-    end
+
     it 'Returns false when king can capture a piece to move out of checkmate.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
       king = King.new 
