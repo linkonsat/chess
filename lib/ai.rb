@@ -47,7 +47,10 @@ class AI
   def piece_moves(pieces,board_state)
     possible_moves = []
     pieces.each do |piece|
+      found_legal_moves = piece.legal_moves(board_state)
+      if(!found_legal_moves[0].nil?)
       possible_moves.push(piece.legal_moves(board_state))
+      end
     end
     possible_moves
   end
@@ -55,19 +58,19 @@ end
 
 def generate_move_choice(found_pieces, piece_moves, board_state)
   checked_moves = []
-  return false if found_pieces[0].nil? || piece_moves[0].nil?
-
   total_moves = piece_moves.flatten.length
   random_piece = rand(found_pieces.length)
-  random_move = rand(piece_moves[random_piece].length)
-  until found_pieces[random_piece].valid_move?(board_state,piece_moves[random_piece][random_move])
-    unless piece_moves[random_piece][random_move].nil?
-      checked_moves.push(piece_moves[random_piece][random_move])
+  random_move_set = rand(piece_moves.length - 1)
+  random_move = rand(piece_moves[random_move_set].length - 1)
+
+  until found_pieces[random_piece].valid_move?(board_state,piece_moves[random_move_set][random_move])
+    unless piece_moves[random_move_set][random_move].nil?
+      checked_moves.push(piece_moves[random_move_set][random_move])
      end
     random_piece = rand(found_pieces.length)
-    random_move = rand(piece_moves[random_piece].length)
-    return false if checked_moves.length == total_moves
+    random_move_set = rand(piece_moves.length - 1)
+    random_move = rand(piece_moves[random_move_set].length - 1)
   end
-  [found_pieces[random_piece], piece_moves[random_piece][random_move]]
+  [found_pieces[random_piece], piece_moves[random_move_set][random_move]]
 end
 # select rand up to the number of choices right.

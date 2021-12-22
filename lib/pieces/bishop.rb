@@ -45,21 +45,17 @@ class Bishop
     legal_moves = []
     legal_moves.concat(diagonal_moves_left(board_state, self))
     legal_moves.concat(diagonal_moves_right(board_state, self))
-
     legal_moves
   end
 
   def valid_input(board_state, input)
-    if board_state.nil? 
-      binding.pry
-    end
-    if (0..board_state.length).include?(input[0]) && (0..board_state[input[0]].length).include?(input[1])
+    if (!board_state[input[0]].nil? && (0..board_state[input[0]].length).include?(input[0]) && (0..board_state[input[0]].length).include?(input[1]))
       true
     else
       false
     end
   end
-  
+
   def valid_move(input, legal_moves)
     legal_moves.each do |legal_move|
       return true if input == legal_move

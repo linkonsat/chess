@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+#rewrite king valid move method to actually return true on the proper conditions
 require 'pry-byebug'
 class King
   attr_accessor :color, :current_position, :previous_position, :available_moves_values
@@ -50,7 +50,6 @@ class King
   def any_moves?(board_state)
     # so a move can be one of three ways. the way we could test this is by checking the vertical sides then the middle side
     found_moves = []
-
     found_moves_left = left_vertical_moves(board_state)
     found_moves_left&.each { |item| found_moves.push(item) }
     found_moves_right = right_vertical_moves(board_state)
@@ -65,14 +64,15 @@ class King
   end
 
   def left_vertical_moves(board_state)
-    # binding.pry
     if (0..board_state[current_position[0]].length).include?(current_position[1] - 1)
       valid_verticals_left = []
-      # we loop through the code and if a position isn't higher the conditional above we include it
       possible_moves = [[current_position[0] - 1, current_position[1] - 1], [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
       possible_moves.each do |position|
-        if (0..board_state[current_position[0]].length - 1).include?(position[0])
+        if (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color)
+        else 
+          if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_left.push(position)
+          end
         end
       end
       valid_verticals_left
@@ -84,26 +84,32 @@ class King
       valid_verticals_right = []
       possible_moves = [[current_position[0], current_position[1] + 1], [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
       possible_moves.each do |position|
-        if (0..board_state[current_position[0]].length - 1).include?(position[0])
+        if (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color)
+        else 
+          if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_right.push(position)
+          end
         end
       end
     end
+    #binding.pry
     valid_verticals_right
   end
 
   def top_move(board_state)
-    if !board_state[current_position[0] + 1].nil? && (0..board_state[current_position[0] + 1].length).include?(current_position[1] + 1)
-      if (0..board_state[current_position[0]].length - 1).include?(current_position[0] + 1)
-        [[current_position[0] + 1, current_position[1]]]
+    if (!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]] != self.color)
+    else
+      if((0..7).include?(self.current_position[0] + 1))
+      return [[current_position[0] + 1, current_position[1]]]
       end
     end
   end
 
   def bottom_move(board_state)
-    if !board_state[current_position[0] - 1].nil? && (0..board_state[current_position[0] - 1].length).include?(current_position[0] - 1)
-      if (0..board_state[current_position[0]].length - 1).include?(current_position[0] - 1)
-        [[current_position[0] - 1, current_position[1]]]
+    if (!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]] != self.color)
+    else
+      if((0..7).include?(self.current_position[0] - 1))
+     return [[current_position[0] - 1, current_position[1]]]
       end
     end
   end
@@ -164,9 +170,6 @@ class King
       until right_end == 3
 
         break if in_check?(board_state, [0, right_end])
-
-        p right_end
-
         found_moves.push([0, 6]) if right_end == 4
         right_end -= 1
 
@@ -220,7 +223,9 @@ class King
 
   def validate_input(found_moves, input)
     found_moves.each do |item|
-      return true if !item.nil? && item == input
+      if (!item.nil? && item[0] > 0 && item == input)
+        return true 
+      end
     end
     false
   end

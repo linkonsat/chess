@@ -6,6 +6,7 @@ class EndConditions
     found_kings = []
     board_state.each do |row|
       row.each do |board_cell|
+
         found_kings.push(board_cell) if board_cell.class == King
       end
     end
@@ -16,6 +17,7 @@ class EndConditions
     in_check_moves = []
     i = 0
     found_kings.each do |piece|
+      #piece.legal moves is causing it
       available_moves = piece.legal_moves(board_state)
       available_moves.push(piece.current_position)
       available_moves.each do |move|
@@ -39,20 +41,19 @@ class EndConditions
   end
 
   def stalemate?(board_state)
-    # go through the test and need to gather the appropriate pieces
+    # go through the test and need to gather the appropriate pieces\
     result = check_board_pieces(board_state)
-    # binding.pry
+
     stalemate_check?(result)
+
   end
 
   def check_board_pieces(board_state)
     first_set = []
     second_set = []
-
     board_state.each do |row|
       row.each do |board_cell|
         # if its nil just push it to the first set
-
         if board_cell.class != String
           if first_set[0].nil? || board_cell.color == first_set[0].color
             first_set.push(board_cell)

@@ -42,7 +42,8 @@ class Queen
   end
 
   def valid_input?(board_state, input)
-    if (0..board_state.length - 1).include?(input[0]) && (0..board_state[input[0]].length - 1).include?(input[1])
+  
+    if (!board_state[input[0]].nil? && (0..board_state[input[0]].length - 1).include?(input[0]) && (0..board_state[input[0]].length - 1).include?(input[1]))
       true
     else
       false

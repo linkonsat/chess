@@ -57,7 +57,7 @@ class Rook
   end
 
   def verify_input?(board_state, input)
-    if (0..board_state[0].length).include?(input[0]) && (0..board_state[0].length).include?(input[1])
+    if ((0..board_state[0].length - 1).include?(input[0]) && (0..board_state[0].length - 1).include?(input[1]))
       true
     else
       false

@@ -24,11 +24,11 @@ class Board
   end
 
   def update_board(piece, new_coordinates)
-    if piece.class.to_s == 'Pawn' && new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1
+    if (piece.class.to_s == 'Pawn' && (new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1))
       passant_update = passant_update(piece, new_coordinates)
       @board[passant_update[0]][passant_update[1]] = '|_|'
       @board[new_coordinates[0]][new_coordinates[1]] = piece
-    elsif piece.class.to_s == 'King' && new_coordinates[1] == piece.current_position[1] + 2 || new_coordinates[1] == piece.current_position[1] - 2
+    elsif (piece.class.to_s == 'King' && (new_coordinates[1] == piece.current_position[1] + 2 || new_coordinates[1] == piece.current_position[1] - 2))
       new_castle_coordinates = castle_coordinates(piece, new_coordinates)
       if new_coordinates[1] < piece.current_position[1]
         @board[new_coordinates[0]][new_castle_coordinates] = @board[new_coordinates[0]][0]
@@ -39,8 +39,9 @@ class Board
       end
       @board[new_coordinates[0]][new_coordinates[1]] = piece
     else
-      @board[piece.current_position[0]][piece.current_position[1]] = '|_|'
       @board[new_coordinates[0]][new_coordinates[1]] = piece
+      @board[piece.current_position[0]][piece.current_position[1]] = '|_|'
+      piece.set_position(new_coordinates)
     end
   end
 
@@ -75,9 +76,7 @@ class Board
     board.each_with_index do |row, row_index|
       current_row = []
       row.each_with_index do |board_cell, index|
-        # binding.pry
         if board_cell.methods.include?(:generate_symbol) && index.even? && row_index.even?
-          # binding.pry
           current_row.push("\033[48;5;57m|#{board_cell.generate_symbol}|\033[0m")
         elsif board_cell.methods.include?(:generate_symbol) && index.odd? && row_index.odd?
           current_row.push("\033[48;5;57m|#{board_cell.generate_symbol}|\033[0m")
@@ -98,6 +97,7 @@ class Board
 
   def display_used_board
     new_board = generate_used_board(@board)
+    p new_board[0]
     puts "#{new_board[0][0]}#{new_board[0][1]}#{new_board[0][2]}#{new_board[0][3]}#{new_board[0][4]}#{new_board[0][5]}#{new_board[0][6]}#{new_board[0][7]}
 #{new_board[1][0]}#{new_board[1][1]}#{new_board[1][2]}#{new_board[1][3]}#{new_board[1][4]}#{new_board[1][5]}#{new_board[1][6]}#{new_board[1][7]}
 #{new_board[2][0]}#{new_board[2][1]}#{new_board[2][2]}#{new_board[2][3]}#{new_board[2][4]}#{new_board[2][5]}#{new_board[2][6]}#{new_board[2][7]}

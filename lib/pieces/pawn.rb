@@ -26,7 +26,9 @@ class Pawn
 
   def valid_move?(board_state, input)
     validated_moves = legal_moves(board_state)
-    if forward_step(validated_moves, input) || backward_step(validated_moves, input)
+    if (self.default_moves[0][0] > 0 && forward_step(validated_moves, input)) 
+      return true 
+    elsif (self.default_moves[0][0] < 0 && backward_step(validated_moves, input))
       true
 
     else
@@ -37,13 +39,12 @@ class Pawn
   def legal_moves(board_state)
     @available_move_values = []
     initial_moves(board_state) if @previous_position.nil?
-    # binding.pry
     two_step_available(board_state)
-    if @default_moves[0][0] < 0
+    if (@default_moves[0][0] < 0)
       is_blocked_backward(board_state)
       is_attackable_backward(board_state)
       passant_forward(board_state)
-    elsif @default_moves[0][0] > 0
+    elsif (@default_moves[0][0] > 0)
       is_blocked_forward(board_state)
       is_attackable_forward(board_state)
       passant_backward(board_state)
@@ -233,3 +234,4 @@ class Pawn
     end
   end
 end
+

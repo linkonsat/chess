@@ -16,6 +16,7 @@ describe Game do
     it 'Runs a game round sucessfully' do
       rook = double('Rook', class: 'Rook', current_position: [0, 0], color: 'black', valid_move?: true)
       game.setup
+      game.board.board[5][5] = rook
       allow(game.winning_conditions).to receive(:fifty_moves?).and_return(false, true)
       allow(game.player_list[0]).to receive(:select_move).and_return([5, 5], [5, 5])
       allow(game.player_list[0]).to receive(:select_piece).and_return(rook, rook)
