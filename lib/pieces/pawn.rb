@@ -98,8 +98,8 @@ class Pawn
 
     found_pieces.each do |item|
       if item.nil? || item.previous_position.nil?
-      elsif item != [] && item.current_position[0] - 2 == item.previous_position[0] && item.color != color
-        @available_moves_values.push([item.previous_position[0] + 1, item.previous_position[1]])
+      elsif (item != [] && item.current_position[0] - 2 == item.previous_position[0] && item.color != color)
+        @available_move_values.push([item.previous_position[0] + 1, item.previous_position[1]])
       end
     end
   end

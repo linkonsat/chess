@@ -153,7 +153,9 @@ class King
       left_end = 4 - 2
       until left_end == 5
 
-        break if in_check?(board_state, [0, left_end])
+        if (in_check?(board_state, [0, left_end]))
+          break 
+        end
 
         found_moves.push([0, 2]) if left_end == 4
         left_end += 1
@@ -187,7 +189,7 @@ class King
     if clear_bottom_right?(board_state) && board_state[7][7].class.to_s == 'Rook' && board_state[7][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
       right_end = 4 + 2
       until right_end == 3
-
+        p right_end
         break if in_check?(board_state, [7, right_end])
 
         found_moves.push([7, 6]) if right_end == 4
