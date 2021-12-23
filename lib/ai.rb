@@ -29,6 +29,7 @@ class AI
     found_pieces = gather_pieces(board_state)
     piece_moves = piece_moves(found_pieces,board_state)
     choice = generate_move_choice(found_pieces, piece_moves, board_state)
+    
     return choice
   end
 

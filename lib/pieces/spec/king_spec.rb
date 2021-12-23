@@ -80,7 +80,7 @@ describe King do
 
   describe '#check_cause_pieces' do 
   subject(:king) { described_class.new }
-  it 'Returns false when in check but another piece can capture the piece placeing it in check.' do
+  it 'Gathers all the pieces on the board placing it in check.' do
     board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
     king.color = 'black'
     king.set_position([0,7])
@@ -93,7 +93,7 @@ describe King do
     board.board[0][7] = king
     board.board[7][7] = enemy_piece
     board.board[7][6] = enemy_piece_two
-    expect(king.check_cause_pieces).to eql(enemy_piece)
+    expect(king.check_cause_pieces(board.board)).to eql([enemy_piece])
   end
 end
   describe '#check_removal_pieces' do 
@@ -112,19 +112,14 @@ end
     ally_piece = Knight.new 
     ally_piece.color = 'black'
     ally_piece.set_position([6,5])
+    ally_piece_two = Knight.new 
+    ally_piece_two.color = 'black'
+    ally_piece_two.set_position([5,6])
     board.board[6][5] = ally_piece
     board.board[7][7] = enemy_piece
     board.board[7][6] = enemy_piece_two
-    expect(king.check_removal_pieces).to eql(ally_piece)
+    board.board[5][6] = ally_piece_two
+    expect(king.check_removal_pieces(board.board)).to eql([ally_piece_two,ally_piece])
   end
 end
 end
-a = Array.new(3) { Array.new(3) { Array.new(3, 0) } }
-b = [0,0,0]
-found_axis = nil
-i = 0
-timesss = b.length + 1
-timesss.times do 
-    found_axis = a[i]
-    puts found_axis[i]
-  end

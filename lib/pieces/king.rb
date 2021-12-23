@@ -226,4 +226,30 @@ class King
     end
     false
   end
+
+  def check_cause_pieces(board_state)
+    found_pieces = []
+    board_state.each do |row|
+      row.each do |board_cell|
+        if(board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,[self.current_position[0],self.current_position[1]]))
+          found_pieces.push(board_cell)
+        end
+      end
+    end
+    return found_pieces
+  end
+
+  def check_removal_pieces(board_state)
+    found_pieces = check_cause_pieces(board_state)
+    available_pieces = []
+    board_state.each do |row|
+      row.each do |board_cell|
+        if(board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,[found_pieces[0].current_position[0],found_pieces[0].current_position[1]]))
+          available_pieces.push(board_cell)
+        end
+      end
+    end
+    return available_pieces
+  end
+          
 end
