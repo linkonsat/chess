@@ -119,3 +119,12 @@ end
   end
 end
 end
+a = Array.new(3) { Array.new(3) { Array.new(3, 0) } }
+b = [0,0,0]
+found_axis = nil
+i = 0
+timesss = b.length + 1
+timesss.times do 
+    found_axis = a[i]
+    puts found_axis[i]
+  end

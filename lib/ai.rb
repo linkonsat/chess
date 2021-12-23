@@ -57,6 +57,9 @@ class AI
 end
 
 def generate_move_choice(found_pieces, piece_moves, board_state)
+  if(piece_moves.flatten.empty?)
+    return false 
+  end
   checked_moves = []
   total_moves = piece_moves.flatten.length
   random_piece = rand(found_pieces.length)
