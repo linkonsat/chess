@@ -4,6 +4,9 @@
 # After ai selects a piece will keep in put random numbers until a valid move is selected and then returns said value
 # AI also selects a random color or can be assigned a color if non is given through set color
 require_relative '../ai'
+require_relative '../pieces/knight'
+require_relative '../pieces/rook'
+require_relative '../pieces/king'
 describe AI do
   describe '#move_choice' do
     subject(:ai) { described_class.new }
@@ -31,6 +34,26 @@ describe AI do
       board.board[0][0] = pawn
       ai.color = 'black'
       expect(ai.move_choice(board.board)).to eql([pawn, [1, 1]])
+    end
+
+    it 'Returns the piece and a set of valid coordinates when forced to capture a piece to cancel checkmate.' do
+      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      knight = Knight.new
+      knight.color = 'black'
+      knight.set_position([6,5])
+      king.color = 'black'
+      king.set_position([0,7])
+      enemy_piece = Rook.new
+      enemy_piece.color = 'white'
+      enemy_piece.set_position([7,7])
+      enemy_piece_two = Rook.new 
+      enemy_piece_two.color = 'white'
+      enemy_piece_two.set_position([7,6])
+      board.board[0][7] = king
+      board.board[7][7] = enemy_piece
+      board.board[7][6] = enemy_piece_two
+      board.board[6][5] = knight
+      expect(king.check_cause_pieces(board.board)).to eql([enemy_piece])
     end
 
   end
