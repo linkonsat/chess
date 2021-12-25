@@ -10,15 +10,20 @@ require_relative '../pieces/king'
 describe AI do
   describe '#move_choice' do
     subject(:ai) { described_class.new }
-    it 'Returns false if no moves are available.' do
+
+    it 'Moves out of checkmate if king is in checkmate.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      pawn = double('Pawn', color: 'black', legal_moves: [], valid_move?: false)
-      board.board[0][0] = pawn
-      board.board[5][5] = King.new
-      board.board[5][5].color = "black"
-      board.board[5][5].set_position([5,5])
-      ai.color = 'black'
-      expect(ai.move_choice(board.board)).to eq(false)
+      ai.color = "black"
+      king = King.new
+      king.color = 'black'
+      king.set_position([0,7])
+      enemy_piece = Rook.new
+      enemy_piece.color = 'white'
+      enemy_piece.set_position([7,7])
+      board.board[0][7] = king
+      board.board[7][7] = enemy_piece
+      move = ai.move_choice(board.board)
+      expect(move.flatten.include?(6)).to eql(true)
     end
 
     it 'Finds the matching pieces on the board and returns the valid move and moves to another piece if there are no legal moves.' do
@@ -67,20 +72,6 @@ describe AI do
       expect(ai.move_choice(board.board)).to eql([knight,[7,7]])
     end
 
-    it 'Moves out of checkmate if king is in checkmate.' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      ai.color = "black"
-      king = King.new
-      king.color = 'black'
-      king.set_position([0,7])
-      enemy_piece = Rook.new
-      enemy_piece.color = 'white'
-      enemy_piece.set_position([7,7])
-      board.board[0][7] = king
-      board.board[7][7] = enemy_piece
-      move = ai.move_choice(board.board))
-      expect(move.flatten.include?(6)).to eql(true)
-    end
 
   end
 

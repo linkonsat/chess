@@ -41,48 +41,44 @@ class King
   end
 
   def legal_moves(board_state)
-    @available_move_values = []
-    # so now we want to get the current board position as a reference to our moves
-    @available_move_values = any_moves?(board_state)
+    moves = any_moves?(board_state)
+    return moves
   end
 
   def any_moves?(board_state)
     # so a move can be one of three ways. the way we could test this is by checking the vertical sides then the middle side
     found_moves = []
-    found_moves_left = left_vertical_moves(board_state)
-    found_moves_left&.each { |item| found_moves.push(item) }
-    found_moves_right = right_vertical_moves(board_state)
-    found_moves_right&.each { |item| found_moves.push(item) }
-    found_moves_top = top_move(board_state)
-    found_moves_top&.each { |item| found_moves.push(item) }
-    found_moves_bottom = bottom_move(board_state)
-    found_moves_bottom&.each { |item| found_moves.push(item) }
-    found_moves_casteling = found_moves_casteling(board_state)
-    found_moves_casteling&.each { |item| found_moves.push(item) }
+    found_moves.concat(left_vertical_moves(board_state))
+    found_moves.concat(right_vertical_moves(board_state))
+    found_moves.concat(top_move(board_state))
+    found_moves.concat(bottom_move(board_state))
+    found_moves.concat(found_moves_casteling(board_state))
     found_moves
   end
 
   def left_vertical_moves(board_state)
+    valid_verticals_left = []
     if (0..board_state[current_position[0]].length).include?(current_position[1] - 1)
-      valid_verticals_left = []
+
       possible_moves = [[current_position[0] - 1, current_position[1] - 1], [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
+      
       possible_moves.each do |position|
-        if (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color)
+        if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color) || board_state[position[0]][position[1]].class == String)
           if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_left.push(position)
           end
         end
       end
-      valid_verticals_left
     end
+    return valid_verticals_left
   end
 
   def right_vertical_moves(board_state)
+    valid_verticals_right = []
     if (0..board_state[current_position[0]].length).include?(current_position[1] + 1)
-      valid_verticals_right = []
       possible_moves = [[current_position[0], current_position[1] + 1], [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
       possible_moves.each do |position|
-        if (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color)
+        if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color || board_state[position[0]][position[1]].class == String))
           if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_right.push(position)
           end
@@ -90,23 +86,25 @@ class King
       end
     end
     #binding.pry
-    valid_verticals_right
+    return valid_verticals_right
   end
 
   def top_move(board_state)
-    if (!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]].color != self.color)
+    if ((!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]].color != self.color || board_state[self.current_position[0] + 1][self.current_position[1]].class == String))
       if((0..7).include?(self.current_position[0] + 1))
       return [[current_position[0] + 1, current_position[1]]]
       end
     end
+    return []
   end
 
   def bottom_move(board_state)
-    if (!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]].color != self.color)
+    if ((!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]].color != self.color || board_state[self.current_position[0] - 1][self.current_position[1]].class == String))
       if((0..7).include?(self.current_position[0] - 1))
      return [[current_position[0] - 1, current_position[1]]]
       end
     end
+    return []
   end
 
   def clear_top_left?(board_state)
