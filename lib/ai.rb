@@ -33,7 +33,7 @@ class AI
       found_moves = []
       king_moves.each do |move|
         if(!found_king[0].in_check?(board_state,move))
-          return move 
+          return [found_king[0],move] 
         end
       end
       if(!found_king[0].check_removal_pieces(board_state).empty?)

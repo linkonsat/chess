@@ -67,6 +67,21 @@ describe AI do
       expect(ai.move_choice(board.board)).to eql([knight,[7,7]])
     end
 
+    it 'Moves out of checkmate if king is in checkmate.' do
+      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      ai.color = "black"
+      king = King.new
+      king.color = 'black'
+      king.set_position([0,7])
+      enemy_piece = Rook.new
+      enemy_piece.color = 'white'
+      enemy_piece.set_position([7,7])
+      board.board[0][7] = king
+      board.board[7][7] = enemy_piece
+      move = ai.move_choice(board.board))
+      expect(move.flatten.include?(6)).to eql(true)
+    end
+
   end
 
   describe '#piece_moves' do
