@@ -28,6 +28,9 @@ class AI
   def move_choice(board_state)
     found_pieces = gather_pieces(board_state)
     found_king = found_pieces.select { |piece| (piece.class.to_s == "King" && piece.color == self.color)}
+    if(found_king[0].nil?)
+      binding.pry 
+    end
     if(found_king[0].in_check?(board_state,found_king[0].current_position))
       king_moves = found_king[0].legal_moves(board_state)
       found_moves = []

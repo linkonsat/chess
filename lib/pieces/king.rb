@@ -36,13 +36,26 @@ class King
 
   def valid_move?(board_state, input)
     legal_moves = any_moves?(board_state)
-    move_validity = validate_input(legal_moves, input)
+    validated_moves = remove_in_check_moves(board_state,legal_moves)
+    move_validity = validate_input(validated_moves, input)
     move_validity
   end
 
+  def remove_in_check_moves(board_state,legal_moves)
+    board_state.each do |row|
+      row.each do |board_cell|
+        if(board_cell.methods.include?(:legal_moves))
+          found_moves = board_cell.legal_moves(board_state)
+          legal_moves.delete_if {|move| found_moves.any?(move) }
+        end
+      end
+    end
+    return legal_moves
+  end
   def legal_moves(board_state)
     moves = any_moves?(board_state)
-    return moves
+    validated_moves = remove_in_check_moves(board_state,moves)
+    return validated_moves
   end
 
   def any_moves?(board_state)
@@ -63,7 +76,7 @@ class King
       possible_moves = [[current_position[0] - 1, current_position[1] - 1], [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
       
       possible_moves.each do |position|
-        if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color) || board_state[position[0]][position[1]].class == String)
+        if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].class == String))
           if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_left.push(position)
           end
@@ -78,7 +91,7 @@ class King
     if (0..board_state[current_position[0]].length).include?(current_position[1] + 1)
       possible_moves = [[current_position[0], current_position[1] + 1], [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
       possible_moves.each do |position|
-        if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color || board_state[position[0]][position[1]].class == String))
+        if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].class == String))
           if((0..7).include?(position[0]) && (0..7).include?(position[1]))
           valid_verticals_right.push(position)
           end
@@ -90,7 +103,7 @@ class King
   end
 
   def top_move(board_state)
-    if ((!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]].color != self.color || board_state[self.current_position[0] + 1][self.current_position[1]].class == String))
+    if ((!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]].color != self.color) || (!board_state[self.current_position[0] + 1 ].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].class == String))
       if((0..7).include?(self.current_position[0] + 1))
       return [[current_position[0] + 1, current_position[1]]]
       end
@@ -99,7 +112,7 @@ class King
   end
 
   def bottom_move(board_state)
-    if ((!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]].color != self.color || board_state[self.current_position[0] - 1][self.current_position[1]].class == String))
+    if ((!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]].color != self.color) || (!board_state[self.current_position[0] - 1 ].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].class == String))
       if((0..7).include?(self.current_position[0] - 1))
      return [[current_position[0] - 1, current_position[1]]]
       end
