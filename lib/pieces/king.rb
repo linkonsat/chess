@@ -203,9 +203,7 @@ class King
   end
 
   def in_check?(board_state, coordinates)
-    board_state.each do |board_row|
-      # check each board row and see if if the coordinates and if so return true else return als
-      # binding.pry
+    board_state.each do |board_row|   
       board_row.each do |board_cell|
         if (board_cell.class != String && board_cell.color != color && board_cell.valid_move?(board_state, coordinates))
 

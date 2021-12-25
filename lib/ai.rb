@@ -27,12 +27,36 @@ class AI
 
   def move_choice(board_state)
     found_pieces = gather_pieces(board_state)
+    found_king = found_pieces.select { |piece| (piece.class.to_s == "King" && piece.color == self.color)}
+    if(found_king[0].in_check?(board_state,found_king[0].current_position))
+      king_moves = found_king[0].legal_moves(board_state)
+      found_moves = []
+      king_moves.each do |move|
+        if(!found_king[0].in_check?(board_state,move))
+          return move 
+        end
+      end
+      if(!found_king[0].check_removal_pieces(board_state).empty?)
+        possible_pieces = found_king[0].check_removal_pieces(board_state)
+        checkmate_cause_pieces = found_king[0].check_cause_pieces(board_state)
+        selected_piece = find_removal_move(board_state,possible_pieces,checkmate_cause_pieces)
+        return selected_piece
+      end
+    end
     piece_moves = piece_moves(found_pieces,board_state)
     choice = generate_move_choice(found_pieces, piece_moves, board_state)
-    
+  
     return choice
   end
-
+  def find_removal_move(board_state,possible_pieces,checkmate_cause_pieces)
+    checkmate_cause_pieces.each do |piece|
+      possible_pieces.each do |capture_piece|
+        if(capture_piece.valid_move?(board_state,piece.current_position))
+          return [capture_piece,piece.current_position]
+        end
+      end
+    end
+  end
   def gather_pieces(board_state)
     found_pieces = []
     board_state.each do |row|
@@ -42,7 +66,7 @@ class AI
           end
       end
     end
-    found_pieces
+    return found_pieces
   end
 
   def piece_moves(pieces,board_state)

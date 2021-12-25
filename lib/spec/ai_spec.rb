@@ -14,6 +14,9 @@ describe AI do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
       pawn = double('Pawn', color: 'black', legal_moves: [], valid_move?: false)
       board.board[0][0] = pawn
+      board.board[5][5] = King.new
+      board.board[5][5].color = "black"
+      board.board[5][5].set_position([5,5])
       ai.color = 'black'
       expect(ai.move_choice(board.board)).to eq(false)
     end
@@ -25,6 +28,9 @@ describe AI do
       board.board[0][0] = pawn
       board.board[0][1] = pawn_second
       ai.color = 'black'
+      board.board[5][5] = King.new
+      board.board[5][5].color = "black"
+      board.board[5][5].set_position([5,5])
       expect(ai.move_choice(board.board)).to eql([pawn_second, [1, 1]])
     end
     
@@ -33,14 +39,19 @@ describe AI do
       pawn = double('Pawn', color: 'black', legal_moves: [[1, 1]], valid_move?: true)
       board.board[0][0] = pawn
       ai.color = 'black'
+      board.board[5][5] = King.new
+      board.board[5][5].color = "black"
+      board.board[5][5].set_position([5,5])
       expect(ai.move_choice(board.board)).to eql([pawn, [1, 1]])
     end
 
     it 'Returns the piece and a set of valid coordinates when forced to capture a piece to cancel checkmate.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      ai.color = "black"
       knight = Knight.new
       knight.color = 'black'
       knight.set_position([6,5])
+      king = King.new
       king.color = 'black'
       king.set_position([0,7])
       enemy_piece = Rook.new
@@ -53,7 +64,7 @@ describe AI do
       board.board[7][7] = enemy_piece
       board.board[7][6] = enemy_piece_two
       board.board[6][5] = knight
-      expect(king.check_cause_pieces(board.board)).to eql([enemy_piece])
+      expect(ai.move_choice(board.board)).to eql([knight,[7,7]])
     end
 
   end
