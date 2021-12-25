@@ -6,6 +6,19 @@ require_relative '../knight'
 describe King do
   # test should describe a valid move? Any move is valid so long as it is not off board and does NOT go into check
   # King also can perform a castling move
+  describe "#remove_in_check_moves" do 
+  subject(:king) {described_class.new}
+  it "Removes any moves that are in check by an enemy piece"
+  board = double("Board", :board => Array.new(8) {Array.new(8, "|_|")})
+  board.board[0][7] = king 
+  board.board[0][7].color = "black"
+  board.board[0][7].set_position([0,7])
+  board.board[7][6] = Rook.new 
+  board.board[7][6].color = "white"
+  board.board[7][6].set_position([7,6])
+  expect(board.board[0][7].remove_in_check_moves(board.board,[[0,6],[1,6],[1,7]])).to eql([1,7]) 
+  expect(board.board[0][7].valid_move?(board.board,[1,7]))
+end
 
   describe '#in_check?' do
     subject(:king) { described_class.new }
