@@ -6,47 +6,13 @@ require_relative '../knight'
 describe King do
   # test should describe a valid move? Any move is valid so long as it is not off board and does NOT go into check
   # King also can perform a castling move
-  describe "#remove_in_check_moves" do 
-  subject(:king) {described_class.new}
-  it "Removes any moves that are in check by an enemy piece"
-  board = double("Board", :board => Array.new(8) {Array.new(8, "|_|")})
-  board.board[0][7] = king 
-  board.board[0][7].color = "black"
-  board.board[0][7].set_position([0,7])
-  board.board[7][6] = Rook.new 
-  board.board[7][6].color = "white"
-  board.board[7][6].set_position([7,6])
-  expect(board.board[0][7].remove_in_check_moves(board.board,[[0,6],[1,6],[1,7]])).to eql([1,7]) 
-  expect(board.board[0][7].valid_move?(board.board,[1,7]))
-end
-
-  describe '#in_check?' do
-    subject(:king) { described_class.new }
-
-    it 'Does not allow king to move itself into check' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      pawn = double('Pawn', valid_move?: true, color: 'white')
-      board.board[0][0] = king
-      board.board[0][0].set_position([0, 0])
-      board.board[2][1] = pawn
-      expect(board.board[0][0].in_check?(board.board, [1, 0])).to eql(true)
-    end
-
-    it 'Does returns true when king is put into check' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      pawn = double('Pawn', valid_move?: true, color: 'white')
-      board.board[0][0] = king
-      board.board[1][1] = pawn
-      expect(board.board[0][0].in_check?(board.board, [0, 0])).to eql(true)
-    end
-  end
 
   describe '#castleing_available?' do
     subject(:king) { described_class.new }
 
     it 'Allows casteling when the king or spaces are not under check.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      rook = double('Rook', color: 'black', valid_move?: false, name: 'Rook')
+      rook = double('Rook', color: 'black', valid_move?: false, :class => 'Rook')
       bottom_king = King.new
       top_king = king
       board.board[0][4] = bottom_king
@@ -72,6 +38,40 @@ end
     end
   end
 
+  describe "#remove_in_check_moves" do 
+  subject(:king) {described_class.new}
+  it "Removes any moves that are in check by an enemy piece" do 
+  board = double("Board", :board => Array.new(8) {Array.new(8, "|_|")})
+  board.board[0][7] = king 
+  board.board[0][7].color = "black"
+  board.board[0][7].set_position([0,7])
+  board.board[7][6] = Rook.new 
+  board.board[7][6].color = "white"
+  board.board[7][6].set_position([7,6])
+  expect(board.board[0][7].remove_in_check_moves(board.board,[[0,6],[1,6],[1,7]])).to eql([[1,7]]) 
+  expect(board.board[0][7].valid_move?(board.board,[1,7]))
+end
+end
+  describe '#in_check?' do
+    subject(:king) { described_class.new }
+
+    it 'Does not allow king to move itself into check' do
+      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      pawn = double('Pawn', valid_move?: true, color: 'white')
+      board.board[0][0] = king
+      board.board[0][0].set_position([0, 0])
+      board.board[2][1] = pawn
+      expect(board.board[0][0].in_check?(board.board, [1, 0])).to eql(true)
+    end
+
+    it 'Does returns true when king is put into check' do
+      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      pawn = double('Pawn', valid_move?: true, color: 'white')
+      board.board[0][0] = king
+      board.board[1][1] = pawn
+      expect(board.board[0][0].in_check?(board.board, [0, 0])).to eql(true)
+    end
+  end
   describe '#valid_move?' do
     subject(:king) { described_class.new }
 

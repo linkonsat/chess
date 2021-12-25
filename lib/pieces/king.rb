@@ -44,7 +44,7 @@ class King
   def remove_in_check_moves(board_state,legal_moves)
     board_state.each do |row|
       row.each do |board_cell|
-        if(board_cell.methods.include?(:legal_moves))
+        if(board_cell.methods.include?(:legal_moves) && board_cell.color != self.color)
           found_moves = board_cell.legal_moves(board_state)
           legal_moves.delete_if {|move| found_moves.any?(move) }
         end
@@ -66,7 +66,7 @@ class King
     found_moves.concat(top_move(board_state))
     found_moves.concat(bottom_move(board_state))
     found_moves.concat(found_moves_casteling(board_state))
-    found_moves
+    return found_moves
   end
 
   def left_vertical_moves(board_state)
@@ -159,26 +159,28 @@ class King
   def found_moves_casteling(board_state)
     found_moves = []
     # check if a rook exists on either side
-
-    if clear_top_left?(board_state) && board_state[0][0].class.to_s == 'Rook' && board_state[0][0].color != 'Black' && current_position[1] == 4 && current_position[0] == 0
+    if clear_top_left?(board_state) && board_state[0][0].class.to_s == "Rook" && board_state[0][0].color == self.color && current_position[1] == 4 && current_position[0] == 0
       left_end = 4 - 2
       until left_end == 5
-
         if (in_check?(board_state, [0, left_end]))
           break 
         end
-
-        found_moves.push([0, 2]) if left_end == 4
+        if (left_end == 4)
+        found_moves.push([0, 2]) 
+        end
         left_end += 1
       end
       end
-
-    if clear_top_right?(board_state) && board_state[0][7].class.to_s == 'Rook' && board_state[0][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 0
+    if clear_top_right?(board_state) && board_state[0][7].class.to_s == "Rook" && board_state[0][7].color == self.color && current_position[1] == 4 && current_position[0] == 0
       right_end = 4 + 2
       until right_end == 3
 
-        break if in_check?(board_state, [0, right_end])
-        found_moves.push([0, 6]) if right_end == 4
+        if (in_check?(board_state, [0, right_end]))
+          break 
+        end
+        if (right_end == 4)
+        found_moves.push([0, 6]) 
+        end
         right_end -= 1
 
       end
@@ -186,7 +188,7 @@ class King
 
     # check if a rook exists on either side
 
-    if clear_bottom_left?(board_state) && board_state[7][0].class.to_s == 'Rook' && board_state[7][0].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
+    if clear_bottom_left?(board_state) && board_state[7][0].class.to_s == "Rook" && board_state[7][0].color == self.color && current_position[1] == 4 && current_position[0] == 7
       left_end = 4 - 2
       until left_end == 5
 
@@ -197,7 +199,7 @@ class King
       end
    end
 
-    if clear_bottom_right?(board_state) && board_state[7][7].class.to_s == 'Rook' && board_state[7][7].color != 'Black' && current_position[1] == 4 && current_position[0] == 7
+    if clear_bottom_right?(board_state) && board_state[7][7].class.to_s == "Rook" && board_state[7][7].color == self.color && current_position[1] == 4 && current_position[0] == 7
       right_end = 4 + 2
       until right_end == 3
         p right_end
@@ -210,7 +212,7 @@ class King
   end
 
     # return false if no conditions are true. also if statements ensure the king is on the proper row
-    found_moves
+    return found_moves
   end
 
   def in_check?(board_state, coordinates)
@@ -229,7 +231,7 @@ class King
 
   def validate_input(found_moves, input)
     found_moves.each do |item|
-      if (!item.nil? && item[0] > 0 && item == input)
+      if (!item.nil? && item == input)
         return true 
       end
     end
