@@ -8,6 +8,27 @@ require 'pry-byebug'
 describe EndConditions do
   describe '#checkmate' do
     subject(:end_conditions) { described_class.new }
+    it "Does not return true when surrounded by friendly pieces." do 
+      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+      king = King.new 
+      king.color = 'black'
+      king.set_position([0,0])
+      ally = Rook.new 
+      ally.color = 'black'
+      ally.set_position([0,1])
+      ally_two = Rook.new 
+      ally_two.color = 'black'
+      ally_two.set_position([1,1])
+      ally_three = Rook.new 
+      ally_three.color = 'black'
+      ally_three.set_position([1,0])
+      board.board[0][0] = king 
+      board.board[0][1] = ally 
+      board.board[1][1] = ally_two
+      board.board[1][0] = ally_three 
+      expect(end_conditions.checkmate?(board.board)).to eql(false)
+    end
+    
     it 'Returns false when in check but another piece can capture the piece placeing it in check.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
       king = King.new 
@@ -58,20 +79,7 @@ describe EndConditions do
       expect(end_conditions.checkmate?(board.board)).to eql(false)
     end
 
-    it "Does not return true when surrounded by friendly pieces." do 
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      king = King.new 
-      king.color = 'black'
-      king.set_position([0,7])
-      ally = Rook.new 
-      ally.color = 'black'
-      board.board[0][0] = king 
-      board.board[0][1] = ally 
-      board.board[1][1] = ally 
-      board.board[1][0] = ally 
-      expect(end_conditions.checkmate?(board.board)).to eql(false)
-    end
-    
+ 
 
     it 'Returns false when king can capture a piece to move out of checkmate.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })

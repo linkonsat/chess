@@ -28,8 +28,14 @@ class EndConditions
         end
       end
     end
-    
-    if in_check_moves.all?(true)
+ 
+    if(!found_kings[0].check_cause_pieces(board_state).empty? )
+      if(found_kings[0].check_removal_pieces(board_state).empty?)
+      return true
+      else 
+        return false
+      end
+    elsif in_check_moves.all?(true)
 
       true
     else
