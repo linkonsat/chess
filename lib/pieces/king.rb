@@ -35,8 +35,8 @@ class King
   end
 
   def valid_move?(board_state, input)
-    legal_moves = any_moves?(board_state)
-    validated_moves = remove_in_check_moves(board_state,legal_moves)
+    found_moves = any_moves(board_state)
+    validated_moves = remove_in_check_moves(board_state,found_moves)
     move_validity = validate_input(validated_moves, input)
     move_validity
   end
@@ -52,13 +52,13 @@ class King
     end
     return legal_moves
   end
-  def legal_moves(board_state)
-    moves = any_moves?(board_state)
+  def any_moves(board_state)
+    moves = legal_moves(board_state)
     validated_moves = remove_in_check_moves(board_state,moves)
     return validated_moves
   end
 
-  def any_moves?(board_state)
+  def legal_moves(board_state)
     # so a move can be one of three ways. the way we could test this is by checking the vertical sides then the middle side
     found_moves = []
     found_moves.concat(left_vertical_moves(board_state))
@@ -71,7 +71,7 @@ class King
 
   def left_vertical_moves(board_state)
     valid_verticals_left = []
-    if (0..board_state[current_position[0]].length).include?(current_position[1] - 1)
+    if (0..board_state[self.current_position[0]].length).include?(self.current_position[1] - 1)
 
       possible_moves = [[current_position[0] - 1, current_position[1] - 1], [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
       
@@ -202,7 +202,6 @@ class King
     if clear_bottom_right?(board_state) && board_state[7][7].class.to_s == "Rook" && board_state[7][7].color == self.color && current_position[1] == 4 && current_position[0] == 7
       right_end = 4 + 2
       until right_end == 3
-        p right_end
         break if in_check?(board_state, [7, right_end])
 
         found_moves.push([7, 6]) if right_end == 4
@@ -218,17 +217,26 @@ class King
   def in_check?(board_state, coordinates)
     board_state.each do |board_row|   
       board_row.each do |board_cell|
-        if (board_cell.class != String && board_cell.color != color && board_cell.valid_move?(board_state, coordinates))
-
-          return true
-
+        if (board_cell.class != String && board_cell.color != color)
+          found_pieces_moves = board_cell.legal_moves(board_state)
+          if(matched_moves_check?(board_state,found_pieces_moves))
+            return true
+          end
         end
       end
     end
 
     false
   end
-
+  def matched_moves_check?(board_state,found_pieces_moves)
+    self_moves = self.legal_moves(board_state)
+    self_moves.each do |move|
+      if(found_pieces_moves.any?(move))
+        return true 
+      end
+    end
+    return false
+  end
   def validate_input(found_moves, input)
     found_moves.each do |item|
       if (!item.nil? && item == input)

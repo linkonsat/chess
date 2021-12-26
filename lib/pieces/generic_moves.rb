@@ -69,7 +69,6 @@ module GenericMoves
 
       start_collumn_right += 1
     end
-
     valid_horizontal_moves
   end
 
