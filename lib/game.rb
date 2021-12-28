@@ -81,11 +81,11 @@ class Game
       player_input = 'No resignation yet'
       @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
       until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter)
-
+        @board.display_used_board
         @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
-        current_turn = turn # first we need to determine whos turn it is
+        current_turn = turn 
         selected_piece = @player_list[current_turn].select_piece(@board.board)
-        chosen_coordinates = @player_list[current_turn].select_move(@board.board)
+        chosen_coordinates = @player_list[current_turn].select_move(@board.board,selected_piece)
         @board.update_board(selected_piece, chosen_coordinates)
         @total_turns += 1
         # after the board is updated we should restart the loop and display the board again
@@ -124,6 +124,7 @@ end
   end
   def game_type 
     choice = nil 
+    p "Go ahead and enter a game type"
     until choice == "player vs player" || choice == "AI vs AI"
       choice = gets.chomp
     end
@@ -134,3 +135,6 @@ end
   def save_game(data)
   end
 end
+
+game = Game.new 
+game.game_run
