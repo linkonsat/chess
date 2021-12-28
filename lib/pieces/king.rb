@@ -42,6 +42,7 @@ class King
   end
 
   def remove_in_check_moves(board_state,legal_moves)
+
     board_state.each do |row|
       row.each do |board_cell|
         if(board_cell.methods.include?(:legal_moves) && board_cell.color != self.color)
@@ -59,7 +60,6 @@ class King
   end
 
   def legal_moves(board_state)
-    # so a move can be one of three ways. the way we could test this is by checking the vertical sides then the middle side
     found_moves = []
     found_moves.concat(left_vertical_moves(board_state))
     found_moves.concat(right_vertical_moves(board_state))
@@ -77,7 +77,7 @@ class King
       
       possible_moves.each do |position|
         if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].class == String))
-          if((0..7).include?(position[0]) && (0..7).include?(position[1]))
+          if((0..7).include?(position[0]) && (0..7).include?(position[1]) && self.king_check?(board_state,position))
           valid_verticals_left.push(position)
           end
         end
@@ -92,7 +92,7 @@ class King
       possible_moves = [[current_position[0], current_position[1] + 1], [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
       possible_moves.each do |position|
         if ((!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != self.color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].class == String))
-          if((0..7).include?(position[0]) && (0..7).include?(position[1]))
+          if((0..7).include?(position[0]) && (0..7).include?(position[1]) && self.king_check?(board_state,position))
           valid_verticals_right.push(position)
           end
         end
@@ -104,7 +104,7 @@ class King
 
   def top_move(board_state)
     if ((!board_state[self.current_position[0] + 1].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] + 1][self.current_position[1]].color != self.color) || (!board_state[self.current_position[0] + 1 ].nil? && board_state[self.current_position[0] + 1][self.current_position[1]].class == String))
-      if((0..7).include?(self.current_position[0] + 1))
+      if((0..7).include?(self.current_position[0] + 1) && self.king_check?(board_state,[current_position[0] + 1, current_position[1]]))
       return [[current_position[0] + 1, current_position[1]]]
       end
     end
@@ -113,11 +113,29 @@ class King
 
   def bottom_move(board_state)
     if ((!board_state[self.current_position[0] - 1].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].methods.include?(:color)  && board_state[self.current_position[0] - 1][self.current_position[1]].color != self.color) || (!board_state[self.current_position[0] - 1 ].nil? && board_state[self.current_position[0] - 1][self.current_position[1]].class == String))
-      if((0..7).include?(self.current_position[0] - 1))
+      if((0..7).include?(self.current_position[0] - 1) &&  self.king_check?(board_state,[current_position[0] - 1, current_position[1]]))
      return [[current_position[0] - 1, current_position[1]]]
-      end
+      end 
     end
     return []
+  end
+
+  def king_check?(board_state,move)
+    #so at our smallest problem we want to select the rows starting from one up unless it's nil in which case we ignore it so 
+    row = -1 
+    until row == 2
+      if(board_state[move[0]].nil? || (board_state[move[0] + row][move[1] - 1] != nil && board_state[move[0] + row][move[1] - 1].class.to_s == "King"))
+        return false 
+      end
+      if(board_state[move[0] + row][move[1]] != nil && board_state[move[0] + row][move[1]].class.to_s == "King") 
+        return false 
+      end
+      if(board_state[move[0] + row][move[1] + 1] != nil && board_state[move[0] + row][move[1] + 1].class.to_s == "King")
+        return false
+      end
+      row += 1
+    end
+    true
   end
 
   def clear_top_left?(board_state)
@@ -162,7 +180,7 @@ class King
     if clear_top_left?(board_state) && board_state[0][0].class.to_s == "Rook" && board_state[0][0].color == self.color && current_position[1] == 4 && current_position[0] == 0
       left_end = 4 - 2
       until left_end == 5
-        if (in_check?(board_state, [0, left_end]))
+        if (in_check_castleing?(board_state, [0, left_end]))
           break 
         end
         if (left_end == 4)
@@ -175,7 +193,7 @@ class King
       right_end = 4 + 2
       until right_end == 3
 
-        if (in_check?(board_state, [0, right_end]))
+        if (in_check_castleing?(board_state, [0, right_end]))
           break 
         end
         if (right_end == 4)
@@ -192,7 +210,7 @@ class King
       left_end = 4 - 2
       until left_end == 5
 
-        break if in_check?(board_state, [0, left_end])
+        break if in_check_castleing?(board_state, [0, left_end])
 
         found_moves.push([7, 2]) if left_end == 4
         left_end += 1
@@ -202,7 +220,7 @@ class King
     if clear_bottom_right?(board_state) && board_state[7][7].class.to_s == "Rook" && board_state[7][7].color == self.color && current_position[1] == 4 && current_position[0] == 7
       right_end = 4 + 2
       until right_end == 3
-        break if in_check?(board_state, [7, right_end])
+        break if in_check_castleing?(board_state, [7, right_end])
 
         found_moves.push([7, 6]) if right_end == 4
         right_end -= 1
@@ -214,12 +232,29 @@ class King
     return found_moves
   end
 
-  def in_check?(board_state, coordinates)
+  def in_check?(board_state, coordinates = [self.current_position[0],self.current_position[1]])
     board_state.each do |board_row|   
       board_row.each do |board_cell|
-        if (board_cell.class != String && board_cell.color != color)
+        if (board_cell.class != String && board_cell.color != self.color)
           found_pieces_moves = board_cell.legal_moves(board_state)
-          if(matched_moves_check?(board_state,found_pieces_moves))
+          if(board_cell.valid_move?(board_state,coordinates))
+
+            return true
+          end
+        end
+      end
+    end
+
+    false
+  end
+
+  def in_check_castleing?(board_state, coordinates = [self.current_position[0],self.current_position[1]])
+    board_state.each do |board_row|   
+      board_row.each do |board_cell|
+        if (board_cell.class != String && board_cell.color != self.color && board_cell.class.to_s != "King")
+          found_pieces_moves = board_cell.legal_moves(board_state)
+          if(board_cell.valid_move?(board_state,coordinates))
+
             return true
           end
         end
@@ -250,7 +285,7 @@ class King
     found_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-        if(board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,[self.current_position[0],self.current_position[1]]))
+        if(board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,[self.current_position[0],self.current_position[1]]) && board_cell.color != self.color)
           found_pieces.push(board_cell)
         end
       end
@@ -260,10 +295,13 @@ class King
 
   def check_removal_pieces(board_state)
     found_pieces = check_cause_pieces(board_state)
+    if(found_pieces.empty?)
+      return []
+    end
     available_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-        if(board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,[found_pieces[0].current_position[0],found_pieces[0].current_position[1]]))
+        if(board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,[found_pieces[0].current_position[0],found_pieces[0].current_position[1]]) && board_cell.color == self.color)
           available_pieces.push(board_cell)
         end
       end

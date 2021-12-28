@@ -18,8 +18,8 @@ class EndConditions
     i = 0
     found_kings.each do |piece|
       #piece.legal moves is causing it
-      available_moves = piece.any_moves?(board_state)
-      available_moves.push(piece.current_position)
+      available_moves = piece.legal_moves(board_state)
+      available_moves.concat(piece.current_position)
       available_moves.each do |move|
         if (piece.in_check?(board_state, move))
           in_check_moves.push(true)
@@ -27,22 +27,18 @@ class EndConditions
           in_check_moves.push(false)
         end
       end
+      if(!piece.check_cause_pieces(board_state).empty? && in_check_moves.all?(true))
+        if(piece.check_removal_pieces(board_state).empty?)
+        return true
+        end
+      end
+      if (in_check_moves.all?(true) && !in_check_moves.empty?)  
+        true
+      end
     end
- 
-    if(!found_kings[0].check_cause_pieces(board_state).empty? )
-      if(found_kings[0].check_removal_pieces(board_state).empty?)
-      return true
-      else 
-        return false
-      end
-    elsif in_check_moves.all?(true)
-
-      true
-    else
-
       false
-      end
   end
+
 
   def resignation?(player_input)
     player_input == 'resign'
@@ -110,3 +106,5 @@ class EndConditions
     false
   end
 end
+
+

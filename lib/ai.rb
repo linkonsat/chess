@@ -48,7 +48,7 @@ class AI
     end
     piece_moves = piece_moves(found_pieces,board_state)
     choice = generate_move_choice(found_pieces, piece_moves, board_state)
-  
+    p choice
     return choice
   end
   def find_removal_move(board_state,possible_pieces,checkmate_cause_pieces)
@@ -93,14 +93,18 @@ def generate_move_choice(found_pieces, piece_moves, board_state)
   random_piece = rand(found_pieces.length)
   random_move_set = rand(piece_moves.length - 1)
   random_move = rand(piece_moves[random_move_set].length - 1)
-
+  i = 0
   until found_pieces[random_piece].valid_move?(board_state,piece_moves[random_move_set][random_move])
+    i += 1
+    if(i == 160)
+      binding.pry 
+    end
     unless piece_moves[random_move_set][random_move].nil?
       checked_moves.push(piece_moves[random_move_set][random_move])
      end
     random_piece = rand(found_pieces.length)
     random_move_set = rand(piece_moves.length - 1)
-    random_move = rand(piece_moves[random_move_set].length - 1)
+    random_move = rand(piece_moves[random_move_set].length - 1) 
   end
   [found_pieces[random_piece], piece_moves[random_move_set][random_move]]
 end

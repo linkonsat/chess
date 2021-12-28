@@ -43,7 +43,7 @@ class Knight
       if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].class == String
         verified_legal_moves.push([new_row, new_collumn])
       end
-      if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].methods.include?(:color) && board_state[new_row][new_collumn].color != color
+      if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].methods.include?(:color) && board_state[new_row][new_collumn].color != self.color
         verified_legal_moves.push([new_row, new_collumn])
       end
     end
