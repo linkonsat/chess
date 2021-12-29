@@ -83,4 +83,36 @@ end
     expect(game_type).to eql("player vs player")
   end
 end
+
+  describe "#to_msgpack" do 
+  subject(:game) {described_class.new}
+  it "Sends a message to msgpack when a save is requested" do 
+    game.setup
+    game.save 
+    expect(MessagePack).to receive(:game).once 
+  end
+  it "Creates a new file when requested by msg pack." do 
+    game.setup 
+    saved_game = game.save
+    expect(save_game).not_to be(nil)
+  end
+end
+  describe "#unpack_save" do 
+  subject(:game) {described_class.new}
+  it "Turns the saved game into a hash" do 
+  game.setup
+  saved_game = game.save 
+  unpacked_game = saved_game.unpack 
+  expect(unpacked_game.class).to eql(Hash)
+  end
+end
+  described "#setup_saved_game" do 
+  it "Sets up the same game instance" do 
+    game.setup
+  saved_game = game.save 
+  unpacked_game = saved_game.unpack 
+  loaded_game = game.load_save(unpacked_game)
+  expect(loaded_game).to eql(game)
+  end
+end
 end

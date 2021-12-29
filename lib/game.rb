@@ -9,6 +9,7 @@ require_relative 'player'
 require_relative 'saved_game'
 require_relative './game_data/linked_list'
 require 'pry-byebug'
+require require 'msgpack'
 class Game
   attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history
   attr_reader :player_list, :winning_conditions
