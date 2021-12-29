@@ -24,14 +24,12 @@ class Game
   end
 
   def game_run
-    game_type
     setup(game_type)
     round
     conclusion
   end
 
   def setup(game_type = 'player vs player')
-    # first we create the players
     black_set = @sets.create_black_set
     white_set = @sets.create_white_set
     @board.set_pieces_standard(white_set, black_set)
