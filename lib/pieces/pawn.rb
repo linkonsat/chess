@@ -132,11 +132,11 @@ class Pawn
 
   def forward_step(validated_moves, input)
     validated_moves.each do |item|
-      vertical_move_value = current_position[0] + item[0]
+      vertical_move_value = current_position[0] - item[0]
       horizontal_move_left = current_position[1] - item[1]
       horizontal_move_right = current_position[1] + item[1]
-      if input[0] == vertical_move_value && (input[1] == horizontal_move_left || input[1] == horizontal_move_right)
 
+      if (item == input)
         return true
           end
     end
@@ -148,7 +148,7 @@ class Pawn
       vertical_move_value = current_position[0] + item[0]
       horizontal_move_left = current_position[1] + item[1]
       horizontal_move_right = current_position[1] + item[1]
-      if (input[0] == vertical_move_value && input[1] == (horizontal_move_left || input[1] == horizontal_move_right))
+      if (input == item)
         return true
           end
     end
@@ -156,40 +156,22 @@ class Pawn
   end
 
   def is_blocked_forward(board_state)
-    available_moves = 0
-    board_state[current_position[0]][current_position[1]]
-    position = 0
-    i = 1
-    new_row_coordinate = current_position[0] + i
-    until board_state[new_row_coordinate][current_position[1]].class != String || i - 1 == @default_moves.length
-      available_moves += 1
+    i = 0
+    new_row_coordinate = current_position[0] + default_moves[i][0]
+    until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
+      @available_move_values.push([new_row_coordinate,current_position[1]])
+      new_row_coordinate = current_position[0] + default_moves[i][0]
       i += 1
-      position += 1
-      new_row_coordinate = current_position[0] + 1
     end
-    remove_blocked_moves(available_moves)
   end
 
   def is_blocked_backward(board_state)
-    available_moves = 0
-    board_state[current_position[0]][current_position[1]]
-    position = 0
-    i = 1
-    new_row_coordinate = current_position[0] - i
-    until board_state[new_row_coordinate][current_position[1]].class != String || i - 1 == @default_moves.length
-      available_moves += 1
+    i = 0
+    new_row_coordinate = current_position[0] + default_moves[i][0]
+    until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
+      @available_move_values.push([new_row_coordinate,current_position[1]])
+      new_row_coordinate = current_position[0] + default_moves[i][0]
       i += 1
-      position += 1
-      new_row_coordinate = current_position[0] - i
-    end
-    remove_blocked_moves(available_moves)
-  end
-
-  def remove_blocked_moves(unblocked_moves)
-    if unblocked_moves == 0
-      @available_move_values.delete_if { |item| @default_moves.any?(item) }
-    elsif unblocked_moves == 1
-      @available_move_values.delete_if { |item| item == @default_moves[1] }
     end
   end
 
