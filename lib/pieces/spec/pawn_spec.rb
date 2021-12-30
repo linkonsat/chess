@@ -12,6 +12,12 @@ describe Pawn do
     valid_move = board.board[6][0].valid_move?(board.board, [5, 0])
     expect(valid_move).to eql(true)
   end
+  it "Allows the pawn piece to move forward two steps on it's first move." do 
+    board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+    board.board[6][0] = pawn
+    board.board[6][0].set_position([6, 0])
+    expect(board.board[6][0].valid_move?(board.board,[4,0])).to eql(true)
+  end
   it "Is able to take a piece diagonally from it." do 
     board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
     enemy_piece = Pawn.new 
