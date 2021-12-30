@@ -159,8 +159,8 @@ class Pawn
     i = 0
     new_row_coordinate = current_position[0] + default_moves[i][0]
     until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
-      @available_move_values.push([new_row_coordinate,current_position[1]])
       new_row_coordinate = current_position[0] + default_moves[i][0]
+      @available_move_values.push([new_row_coordinate,current_position[1]])
       i += 1
     end
   end
@@ -168,9 +168,11 @@ class Pawn
   def is_blocked_backward(board_state)
     i = 0
     new_row_coordinate = current_position[0] + default_moves[i][0]
+
     until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
-      @available_move_values.push([new_row_coordinate,current_position[1]])
       new_row_coordinate = current_position[0] + default_moves[i][0]
+      @available_move_values.push([new_row_coordinate,current_position[1]])
+  
       i += 1
     end
   end
