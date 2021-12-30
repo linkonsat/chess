@@ -54,9 +54,6 @@ class Player
   def select_move(board_state,piece)
     input = gets.chomp
     number_input = [input[0].to_i,input[1].to_i]
-    if(piece.class == King)
-      binding.pry 
-    end
     until input.length == 2 && piece.valid_move?(board_state,number_input)
     input = gets.chomp 
     number_input = [input[0].to_i,input[1].to_i]
