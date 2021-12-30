@@ -11,7 +11,11 @@ class Player
 
   def set_color(sets)
     choice = gets.chomp
+    if choice != "0" && choice != "1"
+      self.set_color(sets)
+    else
     @color = sets[choice.to_i][0][0].color
+    end
   end
 
   def select_piece(board_state)
