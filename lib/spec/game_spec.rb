@@ -88,20 +88,15 @@ end
   subject(:game) {described_class.new}
   it "Sends a message to msgpack when a save is requested" do 
     game.setup
-    game.save 
-    expect(MessagePack).to receive(:game).once 
-  end
-  it "Creates a new file when requested by msg pack." do 
-    game.setup 
-    saved_game = game.save
-    expect(save_game).not_to be(nil)
+    game.to_msgpack
+    expect(MessagePack).to receive(:dump).once 
   end
 end
   describe "#unpack_save" do 
   subject(:game) {described_class.new}
   it "Turns the saved game into a hash" do 
   game.setup
-  saved_game = game.save 
+  saved_game = game.to_msgpack
   unpacked_game = saved_game.unpack 
   expect(unpacked_game.class).to eql(Hash)
   end

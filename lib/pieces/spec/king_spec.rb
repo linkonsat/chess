@@ -6,6 +6,25 @@ require_relative '../knight'
 describe King do
   # test should describe a valid move? Any move is valid so long as it is not off board and does NOT go into check
   # King also can perform a castling move
+
+  describe '#valid_move?' do
+  subject(:king) { described_class.new }
+  it 'Allows valid moves in any square around it.' do
+    board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+    board.board[4][4] = king
+    board.board[4][4].set_position([4, 4])
+    expect(board.board[4][4].legal_moves(board.board).empty?).to be(false)
+    expect(board.board[4][4].valid_move?(board.board, [4, 3])).to be(true)
+  end
+  it 'Does not allow valid moves outside of the board.' do
+    board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+    board.board[0][0] = king
+    board.board[0][0].set_position([0, 0])
+    result = board.board[0][0].valid_move?(board.board, [-1, 8])
+    expect(result).to eql(false)
+  end
+
+end
   describe '#in_check?' do
   subject(:king) { described_class.new }
   it 'Does returns true when king is put into check' do
@@ -73,24 +92,7 @@ end
 end
 end
  
-  describe '#valid_move?' do
-    subject(:king) { described_class.new }
 
-    it 'Does not allow valid moves outside of the board.' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      board.board[0][0] = king
-      board.board[0][0].set_position([0, 0])
-      result = board.board[0][0].valid_move?(board.board, [-1, 8])
-      expect(result).to eql(false)
-    end
-
-    it 'Allows valid moves in any square around it.' do
-      board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      board.board[4][4] = king
-      board.board[4][4].set_position([4, 4])
-      expect(board.board[4][4].valid_move?(board.board, [4, 3]))
-    end
-  end
 
   describe '#check_cause_pieces' do 
   subject(:king) { described_class.new }

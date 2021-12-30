@@ -9,7 +9,7 @@ require_relative 'player'
 require_relative 'saved_game'
 require_relative './game_data/linked_list'
 require 'pry-byebug'
-require require 'msgpack'
+require 'msgpack'
 class Game
   attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history
   attr_reader :player_list, :winning_conditions
@@ -79,17 +79,22 @@ class Game
     else
       player_input = 'No resignation yet'
       @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
-      until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter)
+      until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter) || player_input == "save"
         @board.display_used_board
         @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
         current_turn = turn 
         selected_piece = @player_list[current_turn].select_piece(@board.board)
+        p selected_piece
+        if(selected_piece == "save")
+          saved_data = self.to_msgpack 
+          save_game(saved_data)
+          break
+        end
         chosen_coordinates = @player_list[current_turn].select_move(@board.board,selected_piece)
         @board.update_board(selected_piece, chosen_coordinates)
         @total_turns += 1
         # after the board is updated we should restart the loop and display the board again
       end
-
 end
   end
 
@@ -129,9 +134,42 @@ end
     end
     return choice
   end
-  def load_saved_game 
+  def to_msgpack 
+    save = MessagePack.dump({
+      :fifty_move_rule_counter => @fifty_move_rule_counter,
+      :total_turns => @total_turns, 
+      :board => @board,
+      :player_list => @player_list,
+      :sets => @sets,
+      :game_history => @game_history,
+      :winning_conditions => @winning_conditions
+    })
+    return save
+  end
+  def unpack_save(save)
+    unpacked_save = MessagePack.load save
+    return unpacked_save
+  end
+  def load_saved_game(save_data) 
+      loaded_save = unpack_save(save_data)
+      self.fifty_move_rule_counter = loaded_save['fifty_move_rule_counter']
+      self.total_turns = loaded_save['total_turns']
+      self.board = loaded_save['board']
+      self.player_list = loaded_save['player_list']
+      self.sets = loaded['sets']
+      self.game_history = loaded_save['game_history']
+      self.winning_conditions = loaded_save['winning_conditions']
   end
   def save_game(data)
+    if(Dir.exist?("game_data"))
+      save = File.open("game_data/chess_data.rb", 'w+')
+      save.puts data
+    else
+      Dir.mkdir("game_data")
+      save = File.open("game_data/chess_data.rb", 'w+')
+      save.puts data
+    end
+    
   end
 end
 

@@ -17,11 +17,8 @@ class Player
   def select_piece(board_state)
     select_piece_valid
     selected_position = gets.chomp
-    until in_board?(selected_position, board_state) && right_piece?(selected_position, board_state)
+    until selected_position == "save" || selected_position == "resignation" || in_board?(selected_position, board_state) && right_piece?(selected_position, board_state)
       selected_position = gets.chomp
-      if selected_position == 'save' || selected_position == 'resignation'
-        return selected_position
-      end
       if selected_position.length != 2
         outside_board
       elsif board_state[selected_position[0].to_i].nil?
@@ -31,6 +28,9 @@ class Player
       elsif board_state[selected_position[0].to_i][selected_position[1].to_i].class == String
         invalid_board_cell
       end
+    end
+    if selected_position == 'save' || selected_position == 'resignation'
+      return selected_position
     end
     board_state[selected_position[0].to_i][selected_position[1].to_i]
   end
@@ -54,6 +54,9 @@ class Player
   def select_move(board_state,piece)
     input = gets.chomp
     number_input = [input[0].to_i,input[1].to_i]
+    if(piece.class == King)
+      binding.pry 
+    end
     until input.length == 2 && piece.valid_move?(board_state,number_input)
     input = gets.chomp 
     number_input = [input[0].to_i,input[1].to_i]
