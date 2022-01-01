@@ -26,4 +26,19 @@ class ChessSet
     white_set[1].each { |piece| piece.set_color('white') }
     white_set
   end
+
+  def new_piece
+    choice = gets.chomp
+    if(choice == "Rook")
+      return Rook.new
+    elsif(choice == "Queen")
+      return Queen.new 
+    elsif(choice == "Bishop")
+      return Bishop.new 
+    elsif(choice == "Knight")
+      return Knight.new 
+    else 
+      self.new_piece 
+    end
+  end
 end

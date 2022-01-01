@@ -35,7 +35,7 @@ describe ChessSet do
   it "Does not return the correct piece until proper input occurs" do 
     allow(chess_set).to receive(:gets).and_return("blah", "Rook")
     new_piece = chess_set.new_piece
-    allow(new_piece).to eql(Rook)
+    expect(new_piece.class).to eql(Rook)
   end
 end
 end
