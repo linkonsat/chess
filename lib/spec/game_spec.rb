@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../game'
-
+require_relative '../pieces/pawn'
+require_relative '../pieces/rook'
 # tests should cover round,conclusion,setup,
 
 describe Game do
@@ -51,6 +52,9 @@ end
   describe '#player_turn' do
     subject(:game) { described_class.new }
     it 'Selects the correct player after the previous player has had their turn.' do
+      pawn = Pawn.new
+      pawn.current_position = [0,0]
+      game.board.board[0][0] = pawn
       game.setup
       expect(game.turn).to eql(0)
     end
@@ -70,14 +74,27 @@ end
     end
   end
 
+  describe "#promotion?" do 
+  it "Prompts player to select a new piece when a pawn reaches the end of the board." do 
+    game.setup
+    pawn = Pawn.new 
+    move = [0,0]
+    allow(game).to receive(:select_piece).and_return(Pawn.new)
+    allow(game).to receive(:chosen_coordinates).and_return([0,0])
+    allow(game.sets).to receive(:gets).and_return("Rook")
+    new_piece = game.promotion?(pawn,move)
+    expect(new_piece).to eql(Rook)
+  end
+end
+
   describe "#game_type" do 
   subject(:game) {described_class.new}
-  it "Loops until AI vs AI is entered." do 
+  xit "Loops until AI vs AI is entered." do 
     allow(game).to receive(:gets).and_return("fun","AI vs AI")
     game_type = game.game_type
     expect(game_type).to eql("AI vs AI")
   end
-  it "Loops until player vs player is entered." do 
+  xit "Loops until player vs player is entered." do 
     allow(game).to receive(:gets).and_return("fun","player vs player")
     game_type = game.game_type 
     expect(game_type).to eql("player vs player")

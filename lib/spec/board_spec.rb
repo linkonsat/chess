@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative '../pieces/pawn'
+require_relative '../pieces/rook'
 # tests should test if a board spot can be changed
 # a set containing board pieces is properly laid according to the format in the set
 require 'pry-byebug'
@@ -59,6 +60,18 @@ describe Board do
     board.update_board(castle,[0,0])
     expect(board.board[0][3]).not_to eql(castle)
     expect(board.board[0][0]).to eql(castle)
+  end
+end
+
+describe "#promotion_replacement" do 
+  subject(:board) {described_class.new}
+  it "Changes board position to new piece type when prompted." do 
+    new_piece = Rook.new 
+    moved_piece = Pawn.new 
+    board.board[0][0] = moved_piece 
+    moved_piece.current_position = [0,0]
+    board.promotion_replacement(new_piece,[0,0])
+    expect(board.board[0][0]).to eql(new_piece)
   end
 end
 end

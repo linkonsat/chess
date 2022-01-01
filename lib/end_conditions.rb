@@ -19,7 +19,7 @@ class EndConditions
     found_kings.each do |piece|
       #piece.legal moves is causing it
       available_moves = piece.legal_moves(board_state)
-      available_moves.concat(piece.current_position)
+      available_moves.push(piece.current_position)
       available_moves.each do |move|
         if (piece.in_check?(board_state, move))
           in_check_moves.push(true)
@@ -33,6 +33,7 @@ class EndConditions
         end
       end
       if (in_check_moves.all?(true) && !in_check_moves.empty?)  
+
         true
       end
     end

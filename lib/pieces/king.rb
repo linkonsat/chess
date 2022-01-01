@@ -61,11 +61,13 @@ class King
 
   def legal_moves(board_state)
     found_moves = []
+   
     found_moves.concat(left_vertical_moves(board_state))
     found_moves.concat(right_vertical_moves(board_state))
     found_moves.concat(top_move(board_state))
     found_moves.concat(bottom_move(board_state))
     found_moves.concat(found_moves_casteling(board_state))
+  
     return found_moves
   end
 

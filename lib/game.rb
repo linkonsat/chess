@@ -30,6 +30,11 @@ class Game
     conclusion
   end
 
+  def promotion?
+    #get a selection of pieces from our chess set
+    #player chooses then set up the piece appropriately
+  end
+
   def setup(game_type = 'player vs player')
     black_set = @sets.create_black_set
     white_set = @sets.create_white_set
@@ -120,6 +125,15 @@ end
       1
     end
   end
+
+    def promotion?(piece,chosen_coordinates)
+      if(piece.class == Pawn && (chosen_coordinates[0] == 0 || chosen_coordinates[0] == 7))
+        return true 
+      else
+        return false 
+      end
+      return @sets.new_piece
+    end
 
   def conclusion
     new_game?
