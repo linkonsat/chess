@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../bishop'
-# expect tests to be similar to to castle. Should be able to return a legal list of moves that include up to a unblocked path, enemy piece, and ally piece
 describe Bishop do
   subject(:bishop) { described_class.new }
   describe '#valid_move?' do

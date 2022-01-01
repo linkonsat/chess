@@ -3,6 +3,7 @@
 require 'pry-byebug'
 class Board
   attr_accessor :board
+
   def initialize
     @board = generate_colored_board(Array.new(8) { Array.new(8, '|_|') })
   end
@@ -24,13 +25,13 @@ class Board
   end
 
   def update_board(piece, new_coordinates)
-    if (piece.class.to_s == 'Pawn' && (new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1))
+    if piece.class.to_s == 'Pawn' && (new_coordinates[1] == piece.current_position[1] + 1 || new_coordinates[1] == piece.current_position[1] - 1)
       passant_update = passant_update(piece, new_coordinates)
       @board[passant_update[0]][passant_update[1]] = '|_|'
       @board[new_coordinates[0]][new_coordinates[1]] = piece
-      @board[piece.current_position[0]][piece.current_position[1]] = "|_|"
+      @board[piece.current_position[0]][piece.current_position[1]] = '|_|'
       piece.set_position(new_coordinates)
-    elsif (piece.class.to_s == 'King' && (new_coordinates[1] == piece.current_position[1] + 2 || new_coordinates[1] == piece.current_position[1] - 2))
+    elsif piece.class.to_s == 'King' && (new_coordinates[1] == piece.current_position[1] + 2 || new_coordinates[1] == piece.current_position[1] - 2)
       new_castle_coordinates = castle_coordinates(piece, new_coordinates)
       if new_coordinates[1] < piece.current_position[1]
         @board[new_coordinates[0]][new_castle_coordinates] = @board[new_coordinates[0]][0]
@@ -40,7 +41,7 @@ class Board
         @board[new_coordinates[0]][7] = '|_|'
       end
       @board[new_coordinates[0]][new_coordinates[1]] = piece
-      @board[piece.current_position[0]][piece.current_position[1]] = "|_|"
+      @board[piece.current_position[0]][piece.current_position[1]] = '|_|'
       piece.set_position(new_coordinates)
     else
       @board[new_coordinates[0]][new_coordinates[1]] = piece
@@ -119,7 +120,7 @@ class Board
     end
   end
 
-  def promotion_replacement(new_piece,coordinates)
-    @board[coordinates[0]][coordinates[1]] = new_piece 
+  def promotion_replacement(new_piece, coordinates)
+    @board[coordinates[0]][coordinates[1]] = new_piece
   end
 end

@@ -4,6 +4,7 @@ require_relative 'generic_moves'
 require 'pry-byebug'
 class Bishop
   attr_accessor :current_position, :previous_position, :color
+
   include GenericMoves
   def initialize
     @current_position = nil
@@ -49,7 +50,7 @@ class Bishop
   end
 
   def valid_input(board_state, input)
-    if (!board_state[input[0]].nil? && (0..board_state[input[0]].length).include?(input[0]) && (0..board_state[input[0]].length).include?(input[1]))
+    if !board_state[input[0]].nil? && (0..board_state[input[0]].length).include?(input[0]) && (0..board_state[input[0]].length).include?(input[1])
       true
     else
       false

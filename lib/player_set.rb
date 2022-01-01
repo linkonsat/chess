@@ -14,14 +14,16 @@ class ChessSet
   end
 
   def create_black_set
-    black_set = [[Rook.new, Knight.new, Bishop.new, Queen.new, King.new, Bishop.new, Knight.new, Rook.new], [Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new]]
+    black_set = [[Rook.new, Knight.new, Bishop.new, Queen.new, King.new, Bishop.new, Knight.new, Rook.new],
+                 [Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new]]
     black_set[0].each { |piece| piece.set_color('black') }
     black_set[1].each { |piece| piece.set_color('black') }
     black_set
   end
 
   def create_white_set
-    white_set = [[Rook.new, Knight.new, Bishop.new, Queen.new, King.new, Bishop.new, Knight.new, Rook.new], [Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new]]
+    white_set = [[Rook.new, Knight.new, Bishop.new, Queen.new, King.new, Bishop.new, Knight.new, Rook.new],
+                 [Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new, Pawn.new]]
     white_set[0].each { |piece| piece.set_color('white') }
     white_set[1].each { |piece| piece.set_color('white') }
     white_set
@@ -29,16 +31,16 @@ class ChessSet
 
   def new_piece
     choice = gets.chomp
-    if(choice == "Rook")
-      return Rook.new
-    elsif(choice == "Queen")
-      return Queen.new 
-    elsif(choice == "Bishop")
-      return Bishop.new 
-    elsif(choice == "Knight")
-      return Knight.new 
-    else 
-      self.new_piece 
+    if choice == 'Rook'
+      Rook.new
+    elsif choice == 'Queen'
+      Queen.new
+    elsif choice == 'Bishop'
+      Bishop.new
+    elsif choice == 'Knight'
+      Knight.new
+    else
+      new_piece
     end
   end
 end

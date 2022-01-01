@@ -3,9 +3,6 @@
 require_relative '../rook'
 
 describe Rook do
-  # tests should describe it going horizontally and haiving it stopping at the piece
-  # test should describe it not being able to move past piece
-  # test should return true upon a castling move
   describe '#valid_move?' do
     subject(:rook) { described_class.new }
 

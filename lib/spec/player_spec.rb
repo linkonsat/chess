@@ -3,26 +3,24 @@
 require_relative '../player'
 
 describe Player do
-  # really all we need to test is that given a set of colored pieces the correct color is chose and when a piece is selected that the proper item has been chosen
   describe '#set_color' do
     subject(:player) { described_class.new }
     it 'Loops until a valid string selection is entered.' do
-      piece = double('Pawn', :color => 'Black')
-      piece_two = double('Rook', :color => 'White')
+      piece = double('Pawn', color: 'Black')
+      piece_two = double('Rook', color: 'White')
       sets = [[[piece]], [[piece_two]]]
-      allow(player).to receive(:gets).and_return('[]', "white","1")
+      allow(player).to receive(:gets).and_return('[]', 'white', '1')
       player.set_color(sets)
       expect(player.color).to eql('White')
     end
     it 'Sets the correct color given a predefined set of pieces' do
-      piece = double('Pawn', :color => 'Black')
-      piece_two = double('Rook', :color => 'White')
+      piece = double('Pawn', color: 'Black')
+      piece_two = double('Rook', color: 'White')
       sets = [[[piece]], [[piece_two]]]
-      allow(player).to receive(:gets).and_return("1")
+      allow(player).to receive(:gets).and_return('1')
       player.set_color(sets)
       expect(player.color).to eql('White')
     end
-   
   end
   describe '#select_piece' do
     subject(:player) { described_class.new }

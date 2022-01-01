@@ -3,14 +3,12 @@
 require_relative '../game'
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'
-# tests should cover round,conclusion,setup,
-
 describe Game do
   describe '#round' do
     subject(:game) { described_class.new }
-    it "Runs a ai game round successfully" do
-      allow(game).to receive(:game_type).and_return("AI vs AI")
-      allow(game).to receive(:gets).and_return("N")
+    it 'Runs a ai game round successfully' do
+      allow(game).to receive(:game_type).and_return('AI vs AI')
+      allow(game).to receive(:gets).and_return('N')
       game.game_run
       expect(game).to receive(:conclusion).once
     end
@@ -25,8 +23,7 @@ describe Game do
       expect(game.board.board[5][5]).to eql(rook)
       expect(game.fifty_move_rule_counter).to eql(0)
     end
-  
-end
+  end
   describe '#setup' do
     subject(:game) { described_class.new }
     it 'Sets up the accurate game instance variables' do
@@ -47,13 +44,12 @@ end
       expect(game.player_list[0].color).to eql('white')
     end
   end
-  
 
   describe '#player_turn' do
     subject(:game) { described_class.new }
     it 'Selects the correct player after the previous player has had their turn.' do
       pawn = Pawn.new
-      pawn.current_position = [0,0]
+      pawn.current_position = [0, 0]
       game.board.board[0][0] = pawn
       game.setup
       expect(game.turn).to eql(0)
@@ -74,58 +70,58 @@ end
     end
   end
 
-  describe "#promotion?" do 
-  subject(:game) {described_class.new}
-  it "Prompts player to select a new piece when a pawn reaches the end of the board." do 
-    game.setup
-    pawn = Pawn.new 
-    move = [0,0]
-    allow(game).to receive(:select_piece).and_return(Pawn.new)
-    allow(game).to receive(:chosen_coordinates).and_return([0,0])
-    allow(game.sets).to receive(:gets).and_return("Rook")
-    new_piece = game.promotion?(pawn,move)
-    expect(game.board.board[0][0]).to eql(Rook)
+  describe '#promotion?' do
+    subject(:game) { described_class.new }
+    it 'Prompts player to select a new piece when a pawn reaches the end of the board.' do
+      game.setup
+      pawn = Pawn.new
+      move = [0, 0]
+      allow(game).to receive(:select_piece).and_return(Pawn.new)
+      allow(game).to receive(:chosen_coordinates).and_return([0, 0])
+      allow(game.sets).to receive(:gets).and_return('Rook')
+      new_piece = game.promotion?(pawn, move)
+      expect(game.board.board[0][0]).to eql(Rook)
+    end
   end
-end
 
-  describe "#game_type" do 
-  subject(:game) {described_class.new}
-  xit "Loops until AI vs AI is entered." do 
-    allow(game).to receive(:gets).and_return("fun","AI vs AI")
-    game_type = game.game_type
-    expect(game_type).to eql("AI vs AI")
+  describe '#game_type' do
+    subject(:game) { described_class.new }
+    xit 'Loops until AI vs AI is entered.' do
+      allow(game).to receive(:gets).and_return('fun', 'AI vs AI')
+      game_type = game.game_type
+      expect(game_type).to eql('AI vs AI')
+    end
+    xit 'Loops until player vs player is entered.' do
+      allow(game).to receive(:gets).and_return('fun', 'player vs player')
+      game_type = game.game_type
+      expect(game_type).to eql('player vs player')
+    end
   end
-  xit "Loops until player vs player is entered." do 
-    allow(game).to receive(:gets).and_return("fun","player vs player")
-    game_type = game.game_type 
-    expect(game_type).to eql("player vs player")
-  end
-end
 
-  describe "#to_msgpack" do 
-  subject(:game) {described_class.new}
-  it "Sends a message to msgpack when a save is requested" do 
-    game.setup
-    game.to_msgpack
-    expect(MessagePack).to receive(:dump).once 
+  describe '#to_msgpack' do
+    subject(:game) { described_class.new }
+    it 'Sends a message to msgpack when a save is requested' do
+      game.setup
+      game.to_msgpack
+      expect(MessagePack).to receive(:dump).once
+    end
   end
-end
-  describe "#unpack_save" do 
-  subject(:game) {described_class.new}
-  it "Turns the saved game into a hash" do 
-  game.setup
-  saved_game = game.to_msgpack
-  unpacked_game = saved_game.unpack 
-  expect(unpacked_game.class).to eql(Hash)
+  describe '#unpack_save' do
+    subject(:game) { described_class.new }
+    it 'Turns the saved game into a hash' do
+      game.setup
+      saved_game = game.to_msgpack
+      unpacked_game = saved_game.unpack
+      expect(unpacked_game.class).to eql(Hash)
+    end
   end
-end
-  described "#setup_saved_game" do 
-  it "Sets up the same game instance" do 
-    game.setup
-  saved_game = game.save 
-  unpacked_game = saved_game.unpack 
-  loaded_game = game.load_save(unpacked_game)
-  expect(loaded_game).to eql(game)
+  described '#setup_saved_game' do
+    it 'Sets up the same game instance' do
+      game.setup
+      saved_game = game.save
+      unpacked_game = saved_game.unpack
+      loaded_game = game.load_save(unpacked_game)
+      expect(loaded_game).to eql(game)
+    end
   end
-end
 end

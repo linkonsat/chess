@@ -3,6 +3,7 @@
 require 'pry-byebug'
 class Knight
   attr_accessor :color, :previous_position, :current_position
+
   def initialize
     @color = nil
     @previous_position = nil
@@ -40,14 +41,13 @@ class Knight
     legal_moves.each do |potential_move|
       new_row = potential_move[0] + current_position[0]
       new_collumn = potential_move[1] + current_position[1]
-      if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].class == String
+      if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].instance_of?(String)
         verified_legal_moves.push([new_row, new_collumn])
       end
-      if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].methods.include?(:color) && board_state[new_row][new_collumn].color != self.color
+      if !board_state[new_row].nil? && !board_state[new_row][new_collumn].nil? && board_state[new_row][new_collumn].methods.include?(:color) && board_state[new_row][new_collumn].color != color
         verified_legal_moves.push([new_row, new_collumn])
       end
     end
-    # binding.pry
     verified_legal_moves
   end
 
@@ -61,7 +61,6 @@ class Knight
   end
 
   def verified_move(valid_moves, input)
-    # binding.pry
     return true if valid_moves.any?(input)
 
     false

@@ -26,9 +26,9 @@ class Pawn
 
   def valid_move?(board_state, input)
     validated_moves = legal_moves(board_state)
-    if (self.default_moves[0][0] > 0 && forward_step(validated_moves, input)) 
-      return true 
-    elsif (self.default_moves[0][0] < 0 && backward_step(validated_moves, input))
+    if default_moves[0][0] > 0 && forward_step(validated_moves, input)
+      true
+    elsif default_moves[0][0] < 0 && backward_step(validated_moves, input)
       true
 
     else
@@ -40,11 +40,11 @@ class Pawn
     @available_move_values = []
     initial_moves(board_state) if @previous_position.nil?
     two_step_available(board_state)
-    if (@default_moves[0][0] < 0)
+    if @default_moves[0][0] < 0
       is_blocked_backward(board_state)
       is_attackable_backward(board_state)
       passant_forward(board_state)
-    elsif (@default_moves[0][0] > 0)
+    elsif @default_moves[0][0] > 0
       is_blocked_forward(board_state)
       is_attackable_forward(board_state)
       passant_backward(board_state)
@@ -93,12 +93,9 @@ class Pawn
   end
 
   def verify_passant_forward?(found_pieces)
-    # expect if found pieces contains a move set that indicates the last move was two steps it pushes those moves so
-    # first we need to "loop through the found pieces since it can be more than one"
-
     found_pieces.each do |item|
       if item.nil? || item.previous_position.nil?
-      elsif (item != [] && item.current_position[0] - 2 == item.previous_position[0] && item.color != color)
+      elsif item != [] && item.current_position[0] - 2 == item.previous_position[0] && item.color != color
         @available_move_values.push([item.previous_position[0] + 1, item.previous_position[1]])
       end
     end
@@ -123,7 +120,6 @@ class Pawn
       unless @previous_position.nil?
         @default_moves = [[1, 0]]
         @available_move_values.push(@default_moves[0])
-        # binding.pry
       end
     else
       @available_move_values.push(@default_moves[0])
@@ -136,9 +132,7 @@ class Pawn
       horizontal_move_left = current_position[1] - item[1]
       horizontal_move_right = current_position[1] + item[1]
 
-      if (item == input)
-        return true
-          end
+      return true if item == input
     end
     false
   end
@@ -148,9 +142,7 @@ class Pawn
       vertical_move_value = current_position[0] + item[0]
       horizontal_move_left = current_position[1] + item[1]
       horizontal_move_right = current_position[1] + item[1]
-      if (input == item)
-        return true
-          end
+      return true if input == item
     end
     false
   end
@@ -160,7 +152,7 @@ class Pawn
     new_row_coordinate = current_position[0] + default_moves[i][0]
     until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
       new_row_coordinate = current_position[0] + default_moves[i][0]
-      @available_move_values.push([new_row_coordinate,current_position[1]])
+      @available_move_values.push([new_row_coordinate, current_position[1]])
       i += 1
     end
   end
@@ -171,8 +163,8 @@ class Pawn
 
     until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
       new_row_coordinate = current_position[0] + default_moves[i][0]
-      @available_move_values.push([new_row_coordinate,current_position[1]])
-  
+      @available_move_values.push([new_row_coordinate, current_position[1]])
+
       i += 1
     end
   end
@@ -211,10 +203,7 @@ class Pawn
 
   def remove_duplicates(found_moves)
     found_moves.each do |item|
-      if !@available_move_values.include?(item) && !item.nil?
-        @available_move_values.push(item)
-      end
+      @available_move_values.push(item) if !@available_move_values.include?(item) && !item.nil?
     end
   end
 end
-

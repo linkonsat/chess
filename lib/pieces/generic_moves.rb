@@ -3,9 +3,7 @@
 require 'pry-byebug'
 module GenericMoves
   def vertical_moves(board_state, piece)
-    # set up a variable to hold the found values
     valid_vertical_moves = []
-    # set a loop starting from from the current position with an end condition of either there is an enemy piece, friendly piece or eob
     start_row_up = piece.current_position[0] + 1
     start_row_down = piece.current_position[0] - 1
     start_collumn = piece.current_position[1]
@@ -93,7 +91,7 @@ module GenericMoves
 
     end
     until start_row_down > board_state[0].length - 1
-      if(board_state[start_row_down][start_collumn_down].nil?)
+      if board_state[start_row_down][start_collumn_down].nil?
       end
       if board_state[start_row_down][start_collumn_down].methods.include?(:color) && board_state[start_row_down][start_collumn_down].color == piece.color
         break
@@ -117,12 +115,12 @@ module GenericMoves
     start_collumn_up = piece.current_position[1] - 1
     start_collumn_down = piece.current_position[1] - 1
     until start_row_up < 0 || start_collumn_up > 7
-      if (board_state[start_row_up][start_collumn_up].methods.include?(:color) && board_state[start_row_up][start_collumn_up].color == piece.color)
+      if board_state[start_row_up][start_collumn_up].methods.include?(:color) && board_state[start_row_up][start_collumn_up].color == piece.color
         break
       end
-      
+
       valid_diagonal_moves.push([start_row_up, start_collumn_up])
-      if (board_state[start_row_up][start_collumn_up].methods.include?(:color) && board_state[start_row_up][start_collumn_up].color != piece.color)
+      if board_state[start_row_up][start_collumn_up].methods.include?(:color) && board_state[start_row_up][start_collumn_up].color != piece.color
         break
       end
 
@@ -130,12 +128,12 @@ module GenericMoves
       start_collumn_up -= 1
     end
     until start_row_down > board_state[0].length - 1
-      if (board_state[start_row_down][start_collumn_down].methods.include?(:color) && board_state[start_row_down][start_collumn_down].color == piece.color)
+      if board_state[start_row_down][start_collumn_down].methods.include?(:color) && board_state[start_row_down][start_collumn_down].color == piece.color
         break
       end
 
       valid_diagonal_moves.push([start_row_down, start_collumn_down])
-      if (board_state[start_row_down][start_collumn_down].methods.include?(:color) && board_state[start_row_down][start_collumn_down].color != piece.color)
+      if board_state[start_row_down][start_collumn_down].methods.include?(:color) && board_state[start_row_down][start_collumn_down].color != piece.color
         break
       end
 

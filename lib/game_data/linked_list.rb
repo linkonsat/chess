@@ -4,6 +4,7 @@ require 'pry-byebug'
 require_relative 'game_history_node'
 class GameHistory
   attr_accessor :head, :tail
+
   def initialize(head = nil, tail = nil)
     @head = head
     @tail = tail
@@ -22,7 +23,6 @@ class GameHistory
   end
 
   def rewind
-    # start from the tail and go back one. then set tail to the new reference as the old node contains a reference to
     if @head.next_node.nil?
       puts 'No move to return to'
     else
@@ -30,7 +30,7 @@ class GameHistory
       node = node.next_node until node.next_node.next_node.nil?
       node.next_node = nil
       @tail = node
-end
+    end
   end
 
   def return_history(requested_history = 1)
