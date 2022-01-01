@@ -75,6 +75,7 @@ end
   end
 
   describe "#promotion?" do 
+  subject(:game) {described_class.new}
   it "Prompts player to select a new piece when a pawn reaches the end of the board." do 
     game.setup
     pawn = Pawn.new 
@@ -83,7 +84,7 @@ end
     allow(game).to receive(:chosen_coordinates).and_return([0,0])
     allow(game.sets).to receive(:gets).and_return("Rook")
     new_piece = game.promotion?(pawn,move)
-    expect(new_piece).to eql(Rook)
+    expect(game.board.board[0][0]).to eql(Rook)
   end
 end
 

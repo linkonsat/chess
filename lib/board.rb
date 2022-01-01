@@ -118,4 +118,8 @@ class Board
       [new_input[0] - 1, new_input[1]]
     end
   end
+
+  def promotion_replacement(new_piece,coordinates)
+    @board[coordinates[0]][coordinates[1]] = new_piece 
+  end
 end

@@ -30,7 +30,7 @@ describe Board do
   describe '#update_board' do
     subject(:board) { described_class.new }
     it 'Updates the board when given new coordinates.' do
-      pawn = double('Pawn', current_position: [5, 5])
+      pawn = double('Pawn', current_position: [4, 5], :set_position =>[] )
       board.board[5][5] = pawn
       new_coordinates = [5, 5]
       board.update_board(pawn, new_coordinates)
@@ -38,16 +38,19 @@ describe Board do
     end
 
     it 'Updates the board when a passant move from pawn is entered' do
-      pawn = double('Pawn', current_position: [1, 1])
-      pawn_enemy = double('Pawn')
-      board.board[1][0] = pawn_enemy
-      board.update_board(pawn, [0, 0])
-      expect(board.board[0][0]).to eql(pawn)
-      expect(board.board[1][0]).not_to eql(pawn_enemy)
+      pawn = Pawn.new
+      pawn.set_position([1,1])
+      pawn_enemy = Pawn.new
+      pawn_enemy.set_position([2,0])
+      pawn_enemy.set_position([0,0])
+      board.board[0][0] = pawn_enemy 
+      board.board[0][1] = pawn
+      board.update_board(pawn,[1,0])
+      expect(board.board[1][0]).to eql(pawn)
     end
     it 'Updates the board when king does a castling move.' do
-      castle = double('Castle')
-      king = double('King', :current_position => [0, 4])
+      castle = double('Castle', :set_position =>[])
+      king = double('King', :current_position => [0, 4], :set_position => [], :class => "King")
       board.board[0][0] = castle
       board.board[0][4] = king
       board.update_board(king, [0, 2])
@@ -55,7 +58,7 @@ describe Board do
       expect(board.board[0][3]).to eql(castle)
     end
     it "Replaces the old piece spot with a blank spot." do
-    castle = double('Castle', :current_position => [0,3])
+    castle = double('Castle', :current_position => [0,3], :set_position =>[])
     board.board[0][3] = castle
     board.update_board(castle,[0,0])
     expect(board.board[0][3]).not_to eql(castle)
