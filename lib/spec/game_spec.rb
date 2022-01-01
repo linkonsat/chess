@@ -76,11 +76,8 @@ describe Game do
       game.setup
       pawn = Pawn.new
       move = [0, 0]
-      allow(game).to receive(:select_piece).and_return(Pawn.new)
-      allow(game).to receive(:chosen_coordinates).and_return([0, 0])
-      allow(game.sets).to receive(:gets).and_return('Rook')
       new_piece = game.promotion?(pawn, move)
-      expect(game.board.board[0][0]).to eql(Rook)
+      expect(new_piece).to eql(true)
     end
   end
 
