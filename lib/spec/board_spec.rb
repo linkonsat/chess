@@ -3,7 +3,6 @@
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'
 require 'pry-byebug'
-require_relative '../board'
 describe Board do
   describe '#initial_board' do
     subject(:board) { described_class.new }
@@ -76,4 +75,24 @@ describe Board do
       expect(board.board[0][0]).to eql(new_piece)
     end
   end
+
+  describe '#notation' do 
+  subject(:board) { described_class.new }
+  it "Saves the pieces on the board." do 
+    board.board[5][5]= Rook.new
+    board.board[5][5].color = "black"
+    data = board.notation
+    found_occurence = data.count "R"
+    expect(found_occurence).to eql(1)
+  end
+end
+  describe '#notation_data' do
+  subject(:board) { described_class.new}
+  it "Creates the proper board data if a piece is present" 
+  board.board[5][5] = Rook.new 
+  board.board[5][5].set_position([5,5])
+  data = board.notation_data
+  found_occurence = data.count "55"
+  expect(found_occurence).to eql(1)
+end
 end
