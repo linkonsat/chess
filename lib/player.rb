@@ -12,7 +12,7 @@ class Player
 
   def set_color(sets)
     choice = gets.chomp
-    if choice != '0' && choice != '1'
+    if choice.to_i != 0 && choice.to_i != 1
       set_color(sets)
     else
       @color = sets[choice.to_i][0][0].color
