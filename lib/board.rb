@@ -242,4 +242,5 @@ def notation
   return fen_board
 end
 
+
 end

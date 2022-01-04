@@ -89,5 +89,16 @@ describe Board do
     expect(found_occurence).to eql(2)
   end
 end
-
+  describe '#saved_board_setup' do 
+  it "Generates the saved board from the saved board notation." do 
+    set = ChessSet.new
+    black_set = set.create_black_set 
+    white_set = set.create_white_set
+    board.set_pieces_standard(white_set,black_set)
+    data = board.notation
+    second_board = Board.new
+    second_board.saved_board_setup(data)
+    expect(second_board.board).to eql(board.board)
+  end
+end
 end
