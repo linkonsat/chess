@@ -43,4 +43,20 @@ class ChessSet
       new_piece
     end
   end
+
+  def generate_piece(input)
+    if(input == "p" || input == "P")
+      return Pawn.new
+    elsif(input == "r" || input == "R")
+      return Rook.new 
+    elsif(input == "K" || input == "k")
+      return Knight.new 
+    elsif(input == "B" || input == "b")
+      return Bishop.new 
+    elsif(input == "q" || input == "Q")
+      return Queen.new 
+    elsif(input == "k" || input == "K")
+      return King.new 
+    end
+  end
 end
