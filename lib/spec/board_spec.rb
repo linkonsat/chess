@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-
+require_relative '../board'
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'
+require_relative '../player_set'
 require 'pry-byebug'
 describe Board do
   describe '#initial_board' do
@@ -79,20 +80,14 @@ describe Board do
   describe '#notation' do 
   subject(:board) { described_class.new }
   it "Saves the pieces on the board." do 
-    board.board[5][5]= Rook.new
-    board.board[5][5].color = "black"
+    set = ChessSet.new
+    black_set = set.create_black_set 
+    white_set = set.create_white_set
+    board.set_pieces_standard(white_set,black_set)
     data = board.notation
     found_occurence = data.count "R"
-    expect(found_occurence).to eql(1)
+    expect(found_occurence).to eql(2)
   end
 end
-  describe '#notation_data' do
-  subject(:board) { described_class.new}
-  it "Creates the proper board data if a piece is present" 
-  board.board[5][5] = Rook.new 
-  board.board[5][5].set_position([5,5])
-  data = board.notation_data
-  found_occurence = data.count "55"
-  expect(found_occurence).to eql(1)
-end
+
 end

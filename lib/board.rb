@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 require 'pry-byebug'
 class Board
@@ -123,4 +122,124 @@ class Board
   def promotion_replacement(new_piece, coordinates)
     @board[coordinates[0]][coordinates[1]] = new_piece
   end
+
+def notation 
+  fen_board = ""
+  @board.each_with_index do |row,index|
+    row.each do |board_cell|
+        if(board_cell.class == String)
+          fen_board << "#"
+        elsif(board_cell.class == Pawn && board_cell.color == "white")
+          fen_board << "p"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.available_move_values.to_s 
+        fen_board << "|"
+        fen_board << board_cell.default_moves.to_s 
+        fen_board << "|"
+        elsif(board_cell.class == Rook && board_cell.color == "white")
+          fen_board << "r"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Knight && board_cell.color == "white")
+          fen_board << "k"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Bishop && board_cell.color == "white")
+          fen_board << "b"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Queen && board_cell.color == "white")
+          fen_board << "q"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == King && board_cell.color == "white")
+          fen_board << "k"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Pawn && board_cell.color == "black")
+          fen_board << "P"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.available_move_values.to_s 
+        fen_board << "|"
+        fen_board << board_cell.default_moves.to_s 
+        fen_board << "|"
+        elsif(board_cell.class == Rook && board_cell.color == "black")
+          fen_board << "R"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Knight && board_cell.color == "black")
+          fen_board << "K"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Bishop && board_cell.color == "black")
+          fen_board << "B"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == Queen && board_cell.color == "black")
+          fen_board << "Q"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        elsif(board_cell.class == King && board_cell.color == "black")
+          fen_board << "K"
+          fen_board << "|"
+        fen_board << board_cell.color
+        fen_board << "|"
+        fen_board << board_cell.previous_position.to_s
+        fen_board << "|"
+        fen_board << board_cell.current_position.to_s
+        end
+    end
+    fen_board << "/"
+  end
+  return fen_board
+end
+
 end

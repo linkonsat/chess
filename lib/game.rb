@@ -31,7 +31,9 @@ class Game
     conclusion
   end
 
-  def promotion?; end
+  def promotion?(piece,move)
+     
+  end
 
   def setup(game_type = 'player vs player')
     black_set = @sets.create_black_set
@@ -78,10 +80,10 @@ class Game
       ai_round
     else
       player_input = 'No resignation yet'
-      @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
+      #@game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
       until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter) || player_input == 'save'
         @board.display_used_board
-        @game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
+        #@game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
         p selected_piece
@@ -142,13 +144,18 @@ class Game
   end
 
   def to_msgpack
+    #message pack deals with data however not all these values are data. so what we need to do is call helper methods
+    #so what we do is seeing as how these are all arrays we can still thesevalues into strings. ie.while we have the fen notation for the pieces
+    #we canuse that for it's relative data as well
+    # now we need to test the board saving methods then we can move to the next
     MessagePack.dump({
                        fifty_move_rule_counter: @fifty_move_rule_counter,
                        total_turns: @total_turns,
-                       board: @board,
+                       board: @board.notation,
+                       boardData: @board.data
                        player_list: @player_list,
                        sets: @sets,
-                       game_history: @game_history,
+                       #game_history: @game_history,
                        winning_conditions: @winning_conditions
                      })
   end
@@ -164,7 +171,7 @@ class Game
     self.board = loaded_save['board']
     self.player_list = loaded_save['player_list']
     self.sets = loaded['sets']
-    self.game_history = loaded_save['game_history']
+    #self.game_history = loaded_save['game_history']
     self.winning_conditions = loaded_save['winning_conditions']
   end
 
@@ -180,5 +187,3 @@ class Game
   end
 end
 
-game = Game.new
-game.game_run
