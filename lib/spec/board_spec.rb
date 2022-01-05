@@ -89,6 +89,13 @@ describe Board do
     expect(found_occurence).to eql(2)
   end
 end
+describe '#create_data' do
+subject(:board) {described_class.new }
+it "Returns the right piece when given the correct data" do 
+  data_hash = board.create_data("p||[1,6]|[]|")
+  expect(data_hash).to eql({:piece=>"[]", :color=>"white", :previous_position=>[], :current_position=>[[1,6]]})
+end
+end
   describe '#saved_board_setup' do
   subject(:board) {described_class.new}
   it "Generates the saved board from the saved board notation." do 
@@ -102,4 +109,7 @@ end
     expect(second_board.board).to eql(board.board)
   end
 end
+
 end
+
+#p||[1, 6]|[]|
