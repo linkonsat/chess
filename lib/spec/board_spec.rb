@@ -89,7 +89,8 @@ describe Board do
     expect(found_occurence).to eql(2)
   end
 end
-  describe '#saved_board_setup' do 
+  describe '#saved_board_setup' do
+  subject(:board) {described_class.new}
   it "Generates the saved board from the saved board notation." do 
     set = ChessSet.new
     black_set = set.create_black_set 
