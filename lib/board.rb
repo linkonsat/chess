@@ -1,4 +1,4 @@
-
+require_relative "player_set"
 require 'pry-byebug'
 class Board
   attr_accessor :board
@@ -96,7 +96,7 @@ class Board
       end
       new_board.push(current_row)
     end
-    new_board
+    return new_board
   end
 
   def display_used_board
@@ -129,10 +129,9 @@ def notation
     row.each do |board_cell|
         if(board_cell.class == String)
           fen_board << "#"
+          fen_board << "/"
         elsif(board_cell.class == Pawn && board_cell.color == "white")
           fen_board << "p"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
@@ -141,51 +140,44 @@ def notation
         fen_board << board_cell.available_move_values.to_s 
         fen_board << "|"
         fen_board << board_cell.default_moves.to_s 
-        fen_board << "|"
+        fen_board << "/"
         elsif(board_cell.class == Rook && board_cell.color == "white")
           fen_board << "r"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Knight && board_cell.color == "white")
           fen_board << "k"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Bishop && board_cell.color == "white")
           fen_board << "b"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Queen && board_cell.color == "white")
           fen_board << "q"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == King && board_cell.color == "white")
           fen_board << "k"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Pawn && board_cell.color == "black")
           fen_board << "P"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
@@ -194,53 +186,156 @@ def notation
         fen_board << board_cell.available_move_values.to_s 
         fen_board << "|"
         fen_board << board_cell.default_moves.to_s 
-        fen_board << "|"
+        fen_board << "/"
         elsif(board_cell.class == Rook && board_cell.color == "black")
           fen_board << "R"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Knight && board_cell.color == "black")
           fen_board << "K"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Bishop && board_cell.color == "black")
           fen_board << "B"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == Queen && board_cell.color == "black")
-          fen_board << "Q"
-          fen_board << "|"
-        fen_board << board_cell.color
+        fen_board << "Q"
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         elsif(board_cell.class == King && board_cell.color == "black")
           fen_board << "K"
-          fen_board << "|"
-        fen_board << board_cell.color
         fen_board << "|"
         fen_board << board_cell.previous_position.to_s
         fen_board << "|"
         fen_board << board_cell.current_position.to_s
+        fen_board << "/"
         end
     end
-    fen_board << "/"
   end
   return fen_board
 end
+  def saved_board_setup(data)
+    checked_data = 0
+    organized_data = data.split("/")
+    set = ChessSet.new
+    new_board = []
+    self.board.each_with_index do |row, row_index|
+      board_row = []
+      row.each_with_index do |board_cell, index|
 
+        #so let's pretend there is only like two squares so we can start from whatever the checked data is 
+        #So we would need to loop through the checked data starting from the appropriate data with the end conditions being the current square data has been uploaded
+        #so let's say the first item is a blank square 
+        if(organized_data[checked_data] == "#")
+          board_cell = "|_|"
+          checked_data += 1
+          board_row.push(board_cell)
+          #now we enter in the different conditions if it's a piece. with a exception for pawn since th we add that length of one to checked data count
+        elsif(organized_data[checked_data] == "p" || organized_data[checked_data] == "P")
+          piece_data = create_data(organized_data[checked_data])
+          #no we verified the hash returns the appropriate data we can just set the values from the hash.
+          board_cell = set.generate_piece(piece_data[:piece])
+          board_cell.color = piece_data[:color]
+          board_cell.current_position = piece_data[:current_position]
+          board_cell.previous_position = piece_data[:previous_position]
+          board_cell.available_move_values = piece_data[:available_move_values]
+          board_cell.default_moves =  piece_data[:default_moves]
+          checked_data += 1
+          board_row.push(board_cell)
+          #after we add each attribute add the data however we skip is something isn't present by the value ||
+        else
+          #if neither condition is true we still create the piece but, omit the extra data after creating the piece create the loop that adds all the data
+          piece_data = create_data(organized_data[checked_data])
+          #binding.pry
+          board_cell = set.generate_piece(piece_data[:piece])
+          board_cell.color = piece_data[:color]
+          board_cell.current_position = piece_data[:current_position]
+          board_cell.previous_position = piece_data[:previous_position]
+          checked_data += 1
+          board_row.push(board_cell)
+        end
+      end
+      new_board.push(board_row)
+    end
+    @board = setup_saved_board(new_board)
+  end
 
+    def setup_saved_board(new_board)
+      created_board = generate_colored_board(Array.new(8) { Array.new(8, '|_|') })
+      created_board[0] = new_board[0]
+      created_board[1] = new_board[1]
+      created_board[6] = new_board[6]
+      created_board[7] = new_board[7]
+      return created_board
+    end
+
+    def create_data(data)
+      data_hash = {}
+      split_data = data.split("|")
+
+      split_data.each_with_index do |item, index|
+        if(index == 0)
+          data_hash[:piece] = item 
+        end
+        if(index == 0 && ("a".."z").include?(item))
+          data_hash[:color] = "white"
+        elsif(index == 0 && ("A".."Z").include?(item))
+          data_hash[:color] = "black"
+        end
+        if(item[0] == "[" && item[1] != "[")
+          found_array = create_arrays(item)
+          if(!data_hash.has_key?(:current_position))
+            data_hash[:current_position] = found_array[0] 
+          elsif(!data_hash.has_key?(:previous_position))
+            data_hash[:previous_position] = found_array[0]
+          end
+        end
+          if(item[0] == "[" && item[1] == "[")
+            found_array = create_arrays(item)
+          if(!data_hash.has_key?(:available_move_values))
+            data_hash[:available_moves_values] = found_array
+          elsif(!data_hash.has_key?(:default_moves))
+            data_hash[:default_moves] = found_array
+          end
+        end
+        end
+      return data_hash
+    end
+
+    def create_arrays(array_items)
+    
+      #So we need to think how we determine the level of array nesting.one we determine the nesting level we can push a value
+      #since we know in the case of chess we should not have uneven levels of nesting when determing moves and positions
+      #we always asssume there is a single level of nesting
+      split = array_items.split("")
+    index = 0 
+    array = []
+    split.each_with_index do |item,index|
+      #when we do this techically we need to do two items at once. for example once we hit 0 we need to grab the next number up by 2
+      #so let's pretend we hit the first item
+      if(item == "1")
+        #binding.pry 
+        end
+      created_array = [item.to_i,split[index+3].to_i]
+      #binding.pry
+      if(!array.include?(created_array) && ("0".."9").include?(item) && ("0".."9").include?(split[index+3]))
+      array.push(created_array)
+      end
+    end
+    return array
+    end
 end
+

@@ -92,11 +92,15 @@ end
 describe '#create_data' do
 subject(:board) {described_class.new }
 it "Returns the right piece when given the correct data" do 
-  data_hash = board.create_data("p||[1,6]|[]|")
-  expect(data_hash).to eql({:piece=>"[]", :color=>"white", :previous_position=>[], :current_position=>[[1,6]]})
+  data_hash = board.create_data("p||[1, 6]|[]|")
+  expect(data_hash).to eql({:piece=>"p", :color=>"white", :previous_position=>nil, :current_position=>[1, 6]})
+end
+it "Returns the right piece when given the correct nested data" do 
+  data_hash = board.create_data("p||[1, 6]|[[2, 5]]|[]|")
+  expect(data_hash).to eql({:piece=>"p", :color=>"white", :previous_position=>nil, :current_position=>[1, 6], :available_moves_values => [[2, 5]]})
 end
 end
-  describe '#saved_board_setup' do
+  describe '#saved_board_setup' do  
   subject(:board) {described_class.new}
   it "Generates the saved board from the saved board notation." do 
     set = ChessSet.new
@@ -106,10 +110,8 @@ end
     data = board.notation
     second_board = Board.new
     second_board.saved_board_setup(data)
-    expect(second_board.board).to eql(board.board)
+    expect(second_board.display_used_board).to eql(board.display_used_board)
   end
 end
 
 end
-
-#p||[1, 6]|[]|
