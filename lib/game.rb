@@ -11,8 +11,7 @@ require_relative './game_data/linked_list'
 require 'pry-byebug'
 require 'msgpack'
 class Game
-  attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history
-  attr_reader :player_list, :winning_conditions
+  attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history, :player_list, :sets, :winning_conditions
 
   include GameMessages
   def initialize
@@ -152,29 +151,45 @@ class Game
                        fifty_move_rule_counter: @fifty_move_rule_counter,
                        total_turns: @total_turns,
                        board: @board.notation,
-                       boardData: @board.data
-                       player_list: @player_list,
-                       sets: @sets,
-                       #game_history: @game_history,
-                       winning_conditions: @winning_conditions
-                     })
+                       player_one: @player_list[0].class.to_s, 
+                       player_one_color: @player_list[0].color, 
+                       player_two: @player_list[1].class.to_s,
+                       player_two_color: @player_list[1].color
+                     }) 
   end
 
   def unpack_save(save)
-    MessagePack.load save
+    return MessagePack.load save
   end
 
   def load_saved_game(save_data)
+    new_board = Board.new
     loaded_save = unpack_save(save_data)
     self.fifty_move_rule_counter = loaded_save['fifty_move_rule_counter']
     self.total_turns = loaded_save['total_turns']
-    self.board = loaded_save['board']
-    self.player_list = loaded_save['player_list']
-    self.sets = loaded['sets']
-    #self.game_history = loaded_save['game_history']
-    self.winning_conditions = loaded_save['winning_conditions']
+    self.board = new_board 
+    new_board.saved_board_setup(loaded_save['board'])
+    self.player_list = create_saved_players([loaded_save["player_one"],loaded_save["player_two"]],[loaded_save["player_one_color"],loaded_save["player_two_color"]])
+    self.sets = ChessSet.new
+    self.winning_conditions = EndConditions.new
   end
+  def create_saved_players(players,player_colors)
+    found_players = []
+    if(players[0] == "Player")
+      found_players.push(Player.new )
+      found_players[0].color = player_colors[0]
+    else
+      found_players.push(AI.new )
+    end
 
+    if(players[1] == "Player")
+      found_players.push(Player.new) 
+      found_players[1].color = player_colors[1]
+    else 
+      found_players.push(AI.new) 
+    end
+    return found_players
+  end
   def save_game(data)
     if Dir.exist?('game_data')
       save = File.open('game_data/chess_data.rb', 'w+')
