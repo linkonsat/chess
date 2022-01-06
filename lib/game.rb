@@ -143,10 +143,6 @@ class Game
   end
 
   def to_msgpack
-    #message pack deals with data however not all these values are data. so what we need to do is call helper methods
-    #so what we do is seeing as how these are all arrays we can still thesevalues into strings. ie.while we have the fen notation for the pieces
-    #we canuse that for it's relative data as well
-    # now we need to test the board saving methods then we can move to the next
     MessagePack.dump({
                        fifty_move_rule_counter: @fifty_move_rule_counter,
                        total_turns: @total_turns,
