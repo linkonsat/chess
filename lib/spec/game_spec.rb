@@ -83,12 +83,12 @@ describe Game do
 
   describe '#game_type' do
     subject(:game) { described_class.new }
-    xit 'Loops until AI vs AI is entered.' do
+    it 'Loops until AI vs AI is entered.' do
       allow(game).to receive(:gets).and_return('fun', 'AI vs AI')
       game_type = game.game_type
       expect(game_type).to eql('AI vs AI')
     end
-    xit 'Loops until player vs player is entered.' do
+    it 'Loops until player vs player is entered.' do
       allow(game).to receive(:gets).and_return('fun', 'player vs player')
       game_type = game.game_type
       expect(game_type).to eql('player vs player')
@@ -99,8 +99,8 @@ describe Game do
     subject(:game) { described_class.new }
     it 'Sends a message to msgpack when a save is requested' do
       game.setup
-      game.to_msgpack
       expect(MessagePack).to receive(:dump).once
+      game.to_msgpack
     end
   end
   describe '#unpack_save' do
@@ -108,17 +108,29 @@ describe Game do
     it 'Turns the saved game into a hash' do
       game.setup
       saved_game = game.to_msgpack
-      unpacked_game = saved_game.unpack
+      unpacked_game = game.unpack_save(saved_game)
       expect(unpacked_game.class).to eql(Hash)
     end
   end
   describe '#setup_saved_game' do
+  subject(:game) {described_class.new}
     it 'Sets up the same game instance' do
       game.setup
-      saved_game = game.save
-      unpacked_game = saved_game.unpack
-      loaded_game = game.load_save(unpacked_game)
-      expect(loaded_game).to eql(game)
+      second_game = Game.new
+      saved_game = game.to_msgpack
+      loaded_game = second_game.load_saved_game(saved_game)
+      expect(second_game.board.board[0][5].current_position).to eql(game.board.board[0][5].current_position)
     end
   end
+
+  describe "#create_saved_players" do 
+  subject(:game) {described_class.new}
+  it "Creates an AI or a player when given the class string" do 
+    player_list = ["Player","AI"]
+    colors = ["black","white"]
+    created_players = game.create_saved_players(player_list,colors)
+    expect(created_players[0].class).to eql(Player)
+    expect(created_players[1].class).to eql(AI)
+  end
+end
 end
