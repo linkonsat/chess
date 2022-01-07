@@ -195,5 +195,11 @@ class Game
       save.puts data
     end
   end
+
+  def fifty_move_increase(piece,coordinates)
+    if(piece.class.to_s == "Pawn" || self.board.board[coordinates[0]][coordinates[1]].class != String)
+      self.fifty_move_rule_counter += 1
+    end
+  end
 end
 

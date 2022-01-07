@@ -147,14 +147,15 @@ end
     game.setup
     rook = Rook.new  
     coordinates = [1,0]
-    game.fifty_move_increase(pawn,coordinates)
+    game.fifty_move_increase(rook,coordinates)
     expect(game.fifty_move_rule_counter).to eql(1)
   end
-  it "Does not Increase fifty move count by one when piece is captured or pawn is moved"
+  it "Does not Increase fifty move count by one when piece is captured or pawn is moved" do 
   game.setup
   rook = Rook.new  
   coordinates = [5,0]
-  game.fifty_move_increase(pawn,coordinates)
+  game.fifty_move_increase(rook,coordinates)
   expect(game.fifty_move_rule_counter).to eql(0)
+  end
 end
 end
