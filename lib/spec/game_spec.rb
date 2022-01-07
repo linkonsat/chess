@@ -133,4 +133,28 @@ describe Game do
     expect(created_players[1].class).to eql(AI)
   end
 end
+
+  describe "#fifty_move_increase" do 
+  subject(:game) {described_class.new}
+  it "Increase fifty move count by one when a pawn is moved" do 
+    game.setup
+    pawn = Pawn.new 
+    coordinates = [5,5]
+    game.fifty_move_increase(pawn,coordinates)
+    expect(game.fifty_move_rule_counter).to eql(1)
+  end
+  it "Increase fifty move count by one when a piece is captured" do 
+    game.setup
+    rook = Rook.new  
+    coordinates = [1,0]
+    game.fifty_move_increase(pawn,coordinates)
+    expect(game.fifty_move_rule_counter).to eql(1)
+  end
+  it "Does not Increase fifty move count by one when piece is captured or pawn is moved"
+  game.setup
+  rook = Rook.new  
+  coordinates = [5,0]
+  game.fifty_move_increase(pawn,coordinates)
+  expect(game.fifty_move_rule_counter).to eql(0)
+end
 end

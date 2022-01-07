@@ -85,7 +85,6 @@ class Game
         #@game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
-        p selected_piece
         if selected_piece == 'save'
           saved_data = to_msgpack
           save_game(saved_data)
