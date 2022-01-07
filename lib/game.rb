@@ -31,7 +31,11 @@ class Game
   end
 
   def promotion?(piece,move)
-     
+     if(piece.class.to_s == "Pawn" && (move[0] == 0 || move[0] == 7))
+      return true 
+     else
+      return false
+     end
   end
 
   def setup(game_type = 'player vs player')

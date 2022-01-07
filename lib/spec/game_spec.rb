@@ -72,12 +72,19 @@ describe Game do
 
   describe '#promotion?' do
     subject(:game) { described_class.new }
-    it 'Prompts player to select a new piece when a pawn reaches the end of the board.' do
+    it 'Returns true when a pawn reaches the end of the board.' do
       game.setup
       pawn = Pawn.new
       move = [0, 0]
       new_piece = game.promotion?(pawn, move)
       expect(new_piece).to eql(true)
+    end
+    it 'Returns false when a pawn does not reach the end of the board' do 
+      game.setup
+      pawn = Pawn.new
+      move = [5, 0]
+      new_piece = game.promotion?(pawn, move)
+      expect(new_piece).to eql(false)
     end
   end
 
