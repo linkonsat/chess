@@ -206,4 +206,12 @@ class Pawn
       @available_move_values.push(item) if !@available_move_values.include?(item) && !item.nil?
     end
   end
+
+  def promotion?
+    if(self.current_position[0] == 0 || self.current_position[1] == 7)
+      return true
+    else
+      return false
+    end
+  end
 end

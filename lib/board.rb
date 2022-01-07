@@ -236,17 +236,12 @@ end
       board_row = []
       row.each_with_index do |board_cell, index|
 
-        #so let's pretend there is only like two squares so we can start from whatever the checked data is 
-        #So we would need to loop through the checked data starting from the appropriate data with the end conditions being the current square data has been uploaded
-        #so let's say the first item is a blank square 
         if(organized_data[checked_data] == "#")
           board_cell = "|_|"
           checked_data += 1
           board_row.push(board_cell)
-          #now we enter in the different conditions if it's a piece. with a exception for pawn since th we add that length of one to checked data count
         elsif(organized_data[checked_data] == "p" || organized_data[checked_data] == "P")
           piece_data = create_data(organized_data[checked_data])
-          #no we verified the hash returns the appropriate data we can just set the values from the hash.
           board_cell = set.generate_piece(piece_data[:piece])
           board_cell.color = piece_data[:color]
           board_cell.current_position = piece_data[:current_position]
@@ -255,11 +250,8 @@ end
           board_cell.default_moves =  piece_data[:default_moves]
           checked_data += 1
           board_row.push(board_cell)
-          #after we add each attribute add the data however we skip is something isn't present by the value ||
         else
-          #if neither condition is true we still create the piece but, omit the extra data after creating the piece create the loop that adds all the data
           piece_data = create_data(organized_data[checked_data])
-          #binding.pry
           board_cell = set.generate_piece(piece_data[:piece])
           board_cell.color = piece_data[:color]
           board_cell.current_position = piece_data[:current_position]
@@ -316,21 +308,11 @@ end
     end
 
     def create_arrays(array_items)
-    
-      #So we need to think how we determine the level of array nesting.one we determine the nesting level we can push a value
-      #since we know in the case of chess we should not have uneven levels of nesting when determing moves and positions
-      #we always asssume there is a single level of nesting
       split = array_items.split("")
     index = 0 
     array = []
     split.each_with_index do |item,index|
-      #when we do this techically we need to do two items at once. for example once we hit 0 we need to grab the next number up by 2
-      #so let's pretend we hit the first item
-      if(item == "1")
-        #binding.pry 
-        end
       created_array = [item.to_i,split[index+3].to_i]
-      #binding.pry
       if(!array.include?(created_array) && ("0".."9").include?(item) && ("0".."9").include?(split[index+3]))
       array.push(created_array)
       end
