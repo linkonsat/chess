@@ -89,12 +89,18 @@ class Game
         #@game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
+        chosen_coordinates = @player_list[current_turn].select_move(@board.board, selected_piece)
         if selected_piece == 'save'
           saved_data = to_msgpack
           save_game(saved_data)
           break
         end
-        chosen_coordinates = @player_list[current_turn].select_move(@board.board, selected_piece)
+        if(piece.responds_to?(:promotion?) && piece.promotion?)
+        input = gets.chomp
+          new_piece = @chess_sets.generate_piece(input)
+          @board.board[chosen_coordinates[0]][chosen_coordiantes[1]] = new_piece  
+        end
+        fifty_move_increase(selected_piece,chosen_coordinates)
         @board.update_board(selected_piece, chosen_coordinates)
         @total_turns += 1
       end
