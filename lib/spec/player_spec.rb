@@ -11,7 +11,7 @@ describe Player do
       sets = [[[piece]], [[piece_two]]]
       allow(player).to receive(:gets).and_return('[]', 'white', '1')
       player.set_color(sets)
-      expect(player.color).to eql('White')
+      expect(player.color).to eql('Black')
     end
     it 'Sets the correct color given a predefined set of pieces' do
       piece = double('Pawn', color: 'Black')
@@ -70,19 +70,22 @@ describe Player do
     board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
     set = ChessSet.new
     rook = set.generate_piece("r")
+    rook.set_position([5,5])
     board.board[5][5] = rook
-    allow(:player).to recieve(:input).and_return("75")
-    expect(player.select_move(board.board)).to eql([[7,5],rook])
+    allow(player).to receive(:gets).and_return("75")
+    expect(player.select_move(board.board,rook)).to eql([[7,5],rook])
   end
   it "Changes the piece if a move is entered that is another piece and loops until a valid move is selected" do 
     board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-    set = CHessSet.new 
+    set = ChessSet.new 
     rook = set.generate_piece("r")
     second_rook = set.generate_piece("r")
     board.board[5][5] = rook
     board.board[0][7] = second_rook
-    allow(:player).to recieve(:input).and_return("07","77")
-    expect(player.select_move(board.board)).to eql([[7,7],second_rook])
+    rook.set_position([5,5])
+    second_rook.set_position([0,7])
+    allow(player).to receive(:gets).and_return("77","07","57")
+    expect(player.select_move(board.board,rook)).to eql([[5,7],second_rook])
   end
 end
 end

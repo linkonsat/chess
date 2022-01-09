@@ -64,9 +64,8 @@ class Player
     until input.length == 2 && piece.valid_move?(board_state, number_input)
       input = gets.chomp
       number_input = [input[0].to_i, input[1].to_i]
-      #change the piece reference to that new piece and return
-      if(board_state[input[0]][input[1]].respond_to?(:color) && board_state[input[0]][input[1]].respond_to?(:color) == self.color)
-        piece = board_state[input[0]][input[1]]
+      if(board_state[number_input[0]][number_input[1]].respond_to?(:color) && board_state[number_input[0]][number_input[1]].color == self.color)
+        piece = board_state[number_input[0]][number_input[1]]
       end
     end
     return [[input[0].to_i, input[1].to_i],piece]
