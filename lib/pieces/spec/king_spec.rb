@@ -46,7 +46,7 @@ describe King do
 
     it 'Allows casteling when the king or spaces are not under check.' do
       board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
-      rook = double('Rook', color: 'black', valid_move?: false, class: 'Rook')
+      rook = double('Rook', color: 'black', valid_move?: false, class: 'Rook', :legal_moves => [5,5])
       bottom_king = King.new
       top_king = king
       board.board[0][4] = bottom_king

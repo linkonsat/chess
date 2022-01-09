@@ -78,7 +78,7 @@ class King
                         [current_position[0], current_position[1] - 1], [current_position[0] + 1, current_position[1] - 1]]
 
       possible_moves.each do |position|
-        unless (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].instance_of?(String))
+        unless (!board_state[position[0]].nil? && board_state[position[0]][position[1]].respond_to?(:color) && board_state[position[0]][position[1]].color != color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].instance_of?(String))
           next
         end
 
@@ -96,7 +96,7 @@ class King
       possible_moves = [[current_position[0], current_position[1] + 1],
                         [current_position[0] + 1, current_position[1] + 1], [current_position[0] - 1, current_position[1] + 1]]
       possible_moves.each do |position|
-        unless (!board_state[position[0]].nil? && board_state[position[0]][position[1]].methods.include?(:color) && board_state[position[0]][position[1]].color != color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].instance_of?(String))
+        unless (!board_state[position[0]].nil? && board_state[position[0]][position[1]].respond_to?(:color) && board_state[position[0]][position[1]].color != color) || (!board_state[position[0]].nil? && board_state[position[0]][position[1]].instance_of?(String))
           next
         end
 
@@ -110,7 +110,7 @@ class King
   end
 
   def top_move(board_state)
-    if ((!board_state[current_position[0] + 1].nil? && board_state[current_position[0] + 1][current_position[1]].methods.include?(:color) && board_state[current_position[0] + 1][current_position[1]].color != color) || (!board_state[current_position[0] + 1].nil? && board_state[current_position[0] + 1][current_position[1]].instance_of?(String))) && ((0..7).include?(current_position[0] + 1) && !king_check?(board_state,
+    if ((!board_state[current_position[0] + 1].nil? && board_state[current_position[0] + 1][current_position[1]].respond_to?(:color) && board_state[current_position[0] + 1][current_position[1]].color != color) || (!board_state[current_position[0] + 1].nil? && board_state[current_position[0] + 1][current_position[1]].instance_of?(String))) && ((0..7).include?(current_position[0] + 1) && !king_check?(board_state,
                                                                                                                                                                                                                                                                                                                                                                                                                        [
                                                                                                                                                                                                                                                                                                                                                                                                                          current_position[0] + 1, current_position[1]
                                                                                                                                                                                                                                                                                                                                                                                                                        ]))
@@ -121,7 +121,7 @@ class King
   end
 
   def bottom_move(board_state)
-    if ((!board_state[current_position[0] - 1].nil? && board_state[current_position[0] - 1][current_position[1]].methods.include?(:color) && board_state[current_position[0] - 1][current_position[1]].color != color) || (!board_state[current_position[0] - 1].nil? && board_state[current_position[0] - 1][current_position[1]].instance_of?(String))) && ((0..7).include?(current_position[0] - 1) && !king_check?(board_state,
+    if ((!board_state[current_position[0] - 1].nil? && board_state[current_position[0] - 1][current_position[1]].respond_to?(:color) && board_state[current_position[0] - 1][current_position[1]].color != color) || (!board_state[current_position[0] - 1].nil? && board_state[current_position[0] - 1][current_position[1]].instance_of?(String))) && ((0..7).include?(current_position[0] - 1) && !king_check?(board_state,
                                                                                                                                                                                                                                                                                                                                                                                                                        [
                                                                                                                                                                                                                                                                                                                                                                                                                          current_position[0] - 1, current_position[1]
                                                                                                                                                                                                                                                                                                                                                                                                                        ]))
@@ -188,7 +188,6 @@ class King
 
   def found_moves_casteling(board_state)
     found_moves = []
-    # check if a rook exists on either side
     if clear_top_left?(board_state) && board_state[0][0].class.to_s == 'Rook' && board_state[0][0].color == color && current_position[1] == 4 && current_position[0] == 0
       left_end = 4 - 2
       until left_end == 5
@@ -209,8 +208,6 @@ class King
 
       end
     end
-
-    # check if a rook exists on either side
 
     if clear_bottom_left?(board_state) && board_state[7][0].class.to_s == 'Rook' && board_state[7][0].color == color && current_position[1] == 4 && current_position[0] == 7
       left_end = 4 - 2
@@ -241,7 +238,7 @@ class King
   def in_check?(board_state, coordinates = [current_position[0], current_position[1]])
     board_state.each do |board_row|
       board_row.each do |board_cell|
-        next unless board_cell.class != String && board_cell.color != color
+        next unless board_cell.respond_to?(:color) && board_cell.color != color
 
         found_pieces_moves = board_cell.legal_moves(board_state)
         return true if board_cell.valid_move?(board_state, coordinates)
@@ -254,7 +251,7 @@ class King
   def in_check_castleing?(board_state, coordinates = [current_position[0], current_position[1]])
     board_state.each do |board_row|
       board_row.each do |board_cell|
-        next unless board_cell.class != String && board_cell.color != color && board_cell.class.to_s != 'King'
+        next unless board_cell.respond_to?(:color) && board_cell.class.to_s != 'King'
 
         found_pieces_moves = board_cell.legal_moves(board_state)
         return true if board_cell.valid_move?(board_state, coordinates)
@@ -283,7 +280,7 @@ class King
     found_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-        next unless board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,
+        next unless board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,
                                                                                         [current_position[0],
                                                                                          current_position[1]]) && board_cell.color != color
 
@@ -300,7 +297,7 @@ class King
     available_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-        next unless board_cell.methods.include?(:valid_move?) && board_cell.valid_move?(board_state,
+        next unless board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,
                                                                                         [found_pieces[0].current_position[0],
                                                                                          found_pieces[0].current_position[1]]) && board_cell.color == color
 

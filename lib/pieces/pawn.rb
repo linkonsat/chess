@@ -73,8 +73,6 @@ class Pawn
     if (0..board_state[current_position[0]].length).include?(current_position[1] + 1) && board_state[current_position[0]][current_position[1] + 1].class != String
       attackable_pieces.push(board_state[current_position[0]][current_position[1] + 1])
     end
-    # issue is that logic path isnt pushing the piece
-    # p board_state[self.current_position[0]][self.current_position[1] - 1]
     if (0..board_state[current_position[0]].length).include?(current_position[1] - 1) && board_state[current_position[0]][current_position[1] - 1].class != String
       attackable_pieces.push(board_state[current_position[0]][current_position[1] - 1])
     end
@@ -150,7 +148,7 @@ class Pawn
   def is_blocked_forward(board_state)
     i = 0
     new_row_coordinate = current_position[0] + default_moves[i][0]
-    until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
+    until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].respond_to?(:color) || i == @default_moves.length
       new_row_coordinate = current_position[0] + default_moves[i][0]
       @available_move_values.push([new_row_coordinate, current_position[1]])
       i += 1
@@ -161,7 +159,7 @@ class Pawn
     i = 0
     new_row_coordinate = current_position[0] + default_moves[i][0]
 
-    until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].class != String || i == @default_moves.length
+    until default_moves[i].nil? || board_state[new_row_coordinate][current_position[1]].respond_to?(:color) || i == @default_moves.length
       new_row_coordinate = current_position[0] + default_moves[i][0]
       @available_move_values.push([new_row_coordinate, current_position[1]])
 
@@ -174,11 +172,11 @@ class Pawn
     left_move = @current_position[1] + 1
     forward_move = @current_position[0] + 1
     right_move = @current_position[1] - 1
-    if !board_state[forward_move][left_move].nil? && board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != color
+    if !board_state[forward_move][left_move].nil? && board_state[forward_move][left_move].respond_to?(:color) && board_state[forward_move][left_move].color != color
       attackable_positions.push([forward_move, left_move])
     end
 
-    if !board_state[forward_move][right_move].nil? && board_state[forward_move][right_move].class != String && board_state[forward_move][right_move].color != color
+    if !board_state[forward_move][right_move].nil? && board_state[forward_move][right_move].respond_to?(:color) && board_state[forward_move][right_move].color != color
       attackable_positions.push([forward_move, right_move])
     end
     remove_duplicates(attackable_positions)
@@ -191,11 +189,11 @@ class Pawn
     right_move = @current_position[1] - 1
     if board_state[forward_move][left_move].nil?
 
-    elsif board_state[forward_move][left_move].class != String && board_state[forward_move][left_move].color != color
+    elsif board_state[forward_move][left_move].respond_to?(:color) && board_state[forward_move][left_move].color != color
       attackable_positions.push([forward_move, left_move])
     end
     if board_state[forward_move][right_move].nil?
-    elsif board_state[forward_move][right_move].class != String && board_state[forward_move][right_move] != color
+    elsif board_state[forward_move][right_move].respond_to?(:color) && board_state[forward_move][right_move] != color
       attackable_positions.push([forward_move, right_move])
     end
     remove_duplicates(attackable_positions)
