@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../player'
-
+require_relative '../player_set'
 describe Player do
   describe '#set_color' do
     subject(:player) { described_class.new }
@@ -63,4 +63,26 @@ describe Player do
       expect(found_piece).to eql(pawn)
     end
   end
+
+  describe "#select_move" do 
+  subject(:player) {described_class.new}
+  it "Loops until a valid move is selected." do 
+    board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+    set = ChessSet.new
+    rook = set.generate_piece("r")
+    board.board[5][5] = rook
+    allow(:player).to recieve(:input).and_return("75")
+    expect(player.select_move(board.board)).to eql([[7,5],rook])
+  end
+  it "Changes the piece if a move is entered that is another piece and loops until a valid move is selected" do 
+    board = double('Board', board: Array.new(8) { Array.new(8, '[]') })
+    set = CHessSet.new 
+    rook = set.generate_piece("r")
+    second_rook = set.generate_piece("r")
+    board.board[5][5] = rook
+    board.board[0][7] = second_rook
+    allow(:player).to recieve(:input).and_return("07","77")
+    expect(player.select_move(board.board)).to eql([[7,7],second_rook])
+  end
+end
 end
