@@ -25,9 +25,9 @@ class Game
   end
 
   def game_run
-    setup(game_type)
-    round
-    conclusion
+    self.setup(game_type)
+    self.round
+    self.conclusion
   end
 
   def promotion?(piece,move)
@@ -100,8 +100,10 @@ class Game
           new_piece = @chess_sets.generate_piece(input)
           @board.board[chosen_coordinates[0]][chosen_coordiantes[1]] = new_piece  
         end
-        fifty_move_increase(selected_piece,chosen_coordinates)
-        @board.update_board(selected_piece, chosen_coordinates)
+        #problem with this is that it's misleading in that it isn't just a coordinate but also a piece
+        changed_piece = chosen_coordinates[1]
+        fifty_move_increase(selected_piece,chosen_coordinates[0])
+        @board.update_board(selected_piece, chosen_coordinates[0])
         @total_turns += 1
       end
     end
