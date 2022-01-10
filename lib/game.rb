@@ -44,6 +44,7 @@ class Game
     @board.set_pieces_standard(white_set, black_set)
     puts @board.display_used_board
     if game_type == 'player vs player'
+      puts "A white piece is ♖ and a black piece is ♜"
       chess_sets = [white_set, black_set]
       create_players(chess_sets)
     elsif game_type == 'AI vs AI'
@@ -95,7 +96,7 @@ class Game
           save_game(saved_data)
           break
         end
-        if(piece.responds_to?(:promotion?) && piece.promotion?)
+        if(selected_piece.respond_to?(:promotion?) && selected_piece.promotion?)
         input = gets.chomp
           new_piece = @chess_sets.generate_piece(input)
           @board.board[chosen_coordinates[0]][chosen_coordiantes[1]] = new_piece  
@@ -148,7 +149,7 @@ class Game
 
   def game_type
     choice = nil
-    p 'Go ahead and enter a game type'
+    p 'Go ahead and enter a game type. You can enter player vs player or if your feeling like training some computers you can enter AI vs AI'
     choice = gets.chomp until ['player vs player', 'AI vs AI'].include?(choice)
     choice
   end

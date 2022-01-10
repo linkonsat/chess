@@ -1,4 +1,4 @@
-require_relative '../main_game'
+require_relative '.../main_game'
 require_relative '../game'
 require 'pry-byebug'
 describe MainGame do
