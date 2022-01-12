@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'pry-byebug'
-module GenericMoves
+module MoveRules
   def vertical_moves(board_state, piece)
     valid_vertical_moves = []
     start_row_up = piece.current_position[0] + 1

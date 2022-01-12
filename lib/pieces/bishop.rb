@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'generic_moves'
+require_relative 'move_rules'
 require 'pry-byebug'
 class Bishop
   attr_accessor :current_position, :previous_position, :color
 
-  include GenericMoves
+  include MovesRules
   def initialize
     @current_position = nil
     @previous_position = nil
