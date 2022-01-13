@@ -3,7 +3,7 @@
 require 'pry-byebug'
 class Pawn
   attr_accessor :current_position, :previous_position, :color, :available_move_values, :default_moves
-
+include MoveRules
   def initialize(current_position = nil)
     @current_position = current_position
     @previous_position = nil

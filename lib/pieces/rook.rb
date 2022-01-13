@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'pry-byebug'
-require_relative './generic_moves'
+require_relative './move_rules'
 class Rook
   attr_accessor :color, :current_position, :previous_position
 
-  include GenericMoves
+  include MoveRules
   def initialize
     @color = nil
     @current_position = nil
