@@ -5,7 +5,7 @@ require 'pry-byebug'
 class King
   attr_accessor :color, :current_position, :previous_position, :available_moves_values
   attr_reader :name
-
+include MoveRules
   def initialize
     @name = 'King'
     @color = nil

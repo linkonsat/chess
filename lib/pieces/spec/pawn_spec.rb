@@ -144,4 +144,18 @@ describe Pawn do
       expect(board.board[1][0].color).to eql('black')
     end
   end
+
+  describe '#promotion?' do
+  subject(:pawn) { described_class.new }
+  it 'Returns true when a pawn reaches the end of the board.' do
+    pawn.set_position([0,0])
+    expect(pawn.promotion?).to eql(true)
+    pawn.set_position[7,0]
+    expect(pawn.promtion?).to eql(true)
+  end
+  it 'Returns false when a pawn does not reach the end of the board' do 
+    pawn.set_position([5,5])
+    expect(pawn.promotion).to eql(false)
+  end
+end
 end

@@ -3,7 +3,7 @@
 require 'pry-byebug'
 class Knight
   attr_accessor :color, :previous_position, :current_position
-
+include MoveRules
   def initialize
     @color = nil
     @previous_position = nil

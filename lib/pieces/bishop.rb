@@ -5,7 +5,7 @@ require 'pry-byebug'
 class Bishop
   attr_accessor :current_position, :previous_position, :color
 
-  include MovesRules
+  include MoveRules
   def initialize
     @current_position = nil
     @previous_position = nil

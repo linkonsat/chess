@@ -5,7 +5,7 @@ require_relative './move_rules'
 class Rook
   attr_accessor :color, :current_position, :previous_position
 
-  include MoveRUles
+  include MoveRules
   def initialize
     @color = nil
     @current_position = nil
