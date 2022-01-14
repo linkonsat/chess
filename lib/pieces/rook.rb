@@ -26,7 +26,7 @@ class Rook
   end
 
   def valid_move?(board_state, input)
-    if verify_input?(board_state, input)
+    if verify_input?(board_state, input) && self.check_cause_nonking?(board_state,self,input)
       found_moves = legal_moves(board_state)
       matches_input?(found_moves, input)
     else

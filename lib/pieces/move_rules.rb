@@ -384,23 +384,27 @@ module MoveRules
 
 
 def check_cause_nonking?(board_state,piece,coordinates)
-  new_board = board_state.clone
+
+  new_board = board_state.dup.map(&:dup)
   new_board[piece.current_position[0]][piece.current_position[1]] = "|_|"
-  piece.set_position(coordinates)
-  new_board[coordinates[0]][coordinates[1]] = piece
+  new_piece = piece.dup
+  new_piece.set_position(coordinates)
+  new_board[coordinates[0]][coordinates[1]] = new_piece
   friendly_king = []
   new_board.each do |row|
     row.each do |board_cell|
-      if board_cell.respond_to?(:color) && board_cell.color == piece.color && piece.class.to_s == "King"
+      if board_cell.respond_to?(:color) && board_cell.color == piece.color && board_cell.class.to_s == "King"
         friendly_king.push(board_cell)
       end
     end
   end
 
-  if(friendly_king.class.to_s == "King" && friendly_king[0].in_check?(board_state,friendly_king.current_position))
+  if(friendly_king[0].class.to_s == "King" && friendly_king[0].in_check?(new_board,friendly_king[0].current_position))
+    return false
+  elsif(friendly_king.empty?)
     return true
   else
-    return false
+    return true
   end
 end
 end
