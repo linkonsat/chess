@@ -349,22 +349,20 @@ module MoveRules
     false
   end
 
-  def check_cause_pieces(board_state)
+  def check_cause_pieces(board_state, piece)
     found_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-       if (board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,[current_position[0],current_position[1]]) && board_cell.color != color)
-    next      
-      end
-
+       if (board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,[piece.current_position[0],piece.current_position[1]]) && board_cell.color != color)     
         found_pieces.push(board_cell)
+      end
       end
     end
     found_pieces
   end
 
-  def check_removal_pieces(board_state)
-    found_pieces = check_cause_pieces(board_state)
+  def check_removal_pieces(board_state, effected_piece)
+    found_pieces = check_cause_pieces(board_state,effected_piece)
     if (found_pieces.empty?)
       return []
     end
@@ -373,9 +371,8 @@ module MoveRules
     board_state.each do |row|
       row.each do |board_cell|
         if(board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,[found_pieces[0].current_position[0],found_pieces[0].current_position[1]]) && board_cell.color == color)
-        next
+          available_pieces.push(board_cell)
         end
-        available_pieces.push(board_cell)
       end
     end
     available_pieces
