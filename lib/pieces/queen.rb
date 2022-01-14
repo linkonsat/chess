@@ -28,10 +28,11 @@ class Queen
   def valid_move?(board_state, input)
     if valid_input?(board_state, input)
       any_moves = legal_moves(board_state)
-      valid_move(any_moves, input)
-    else
-      false
+      if(valid_move(any_moves, input) && self.check_cause_nonking?(board_state,self,input))
+        return true 
+      end
     end
+    false
   end
 
   def generate_symbol

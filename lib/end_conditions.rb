@@ -25,7 +25,7 @@ class EndConditions
           in_check_moves.push(false)
         end
       end
-      if !piece.check_cause_pieces(board_state).empty? && in_check_moves.all?(true) && piece.check_removal_pieces(board_state).empty?
+      if !piece.check_cause_pieces(board_state,piece).empty? && in_check_moves.all?(true) && piece.check_removal_pieces(board_state,piece).empty?
         return true
       end
 

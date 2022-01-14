@@ -54,7 +54,11 @@ include MoveRules
   def valid_move?(board_state, input)
     if valid_input(board_state, input)
       valid_moves = legal_moves(board_state)
-      verified_move(valid_moves, input)
+      if(verified_move(valid_moves, input) && self.check_cause_nonking?(board_state,self,input))
+        return true 
+      else 
+        return false 
+      end
     else
       false
     end

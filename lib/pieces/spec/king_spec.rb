@@ -102,7 +102,7 @@ describe King do
       board.board[0][7] = king
       board.board[7][7] = enemy_piece
       board.board[7][6] = enemy_piece_two
-      expect(king.check_cause_pieces(board.board)).to eql([enemy_piece])
+      expect(king.check_cause_pieces(board.board, king)).to eql([enemy_piece])
     end
   end
   describe '#check_removal_pieces' do
@@ -128,7 +128,7 @@ describe King do
       board.board[7][7] = enemy_piece
       board.board[7][6] = enemy_piece_two
       board.board[5][6] = ally_piece_two
-      expect(king.check_removal_pieces(board.board)).to eql([ally_piece_two, ally_piece])
+      expect(king.check_removal_pieces(board.board,king),).to eql([ally_piece_two, ally_piece])
     end
   end
 end

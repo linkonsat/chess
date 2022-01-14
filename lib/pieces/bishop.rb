@@ -36,10 +36,13 @@ class Bishop
   def valid_move?(board_state, input)
     if valid_input(board_state, input)
       available_moves = legal_moves(board_state)
-      valid_move(input, available_moves)
-    else
-      false
+      if(valid_move(input, available_moves) && self.check_cause_nonking?(board_state,self,input))
+        return true
+      else
+      return false
+      end
     end
+    return false
   end
 
   def legal_moves(board_state)
