@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../rook'
-
+require_relative "../king"
 describe Rook do
   describe '#valid_move?' do
     subject(:rook) { described_class.new }
@@ -45,6 +45,23 @@ describe Rook do
       expect(board.board[4][4].valid_move?(board.board, [1, 4])).to eql(true)
       expect(board.board[4][4].valid_move?(board.board, [7, 4])).to eql(true)
       expect(board.board[4][4].valid_move?(board.board, [4, 7])).to eql(true)
+    end
+
+    it "Does not allow a valid move if the king would be in check" do 
+      board = double('Board', :board => Array.new(8) { Array.new(8, "[]")})
+      king = King.new 
+      king.set_position([0,0])
+      king.color = "Black"
+      rook.color = "Black" 
+      rook.set_position([1,0])
+      enemy_rook = Rook.new
+      enemy_rook.color = "White"
+      enemy_rook.set_position([7,0])
+      board.board[0][0] = king 
+      board.board[1][0] = rook
+      board.board[7][0] = enemy_rook
+      expect(board.board[1][0].valid_move?(board.board,[1,7])).to eql(false)
+      expect(board.board[1][0].valid_move?(board.board,[5,0])).to eql(true)
     end
   end
 end
