@@ -308,7 +308,7 @@ module MoveRules
     found_moves
   end
 
-  def in_check?(board_state, coordinates = [current_position[0], current_position[1]])
+  def in_check?(board_state, coordinates)
     board_state.each do |board_row|
       board_row.each do |board_cell|
         next unless board_cell.respond_to?(:color) && board_cell.color != color
@@ -353,9 +353,9 @@ module MoveRules
     found_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-        next unless board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,
-                                                                                        [current_position[0],
-                                                                                         current_position[1]]) && board_cell.color != color
+       if (board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,[current_position[0],current_position[1]]) && board_cell.color != color)
+    next      
+      end
 
         found_pieces.push(board_cell)
       end
@@ -365,18 +365,42 @@ module MoveRules
 
   def check_removal_pieces(board_state)
     found_pieces = check_cause_pieces(board_state)
-    return [] if found_pieces.empty?
+    if (found_pieces.empty?)
+      return []
+    end
 
     available_pieces = []
     board_state.each do |row|
       row.each do |board_cell|
-        next unless board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,
-                                                                                        [found_pieces[0].current_position[0],
-                                                                                         found_pieces[0].current_position[1]]) && board_cell.color == color
-
+        if(board_cell.respond_to?(:color) && board_cell.valid_move?(board_state,[found_pieces[0].current_position[0],found_pieces[0].current_position[1]]) && board_cell.color == color)
+        next
+        end
         available_pieces.push(board_cell)
       end
     end
     available_pieces
   end
+
+
+
+def check_cause_nonking?(board_state,piece,coordinates)
+  new_board = board_state.clone
+  new_board[piece.current_position[0]][piece.current_position[1]] = "|_|"
+  piece.set_position(coordinates)
+  new_board[coordinates[0]][coordinates[1]] = piece
+  friendly_king = []
+  new_board.each do |row|
+    row.each do |board_cell|
+      if board_cell.respond_to?(:color) && board_cell.color == piece.color && piece.class.to_s == "King"
+        friendly_king.push(board_cell)
+      end
+    end
+  end
+
+  if(friendly_king.class.to_s == "King" && friendly_king[0].in_check?(board_state,friendly_king.current_position))
+    return true
+  else
+    return false
+  end
+end
 end
