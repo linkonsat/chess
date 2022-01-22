@@ -1,6 +1,5 @@
 ### Description
-Please note this project is currently under construction and will be updated when the project is completed.
-Chess is the final project for the odin project bringing together concepts introduced throughout the ruby section of the course.
+A command line version of chess.
 ### Some Conceps
 <ol>
   <li>Object Orientated Programming</li>
@@ -13,9 +12,10 @@ Chess is the final project for the odin project bringing together concepts intro
 There are two ways you can run this chess game.
 
 ## Using Command Line
-1. Clone the repository by running `git clone git@github.com:linkonsat/chess.git`
-2. Ensure your on the directory location containing main_game.rb 
-3. enter ruby main_game.rb in the console 
+1.
+2. Clone the repository by running `git clone git@github.com:linkonsat/chess.git`
+3. Ensure your on the directory location containing main_game.rb 
+4. enter ruby main_game.rb in the console 
 
 ## Using Replit
 1. Simply copy and paste the link below into your browser 
