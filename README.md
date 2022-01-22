@@ -6,21 +6,28 @@ A command line version of chess.
   <li>Composition</li>
   <li>Single Responsibility</li>
   <li>Using interfaces</li>
+  <li>Test Driven Development<li>
 </ol>
 
-### Setup 
-There are two ways you can run this chess game.
+### Prequisites 
+Make sure you have the Ruby gem downloaded. Here is a good [guide](https://linuxize.com/post/how-to-install-ruby-on-ubuntu-20-04/)
+Make sure you have the RSpec gem downloaded as well. Which is as easy as 
 
+~~~bash
+gem install rspec
+~~~
+
+Next make sure you have git installed. Which you can find the guide [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 ## Using Command Line
-1.
 2. Clone the repository by running `git clone git@github.com:linkonsat/chess.git`
-3. Ensure your on the directory location containing main_game.rb 
-4. enter ruby main_game.rb in the console 
+3. cd into the appropriate directory that contains the chess game.
 
-## Using Replit
-1. Simply copy and paste the link below into your browser 
-2. https://replit.com/@linkonsat/chess-1#.replit
-3. click run upon the screen loading or if you are not on the .replit file click on it then click run
+~~~bash
+cd <The directory here>
+~~~
+
+5. Ensure your on the directory location containing main_game.rb 
+6. enter ruby main_game.rb in the console 
 
 ### Lessons
 1. A appreciation of test driven development enabling you to test multiple versions
