@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+#require 'pry-byebug'
 require '../queen'
 describe Queen do
   describe '#valid_move' do

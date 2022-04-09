@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+#require 'pry-byebug'
 class Pawn
   attr_accessor :current_position, :previous_position, :color, :available_move_values, :default_moves
 include MoveRules
@@ -26,9 +26,9 @@ include MoveRules
 
   def valid_move?(board_state, input)
     validated_moves = legal_moves(board_state)
-    if default_moves[0][0] > 0 && forward_step(validated_moves, input)
+    if default_moves[0][0] > 0 && forward_step(validated_moves, input) && self.check_cause_nonking?(board_state,self,input)
       true
-    elsif default_moves[0][0] < 0 && backward_step(validated_moves, input)
+    elsif default_moves[0][0] < 0 && backward_step(validated_moves, input) && self.check_cause_nonking?(board_state,self,input)
       true
 
     else

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'move_rules'
-require 'pry-byebug'
+#require 'pry-byebug'
 class Bishop
   attr_accessor :current_position, :previous_position, :color
 

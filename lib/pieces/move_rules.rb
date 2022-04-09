@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
+#require 'pry-byebug'
 module MoveRules
   def vertical_moves(board_state, piece)
     valid_vertical_moves = []
