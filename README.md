@@ -1,13 +1,16 @@
 ### Description
 A command line version of chess.
-### Some Conceps
+### Some Concepts
 <ol>
   <li>Object Orientated Programming</li>
   <li>Composition</li>
   <li>Single Responsibility</li>
   <li>Using interfaces</li>
-  <li>Test Driven Development<li>
+  <li>Test Driven Development</li>
 </ol>
+
+#### Running the game
+You can also view the game here on [Replit](https://replit.com/@linkonsat/chess-4#.replit) . Please note certain files need to be tweaked but will be updated very soon! So give it a look!
 
 ### Prequisites 
 Make sure you have the Ruby gem downloaded. Here is a good [guide](https://linuxize.com/post/how-to-install-ruby-on-ubuntu-20-04/)
