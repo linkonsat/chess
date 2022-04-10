@@ -1,1 +1,1 @@
-run = "main_game.rb"
+run = "ruby main_game.rb"
