@@ -8,7 +8,7 @@ require_relative 'player_set'
 require_relative 'player'
 require_relative 'saved_game'
 require_relative './game_data/linked_list'
-require 'msgpack'
+#require 'msgpack'
 class Game
   attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history, :player_list, :sets, :winning_conditions
 
