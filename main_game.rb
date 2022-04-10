@@ -1,5 +1,4 @@
 require_relative './lib/game'
-#require 'pry-byebug'
 class MainGame
   attr_accessor :game
 

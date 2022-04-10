@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-#require 'pry-byebug'
 class Knight
   attr_accessor :color, :previous_position, :current_position
 include MoveRules

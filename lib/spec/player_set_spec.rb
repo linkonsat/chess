@@ -2,7 +2,6 @@
 
 require_relative '../player_set'
 require_relative '../pieces/rook'
-require 'pry-byebug'
 describe ChessSet do
   describe '#create_white_set' do
     subject(:white_set) { described_class.new }

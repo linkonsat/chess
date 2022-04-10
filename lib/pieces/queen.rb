@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'move_rules'
-#require 'pry-byebug'
 class Queen
   attr_accessor :current_position, :color, :previous_position
 

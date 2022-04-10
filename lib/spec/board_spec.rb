@@ -3,7 +3,6 @@ require_relative '../board'
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'
 require_relative '../player_set'
-require 'pry-byebug'
 describe Board do
   describe '#initial_board' do
     subject(:board) { described_class.new }

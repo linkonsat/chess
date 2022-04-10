@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require '../linked_list'
-#require 'pry-byebug'
 describe GameHistory do
   describe '#tail' do
     subject(:game_history) { described_class.new }

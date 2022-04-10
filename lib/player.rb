@@ -1,7 +1,5 @@
 # frozen_string_literal: true
-
 require_relative 'game_messages'
-#require 'pry-byebug'
 class Player
   include GameMessages
   attr_accessor :color, :choice

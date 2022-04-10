@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-#require 'pry-byebug'
 require_relative '../pawn'
 describe Pawn do
   describe '#valid_move?' do

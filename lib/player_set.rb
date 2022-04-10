@@ -6,7 +6,6 @@ require_relative './pieces/queen'
 require_relative './pieces/rook'
 require_relative './pieces/bishop'
 require_relative './pieces/knight'
-#require 'pry-byebug'
 class ChessSet
   def initialize
     black_set = create_black_set

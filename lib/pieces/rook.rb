@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-#require 'pry-byebug'
 require_relative './move_rules'
 class Rook
   attr_accessor :color, :current_position, :previous_position

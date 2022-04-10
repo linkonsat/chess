@@ -1,6 +1,5 @@
 require_relative '.../main_game'
 require_relative '../game'
-require 'pry-byebug'
 describe MainGame do
   describe '#main_interface' do
     subject(:main_interface) { described_class.new }

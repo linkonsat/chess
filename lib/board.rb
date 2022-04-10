@@ -1,5 +1,4 @@
 require_relative "player_set"
-#require 'pry-byebug'
 class Board
   attr_accessor :board
 

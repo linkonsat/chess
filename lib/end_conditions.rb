@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
 class EndConditions
   def checkmate?(board_state)
     found_kings = []

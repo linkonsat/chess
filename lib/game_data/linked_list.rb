@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
 require_relative 'game_history_node'
 class GameHistory
   attr_accessor :head, :tail

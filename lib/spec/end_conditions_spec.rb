@@ -4,7 +4,6 @@ require_relative '../end_conditions'
 require_relative '../pieces/rook'
 require_relative '../pieces/king'
 require_relative '../pieces/knight'
-require 'pry-byebug'
 describe EndConditions do
   describe '#checkmate' do
     subject(:end_conditions) { described_class.new }
