@@ -10,7 +10,7 @@ A command line version of chess.
 </ol>
 
 #### Running the game
-You can also view the game here on [Replit](https://replit.com/@linkonsat/chess-4#.replit) . Please note certain files need to be tweaked but will be updated very soon! So give it a look!
+You can also view the game here on [Replit](https://replit.com/@linkonsat/chess-4#.replit) . Please note that you cannot install gems such as msgpack in replit. You can play a game, but will not be able to save it. Therefore it is highly reccomended to simply clone the repository and install the appropriate gems to enable all features. Make sure to uncomment out msgpack in game.rb!
 
 ### Prequisites 
 Make sure you have the Ruby gem downloaded. Here is a good [guide](https://linuxize.com/post/how-to-install-ruby-on-ubuntu-20-04/)
