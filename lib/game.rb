@@ -83,10 +83,8 @@ class Game
       ai_round
     else
       player_input = 'No resignation yet'
-      #@game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
       until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter) || player_input == 'save'
         @board.display_used_board
-        #@game_history.insert([@board, @total_turns, @fifty_move_rule_counter])
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
         chosen_coordinates = @player_list[current_turn].select_move(@board.board, selected_piece)
@@ -100,7 +98,6 @@ class Game
           new_piece = @chess_sets.generate_piece(input)
           @board.board[chosen_coordinates[0]][chosen_coordiantes[1]] = new_piece  
         end
-        #problem with this is that it's misleading in that it isn't just a coordinate but also a piece
         changed_piece = chosen_coordinates[1]
         fifty_move_increase(selected_piece,chosen_coordinates[0])
         @board.update_board(selected_piece, chosen_coordinates[0])
@@ -116,10 +113,7 @@ class Game
       move_decision = @player_list[current_turn].move_choice(@board.board)
       @board.update_board(move_decision[0], move_decision[1])
       @total_turns += 1
-      puts @total_turns
-      binding.pry if @total_turns == 500
     end
-    binding.pry
   end
 
   def turn
