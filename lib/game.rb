@@ -87,6 +87,7 @@ class Game
         @board.display_used_board
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
+        self.selected_piece(selected_piece)
         chosen_coordinates = @player_list[current_turn].select_move(@board.board, selected_piece)
         if selected_piece == 'save'
           saved_data = to_msgpack
@@ -101,6 +102,7 @@ class Game
         fifty_move_increase(selected_piece,chosen_coordinates[0])
         @board.update_board(selected_piece, chosen_coordinates[0])
         @total_turns += 1
+        end
       end
     end
   end
