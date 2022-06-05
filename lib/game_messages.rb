@@ -23,4 +23,8 @@ Select a position within 0-7."
   def new_game?
     puts 'Enter Y to play a new game else enter any other value to quit. Thanks for playing!'
   end
+
+  def selected_piece(piece)
+    puts "You chose #{piece.generate_symbol} at #{piece.current_position}"
+  end   
 end
