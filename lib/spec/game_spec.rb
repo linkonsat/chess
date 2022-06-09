@@ -4,6 +4,10 @@ require_relative '../game'
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'
 describe Game do
+
+  desribe '#rewind' do 
+
+  end
   describe '#round' do
     subject(:game) { described_class.new }
     xit 'Runs a ai game round successfully' do

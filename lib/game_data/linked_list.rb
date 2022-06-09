@@ -26,9 +26,13 @@ class GameHistory
       puts 'No move to return to'
     else
       node = @head
-      node = node.next_node until node.next_node.next_node.nil?
-      node.next_node = nil
-      @tail = node
+      until node.next_node.nil?
+        if(node.next_node.next_node.nil?)
+          return node
+        else
+          node = node.next_node
+        end
+      end
     end
   end
 
