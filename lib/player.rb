@@ -20,7 +20,7 @@ class Player
   def select_piece(board_state)
     select_piece_valid
     selected_position = gets.chomp
-    until selected_position == 'save' || selected_position == 'resignation' || in_board?(selected_position,
+    until selected_position == 'save' || selected_position == 'rewind' || selected_position == 'resignation' || in_board?(selected_position,
                                                                                          board_state) && right_piece?(
                                                                                            selected_position, board_state
                                                                                          )
@@ -35,7 +35,7 @@ class Player
         invalid_board_cell
       end
     end
-    return selected_position if %w[save resignation].include?(selected_position)
+    return selected_position if %w[save resignation rewind].include?(selected_position)
 
     board_state[selected_position[0].to_i][selected_position[1].to_i]
   end

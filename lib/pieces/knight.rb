@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-
+    require_relative 'move_rules'
 class Knight
   attr_accessor :color, :previous_position, :current_position
-include MoveRules
+  include MoveRules
   def initialize
     @color = nil
     @previous_position = nil

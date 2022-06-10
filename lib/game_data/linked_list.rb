@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'pry-byebug'
 require_relative 'game_history_node'
 class GameHistory
   attr_accessor :head, :tail
@@ -14,7 +14,9 @@ class GameHistory
       @head = Node.new(data)
     else
       node = @head
-      node = node.next_node until node.next_node.nil?
+      until node.next_node.nil?
+        node = node.next_node 
+      end 
       node.next_node = Node.new(data)
       node.next_node.previous_node = node
       @tail = node.next_node
@@ -26,9 +28,14 @@ class GameHistory
       puts 'No move to return to'
     else
       node = @head
-      node = node.next_node until node.next_node.next_node.nil?
-      node.next_node = nil
-      @tail = node
+      until node.next_node.nil?
+        if(node.next_node.next_node.nil?)
+          node.delete_next_node
+          return node
+        else
+          node = node.next_node
+        end
+      end
     end
   end
 

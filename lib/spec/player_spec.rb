@@ -15,6 +15,7 @@ describe Player do
     end
     it 'Sets the correct color given a predefined set of pieces' do
       piece = double('Pawn', color: 'Black')
+      
       piece_two = double('Rook', color: 'White')
       sets = [[[piece]], [[piece_two]]]
       allow(player).to receive(:gets).and_return('1')
