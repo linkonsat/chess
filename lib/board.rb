@@ -266,12 +266,12 @@ end
 
     def setup_saved_board(new_board)
       created_board = generate_colored_board(Array.new(8) { Array.new(8, '|_|') })
-      created_board[0] = new_board[0]
-      created_board[1] = new_board[1]
-      created_board[6] = new_board[6]
-      created_board[7] = new_board[7]
+      new_board.each_with_index do |row, index|
+        created_board[index] = row 
+      end
       return created_board
     end
+
 
     def create_data(data)
       data_hash = {}
