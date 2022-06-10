@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'pry-byebug'
 require_relative 'ai'
 require_relative 'board'
 require_relative 'end_conditions'
@@ -8,7 +8,7 @@ require_relative 'player_set'
 require_relative 'player'
 require_relative 'saved_game'
 require_relative './game_data/linked_list'
-#require 'msgpack'
+require 'msgpack'
 class Game
   attr_accessor :fifty_move_rule_counter, :total_turns, :board, :game_history, :player_list, :sets, :winning_conditions
 
@@ -49,7 +49,6 @@ class Game
     elsif game_type == 'AI vs AI'
       create_ai(@board.board)
     end
-    @game_history.insert(@board.board)
   end
 
   def create_ai(board_state)
@@ -81,12 +80,18 @@ class Game
   def round
     if @player_list.all?(AI)
       ai_round
-    else
+    else  
       player_input = 'No resignation yet'
       until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter) || player_input == 'save'
         @board.display_used_board
+        @game_history.insert(@board.notation)
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
+        if selected_piece == 'rewind'
+          binding.pry
+          self.rewinded_board
+          @board.display_used_board
+        end
         self.selected_piece(selected_piece)
         chosen_coordinates = @player_list[current_turn].select_move(@board.board, selected_piece)
         if selected_piece == 'save'
@@ -99,10 +104,10 @@ class Game
           new_piece = @chess_sets.generate_piece(input)
           @board.board[chosen_coordinates[0]][chosen_coordiantes[1]] = new_piece  
         changed_piece = chosen_coordinates[1]
+      end
         fifty_move_increase(selected_piece,chosen_coordinates[0])
         @board.update_board(selected_piece, chosen_coordinates[0])
         @total_turns += 1
-        end
       end
     end
   end
@@ -208,6 +213,11 @@ class Game
     if(piece.class.to_s == "Pawn" || self.board.board[coordinates[0]][coordinates[1]].class != String)
       self.fifty_move_rule_counter += 1
     end
+  end
+
+  def rewinded_board 
+    rewinded_board = @game_history.rewind.data
+    @board.board = rewinded_board 
   end
 end
 

@@ -27,9 +27,11 @@ describe GameHistory do
     it 'Inserts new game data at when added' do
       game_board = double('GameBoard', board: Array.new(8) { Array.new(8, '[]') })
       game_board_new = double('GameBoard', board: Array.new(8) { Array.new(8, ':D') })
+      game_board_last = double('GameBoard', board: Array.new(8) { Array.new(8, ':O') })
       game_history.insert(game_board.board)
       game_history.insert(game_board_new.board)
-      expect(game_history.tail.data).to eql(game_board_new.board)
+      game_history.insert(game_board_last.board)
+      expect(game_history.tail.data).to eql(game_board_last.board)
       expect(game_history.head.data).to eql(game_board.board)
     end
   end
@@ -38,13 +40,10 @@ describe GameHistory do
     it 'Inserts a new game data and gets rid of of old history when rewinded' do
       game_board = double('GameBoard', board: Array.new(8) { Array.new(8, '[]') })
       game_board_old = double('GameBoard', board: Array.new(8) { Array.new(8, 'old') })
-      game_board_new = double('GameBoard', board: Array.new(8) { Array.new(8, 'new_tail') })
       game_history.insert(game_board.board)
       game_history.insert(game_board_old.board)
-      expect(game_history.tail.data).to eql(game_board_old.board)
       game_history.rewind
-      game_history.insert(game_board_new.board)
-      expect(game_history.tail.data).to eql(game_board_new.board)
+      expect(game_history.head.data).to eql(game_board.board)
     end
   end
   describe '#return_history' do
