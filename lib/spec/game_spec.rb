@@ -1,13 +1,11 @@
 # frozen_string_literal: true
-
+require 'pry-byebug'
 require_relative '../game'
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'
+require 'msgpack'
 describe Game do
 
-  desribe '#rewind' do 
-
-  end
   describe '#round' do
     subject(:game) { described_class.new }
     xit 'Runs a ai game round successfully' do
@@ -152,4 +150,16 @@ end
   expect(game.fifty_move_rule_counter).to eql(0)
   end
 end
+
+describe '#rewind' do 
+  subject(:game) { described_class.new }
+  it 'Sets up the accurate game instance variables' do
+    game.setup
+    allow(game).to receive(:gets).and_return("0")
+    allow(game).to receive(:selected_piece).and_return(game.board.board[1][0])
+    allow(game).to receive(:chosen_coordinates).and_return("20")
+    game.round
+
+  end
+  end
 end

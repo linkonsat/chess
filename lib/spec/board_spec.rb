@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'pry-byebug'
 require_relative '../board'
 require_relative '../pieces/pawn'
 require_relative '../pieces/rook'

@@ -8,4 +8,8 @@ class Node
     @next_node = next_node
     @previous_node = previous_node
   end
+
+  def delete_next_node
+    @next_node = nil
+  end
 end

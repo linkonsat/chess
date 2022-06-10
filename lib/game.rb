@@ -78,19 +78,23 @@ class Game
   end
 
   def round
+    @game_history.insert(@board.notation)
     if @player_list.all?(AI)
       ai_round
     else  
       player_input = 'No resignation yet'
       until @winning_conditions.checkmate?(@board.board) || @winning_conditions.resignation?(player_input) || @winning_conditions.stalemate?(@board.board) || @winning_conditions.repetition?(@game_history) || @winning_conditions.fifty_moves?(@fifty_move_rule_counter) || player_input == 'save'
+        puts @total_turns
         @board.display_used_board
-        @game_history.insert(@board.notation)
         current_turn = turn
         selected_piece = @player_list[current_turn].select_piece(@board.board)
         if selected_piece == 'rewind'
-          binding.pry
           self.rewinded_board
+          if(@total_turns != 0)
+          @total_turns -= 1
+          end
           @board.display_used_board
+          next
         end
         self.selected_piece(selected_piece)
         chosen_coordinates = @player_list[current_turn].select_move(@board.board, selected_piece)
@@ -108,6 +112,7 @@ class Game
         fifty_move_increase(selected_piece,chosen_coordinates[0])
         @board.update_board(selected_piece, chosen_coordinates[0])
         @total_turns += 1
+        @game_history.insert(@board.notation)
       end
     end
   end
@@ -217,7 +222,7 @@ class Game
 
   def rewinded_board 
     rewinded_board = @game_history.rewind.data
-    @board.board = rewinded_board 
+    @board.board = @board.saved_board_setup(rewinded_board)
   end
 end
 

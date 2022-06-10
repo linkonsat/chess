@@ -1,0 +1,27 @@
+
+[1mFrom:[0m /home/macdaniel/Documents/Chess/lib/player.rb:24 Player#select_piece:
+
+    [1;34m20[0m: [32mdef[0m [1;34mselect_piece[0m(board_state)
+    [1;34m21[0m:   select_piece_valid
+    [1;34m22[0m:   selected_position = gets.chomp
+    [1;34m23[0m:   binding.pry
+ => [1;34m24[0m:   [32muntil[0m selected_position == [31m[1;31m'[0m[31msave[1;31m'[0m[31m[0m || selected_position == [31m[1;31m'[0m[31mrewind[1;31m'[0m[31m[0m || selected_position == [31m[1;31m'[0m[31mresignation[1;31m'[0m[31m[0m || in_board?(selected_position,
+    [1;34m25[0m:                                                                                        board_state) && right_piece?(
+    [1;34m26[0m:                                                                                          selected_position, board_state
+    [1;34m27[0m:                                                                                        )
+    [1;34m28[0m:     selected_position = gets.chomp
+    [1;34m29[0m:     [32mif[0m selected_position.length != [1;34m2[0m
+    [1;34m30[0m:       outside_board
+    [1;34m31[0m:     [32melsif[0m board_state[selected_position[[1;34m0[0m].to_i].nil?
+    [1;34m32[0m:       outside_board
+    [1;34m33[0m:     [32melsif[0m board_state[selected_position[[1;34m0[0m].to_i][selected_position[[1;34m1[0m].to_i].nil?
+    [1;34m34[0m:       outside_board
+    [1;34m35[0m:     [32melsif[0m board_state[selected_position[[1;34m0[0m].to_i][selected_position[[1;34m1[0m].to_i].instance_of?([1;34;4mString[0m)
+    [1;34m36[0m:       invalid_board_cell
+    [1;34m37[0m:     [32mend[0m
+    [1;34m38[0m:   [32mend[0m
+    [1;34m39[0m:   [32mreturn[0m selected_position [32mif[0m [31m[1;31m%w[[0m[31msave resignation[1;31m][0m[31m[0m.include?(selected_position)
+    [1;34m40[0m: 
+    [1;34m41[0m:   board_state[selected_position[[1;34m0[0m].to_i][selected_position[[1;34m1[0m].to_i]
+    [1;34m42[0m: [32mend[0m
+

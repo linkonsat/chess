@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'pry-byebug'
 require_relative 'game_history_node'
 class GameHistory
   attr_accessor :head, :tail
@@ -30,13 +30,13 @@ class GameHistory
       node = @head
       until node.next_node.nil?
         if(node.next_node.next_node.nil?)
+          node.delete_next_node
           return node
         else
           node = node.next_node
         end
       end
     end
-    return node
   end
 
   def return_history(requested_history = 1)
