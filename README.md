@@ -33,8 +33,8 @@ cd <The directory here>
 5. Ensure your on the directory location containing main_game.rb 
 6. enter ruby main_game.rb in the console 
 
-### Lessons
-1. A appreciation of test-driven development enables you to test multiple versions.
-2. Design decisions with multiple objects interacting in such a way they don't break.
-3. Think of design in terms of what messages are objects sending each other.
-4. How to use a data structure such as a doubly linked data structure to track the game.
+### Lessons Learned
+1. Scaling an application using a Test Driven Development to ensure methods aren't breaking upon scaling up.
+2. Used an Object Oriented Programming style to create objects to represent separate concerns and build interacting objects with a user facing object.
+3. How to apply data structures such as a doubly linked list to handle data to enable different ways to manipulate the game state.
+4. How to use git branches to create feature branches to keep the main branch in a consistently working stable state.
